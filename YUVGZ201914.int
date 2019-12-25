@@ -1,0 +1,372 @@
+YUVGZ201914	;https://adventofcode.com/2019/day/14;
+	quit
+	/*
+1 QDKHC => 9 RFSZD
+15 FHRN, 17 ZFSLM, 2 TQFKQ => 3 JCHF
+4 KDPV => 4 TQFKQ
+1 FSTRZ, 5 QNXWF, 2 RZSD => 3 FNJM
+15 VQPC, 1 TXCJ => 3 WQTL
+1 PQCQN, 6 HKXPJ, 16 ZFSLM, 6 SJBPT, 1 TKZNJ, 13 JBDF, 1 RZSD => 6 VPCP
+1 LJGZP => 7 VNGD
+1 CTVB, 1 HVGW => 1 LJGZP
+6 HVGW, 1 HJWT => 2 VDKF
+10 PQCQN, 7 WRQLB, 1 XMCH => 3 CDMX
+14 VNGD, 23 ZFSLM, 2 FHRN => 4 SJBPT
+1 FSTRZ, 4 VTWB, 2 BLJC => 4 CKFW
+2 ZTFH, 19 CKFW, 2 FHRN, 4 FNJM, 9 NWTVF, 11 JBDF, 1 VDKF, 2 DMRCN => 4 HMLTV
+1 KVZXR => 5 FPMSL
+8 XBZJ => 8 QDKHC
+1 VQPC => 9 FHRN
+15 RKTFX, 5 HKXPJ => 4 ZFSLM
+1 HKXPJ, 8 LQCTQ, 21 VJGKN => 5 QCKFR
+1 DCLQ, 1 TQFKQ => 4 KVZXR
+4 NWTVF, 20 QNXWF => 9 JFLQD
+11 QFVR => 3 RZSD
+9 RFSZD, 6 WQTL => 7 JBDF
+4 BLJC, 3 LQCTQ, 1 QCKFR => 8 QFVR
+6 VNGD => 5 VQPC
+7 CTMR, 10 SJBPT => 9 VTWB
+1 VTWB => 9 DMRCN
+6 BCGLR, 4 TPTN, 29 VNGD, 25 KDQC, 40 JCHF, 5 HMLTV, 4 CHWS, 2 CDMX, 1 VPCP => 1 FUEL
+1 TQFKQ, 3 FPMSL, 7 KDPV => 6 RKTFX
+8 HKXPJ, 2 WQTL => 6 WRQLB
+146 ORE => 3 KDPV
+9 KDQC => 2 XMCH
+1 BGVXG, 21 KVZXR, 1 LQCTQ => 4 CTVB
+1 LQCTQ => 5 VJGKN
+16 VNGD, 5 VMBM => 1 CTMR
+5 VCVTM, 1 FPMSL => 5 HKXPJ
+4 HKXPJ => 5 BLJC
+14 FHRN, 6 ZFSLM => 1 NWTVF
+7 QCKFR, 2 VNGD => 7 VMBM
+4 TXCJ, 1 VDKF => 2 QNXWF
+136 ORE => 6 BGVXG
+5 LQCTQ, 11 DCLQ => 9 XBZJ
+3 VQPC => 7 ZTFH
+114 ORE => 3 ZWFZX
+1 HJWT, 18 KDPV => 7 TXCJ
+1 VJGKN => 2 VCVTM
+2 KVZXR => 1 HJWT
+12 ZWFZX, 1 FHRN, 9 JFLQD => 1 CHWS
+3 QFVR => 5 FSTRZ
+5 XBZJ => 4 HVGW
+1 ZWFZX => 8 LQCTQ
+16 WQTL, 10 TXCJ => 9 KDQC
+3 FHRN, 12 LJGZP => 5 TPTN
+1 JCHF => 7 PQCQN
+7 KDPV, 17 BGVXG => 7 DCLQ
+1 CKFW, 3 TKZNJ, 4 PQCQN, 1 VQPC, 32 QFVR, 1 FNJM, 13 FSTRZ => 3 BCGLR
+2 FSTRZ => 5 TKZNJ
+	*/
+	/*
+As you approach the rings of Saturn, your ship's low fuel indicator turns on. There isn't any fuel here, but the rings have plenty of raw material. Perhaps your ship's Inter-Stellar Refinery Union brand nanofactory can turn these raw materials into fuel.
+
+You ask the nanofactory to produce a list of the reactions it can perform that are relevant to this process (your puzzle input). Every reaction turns some quantities of specific input chemicals into some quantity of an output chemical. Almost every chemical is produced by exactly one reaction; the only exception, ORE, is the raw material input to the entire process and is not produced by a reaction.
+
+You just need to know how much ORE you'll need to collect before you can produce one unit of FUEL.
+
+Each reaction gives specific quantities for its inputs and output; reactions cannot be partially run, so only whole integer multiples of these quantities can be used. (It's okay to have leftover chemicals when you're done, though.) For example, the reaction 1 A, 2 B, 3 C => 2 D means that exactly 2 units of chemical D can be produced by consuming exactly 1 A, 2 B and 3 C. You can run the full reaction as many times as necessary; for example, you could produce 10 D by consuming 5 A, 10 B, and 15 C.
+
+Suppose your nanofactory produces the following list of reactions:
+
+10 ORE => 10 A
+1 ORE => 1 B
+7 A, 1 B => 1 C
+7 A, 1 C => 1 D
+7 A, 1 D => 1 E
+7 A, 1 E => 1 FUEL
+The first two reactions use only ORE as inputs; they indicate that you can produce as much of chemical A as you want (in increments of 10 units, each 10 costing 10 ORE) and as much of chemical B as you want (each costing 1 ORE). To produce 1 FUEL, a total of 31 ORE is required: 1 ORE to produce 1 B, then 30 more ORE to produce the 7 + 7 + 7 + 7 = 28 A (with 2 extra A wasted) required in the reactions to convert the B into C, C into D, D into E, and finally E into FUEL. (30 A is produced because its reaction requires that it is created in increments of 10.)
+
+Or, suppose you have the following list of reactions:
+
+9 ORE => 2 A
+8 ORE => 3 B
+7 ORE => 5 C
+3 A, 4 B => 1 AB
+5 B, 7 C => 1 BC
+4 C, 1 A => 1 CA
+2 AB, 3 BC, 4 CA => 1 FUEL
+The above list of reactions requires 165 ORE to produce 1 FUEL:
+
+Consume 45 ORE to produce 10 A.
+Consume 64 ORE to produce 24 B.
+Consume 56 ORE to produce 40 C.
+Consume 6 A, 8 B to produce 2 AB.
+Consume 15 B, 21 C to produce 3 BC.
+Consume 16 C, 4 A to produce 4 CA.
+Consume 2 AB, 3 BC, 4 CA to produce 1 FUEL.
+Here are some larger examples:
+
+13312 ORE for 1 FUEL:
+
+157 ORE => 5 NZVS
+165 ORE => 6 DCFZ
+44 XJWVT, 5 KHKGT, 1 QDVJ, 29 NZVS, 9 GPVTF, 48 HKGWZ => 1 FUEL
+12 HKGWZ, 1 GPVTF, 8 PSHF => 9 QDVJ
+179 ORE => 7 PSHF
+177 ORE => 5 HKGWZ
+7 DCFZ, 7 PSHF => 2 XJWVT
+165 ORE => 2 GPVTF
+3 DCFZ, 7 NZVS, 5 HKGWZ, 10 PSHF => 8 KHKGT
+180697 ORE for 1 FUEL:
+
+2 VPVL, 7 FWMGM, 2 CXFTF, 11 MNCFX => 1 STKFG
+17 NVRVD, 3 JNWZP => 8 VPVL
+53 STKFG, 6 MNCFX, 46 VJHF, 81 HVMC, 68 CXFTF, 25 GNMV => 1 FUEL
+22 VJHF, 37 MNCFX => 5 FWMGM
+139 ORE => 4 NVRVD
+144 ORE => 7 JNWZP
+5 MNCFX, 7 RFSQX, 2 FWMGM, 2 VPVL, 19 CXFTF => 3 HVMC
+5 VJHF, 7 MNCFX, 9 VPVL, 37 CXFTF => 6 GNMV
+145 ORE => 6 MNCFX
+1 NVRVD => 8 CXFTF
+1 VJHF, 6 MNCFX => 4 RFSQX
+176 ORE => 6 VJHF
+2210736 ORE for 1 FUEL:
+
+171 ORE => 8 CNZTR
+7 ZLQW, 3 BMBT, 9 XCVML, 26 XMNCP, 1 WPTQ, 2 MZWV, 1 RJRHP => 4 PLWSL
+114 ORE => 4 BHXH
+14 VRPVC => 6 BMBT
+6 BHXH, 18 KTJDG, 12 WPTQ, 7 PLWSL, 31 FHTLT, 37 ZDVW => 1 FUEL
+6 WPTQ, 2 BMBT, 8 ZLQW, 18 KTJDG, 1 XMNCP, 6 MZWV, 1 RJRHP => 6 FHTLT
+15 XDBXC, 2 LTCX, 1 VRPVC => 6 ZLQW
+13 WPTQ, 10 LTCX, 3 RJRHP, 14 XMNCP, 2 MZWV, 1 ZLQW => 1 ZDVW
+5 BMBT => 4 WPTQ
+189 ORE => 9 KTJDG
+1 MZWV, 17 XDBXC, 3 XCVML => 2 XMNCP
+12 VRPVC, 27 CNZTR => 2 XDBXC
+15 KTJDG, 12 BHXH => 5 XCVML
+3 BHXH, 2 VRPVC => 7 MZWV
+121 ORE => 7 VRPVC
+7 XCVML => 6 RJRHP
+5 BHXH, 4 VRPVC => 5 LTCX
+Given the list of reactions in your puzzle input, what is the minimum amount of ORE required to produce exactly 1 FUEL?
+	*/
+	/*
+	S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\653612370874812820.txt"
+	W $$Part1^YUVGZ201914(FN,,,3756899)
+	*/
+Part1(FileName="",RecordsArr,Materials) PUBLIC	;
+{
+	if '$data(Materials)
+	{
+		if $data(RecordsArr)'=10 {
+			if '$length(FileName) {
+				read !,"Enter filename: ",FileName
+				write !
+			}
+			if '$length(FileName) {
+				write !,"Missing file to read from"
+				quit 0
+			}
+			quit:'$$LoadFile(FileName,.RecordsArr) 0
+			if '$data(RecordsArr) {
+				write !,"No data was red from "_FileName
+				quit 0
+			}
+		}
+		quit:'$$CheckData(.RecordsArr) 0
+		set Line="" for  {
+			set Line=$order(RecordsArr(Line)) quit:Line=""
+			//1 PQCQN, 6 HKXPJ, 16 ZFSLM, 6 SJBPT, 1 TKZNJ, 13 JBDF, 1 RZSD => 6 VPCP
+			set Data=RecordsArr(Line),To=$piece(Data," => ",2)
+			set FromCommand=$piece(Data," => ",1)
+			set ToCommand=$piece(Data," => ",2)
+			set ToQuan=$piece(ToCommand," ",1),To=$piece(ToCommand," ",2)
+			set Materials(To)=ToQuan_","_0
+			for Object=1:1:$length(FromCommand,",") {
+				set FromObject=$piece(FromCommand,",",Object)
+				set:$extract(FromObject)=" " $extract(FromObject)=""
+				set FromQuan=$piece(FromObject," ",1),From=$piece(FromObject," ",2)
+				set Tree(From,To)=Line
+				set Materials(To,From)=FromQuan
+			}
+		}
+	}
+	set Total=$$GetTotalORE("FUEL",1,.Materials)
+	/*
+	write !!
+	zwrite Materials
+	write !!
+	*/
+	quit Total
+}
+GetTotalORE(Material,Quantity,Materials) {
+	if Material="ORE" quit Quantity
+	set TotalLeft=$piece(Materials(Material),",",2)
+	if TotalLeft'<Quantity {
+		set TotalLeft=TotalLeft-Quantity
+		set $piece(Materials(Material),",",2)=TotalLeft
+		quit 0
+	}
+	set TotalORE=0
+	while TotalLeft<Quantity {
+		set From="" for  {
+			set From=$order(Materials(Material,From)) quit:From=""
+			set ORE=$$GetTotalORE(From,Materials(Material,From),.Materials)
+			set TotalORE=TotalORE+ORE
+		}
+		set TotalLeft=TotalLeft+$piece(Materials(Material),",",1)
+	}
+	set $piece(Materials(Material),",",2)=TotalLeft-Quantity
+	quit TotalORE
+}
+
+GetTotalORE2(Material,Quantity,Materials) {
+	if Material="ORE" quit Quantity
+	set TotalLeft=$piece(Materials(Material),",",2)
+	if TotalLeft'<Quantity {
+		set TotalLeft=TotalLeft-Quantity
+		set $piece(Materials(Material),",",2)=TotalLeft
+		quit 0
+	}
+	set TotalORE=0
+	set Missing=Quantity-TotalLeft
+	set Produce=$piece(Materials(Material),",",1)
+	set Times=$select(Missing#Produce:Missing\Produce+1,1:Missing/Produce)
+	set From="" for  {
+		set From=$order(Materials(Material,From)) quit:From=""
+		set ORE=$$GetTotalORE2(From,Materials(Material,From)*Times,.Materials)
+		set TotalORE=TotalORE+ORE
+	}
+	set TotalLeft=TotalLeft+(Produce*Times)
+	set $piece(Materials(Material),",",2)=TotalLeft-Quantity
+	quit TotalORE
+}
+
+	
+	/*
+After collecting ORE for a while, you check your cargo hold: 1 trillion (1000000000000) units of ORE.
+
+With that much ore, given the examples above:
+
+The 13312 ORE-per-FUEL example could produce 82892753 FUEL.
+The 180697 ORE-per-FUEL example could produce 5586022 FUEL.
+The 2210736 ORE-per-FUEL example could produce 460664 FUEL.
+Given 1 trillion ORE, what is the maximum amount of FUEL you can produce?
+	*/
+Part2(FileName="",RecordsArr,Materials,Cargo="") PUBLIC	;
+{
+	if Cargo'?1.n||'$extract(Cargo) {
+		read !,"Enter cargo: ",Cargo
+		write !
+	}
+	if Cargo'?1.n||'$extract(Cargo) {
+		write !,"Wrong cargo "
+		quit 0
+	}
+	if '$data(Materials)
+	{
+		if $data(RecordsArr)'=10 {
+			if '$length(FileName) {
+				read !,"Enter filename: ",FileName
+				write !
+			}
+			if '$length(FileName) {
+				write !,"Missing file to read from"
+				quit 0
+			}
+			quit:'$$LoadFile(FileName,.RecordsArr) 0
+			if '$data(RecordsArr) {
+				write !,"No data was red from "_FileName
+				quit 0
+			}
+		}
+		quit:'$$CheckData(.RecordsArr) 0
+		set Line="" for  {
+			set Line=$order(RecordsArr(Line)) quit:Line=""
+			//1 PQCQN, 6 HKXPJ, 16 ZFSLM, 6 SJBPT, 1 TKZNJ, 13 JBDF, 1 RZSD => 6 VPCP
+			set Data=RecordsArr(Line),To=$piece(Data," => ",2)
+			set FromCommand=$piece(Data," => ",1)
+			set ToCommand=$piece(Data," => ",2)
+			set ToQuan=$piece(ToCommand," ",1),To=$piece(ToCommand," ",2)
+			set Materials(To)=ToQuan_","_0
+			for Object=1:1:$length(FromCommand,",") {
+				set FromObject=$piece(FromCommand,",",Object)
+				set:$extract(FromObject)=" " $extract(FromObject)=""
+				set FromQuan=$piece(FromObject," ",1),From=$piece(FromObject," ",2)
+				set Tree(From,To)=Line
+				set Materials(To,From)=FromQuan
+			}
+		}
+	}
+	merge OrigMaterials=Materials
+	set Min=1,Max=Cargo
+	for  {
+		kill Materials
+		merge Materials=OrigMaterials
+		set Quan=(Max+Min)\2
+		set Total=$$GetTotalORE2("FUEL",Quan,.Materials)
+		if Total<Cargo set Min=Quan
+		if Total>Cargo set Max=Quan
+		quit:Max-Min<2
+		
+	}
+	w !,"Max=",Max," Min=",Min,!
+	quit:Min=Max Quan
+	set TotalMax=$$GetTotalORE2("FUEL",Max,.Materials)
+	set Quan=Max if TotalMax>Cargo set Quan=Min
+	/*
+	write !!
+	zwrite Materials
+	write !!
+	*/
+	quit Quan
+}
+
+CheckData(RecordsArr) {
+	set ERR=""
+	set Line="" for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		if $data(RecordsArr(Line))'=1 {
+			set ERR="Wrong data"
+			write !,ERR
+			quit
+		}
+		set Data=RecordsArr(Line)
+		if '$length(Data) {
+			set ERR="Missing data in line "_Line
+			write !,ERR
+			quit
+		}
+		set DefaultError="Wrong data in line "_Line_"("_Data_")"
+		//1 PQCQN, 6 HKXPJ, 16 ZFSLM, 6 SJBPT, 1 TKZNJ, 13 JBDF, 1 RZSD => 6 VPCP
+		if $length(Data," => ")'=2 set ERR=$$DisplayErr(DefaultError_"-1") quit
+		set ToCommand=$piece(Data," => ",2)
+		if ToCommand'?1.N1" "1.A set ERR=$$DisplayErr(DefaultError_"-2") quit  //?????? => somevar
+		set Command=$piece(Data," => ",1)
+		for i=1:1:$length(Command,",") {
+			set FromCommand=$piece(Command,",",i)
+			set:$extract(FromCommand)=" " $extract(FromCommand)=""
+			if FromCommand'?1.N1" "1.A set ERR=$$DisplayErr(DefaultError_"-3") quit  //?????? => somevar
+		}
+		quit:$length(ERR)
+		set To=$piece(ToCommand," ",2)
+		if $data(Object(To)) set ERR=$$DisplayErr("Multi "_To_" definition in lines #"_Object(To)_"&#"_Line_"-4") quit
+		set Object(To)=Line
+	}
+	quit:$length(ERR) 0
+	quit 1
+}
+DisplayErr(Error) {
+	write !,Error
+	quit Error
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::2 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $system.Process.SetZEOF(0)
+	quit 1
+}

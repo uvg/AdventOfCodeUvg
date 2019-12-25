@@ -1,0 +1,416 @@
+YUVGZ201913	;https://adventofcode.com/2019/day/13;
+	quit
+	/*
+1,380,379,385,1008,2617,649812,381,1005,381,12,99,109,2618,1101,0,0,383,1102,1,0,382,21001,382,0,1,21002,383,1,2,21102,37,1,0,1106,0,578,4,382,4,383,204,1,1001,382,1,382,1007,382,43,381,1005,381,22,1001,383,1,383,1007,383,23,381,1005,381,18,1006,385,69,99,104,-1,104,0,4,386,3,384,1007,384,0,381,1005,381,94,107,0,384,381,1005,381,108,1105,1,161,107,1,392,381,1006,381,161,1101,-1,0,384,1105,1,119,1007,392,41,381,1006,381,161,1101,0,1,384,21001,392,0,1,21101,0,21,2,21102,0,1,3,21102,1,138,0,1106,0,549,1,392,384,392,21001,392,0,1,21102,21,1,2,21102,1,3,3,21102,161,1,0,1105,1,549,1101,0,0,384,20001,388,390,1,20101,0,389,2,21102,1,180,0,1106,0,578,1206,1,213,1208,1,2,381,1006,381,205,20001,388,390,1,20101,0,389,2,21102,205,1,0,1105,1,393,1002,390,-1,390,1102,1,1,384,21002,388,1,1,20001,389,391,2,21101,228,0,0,1105,1,578,1206,1,261,1208,1,2,381,1006,381,253,20102,1,388,1,20001,389,391,2,21102,1,253,0,1105,1,393,1002,391,-1,391,1101,0,1,384,1005,384,161,20001,388,390,1,20001,389,391,2,21101,0,279,0,1106,0,578,1206,1,316,1208,1,2,381,1006,381,304,20001,388,390,1,20001,389,391,2,21101,304,0,0,1106,0,393,1002,390,-1,390,1002,391,-1,391,1101,0,1,384,1005,384,161,20102,1,388,1,21002,389,1,2,21102,0,1,3,21101,0,338,0,1105,1,549,1,388,390,388,1,389,391,389,21002,388,1,1,20102,1,389,2,21102,4,1,3,21101,0,365,0,1106,0,549,1007,389,22,381,1005,381,75,104,-1,104,0,104,0,99,0,1,0,0,0,0,0,0,361,19,18,1,1,21,109,3,21201,-2,0,1,22101,0,-1,2,21101,0,0,3,21101,0,414,0,1106,0,549,21201,-2,0,1,22102,1,-1,2,21102,429,1,0,1105,1,601,2102,1,1,435,1,386,0,386,104,-1,104,0,4,386,1001,387,-1,387,1005,387,451,99,109,-3,2106,0,0,109,8,22202,-7,-6,-3,22201,-3,-5,-3,21202,-4,64,-2,2207,-3,-2,381,1005,381,492,21202,-2,-1,-1,22201,-3,-1,-3,2207,-3,-2,381,1006,381,481,21202,-4,8,-2,2207,-3,-2,381,1005,381,518,21202,-2,-1,-1,22201,-3,-1,-3,2207,-3,-2,381,1006,381,507,2207,-3,-4,381,1005,381,540,21202,-4,-1,-1,22201,-3,-1,-3,2207,-3,-4,381,1006,381,529,21202,-3,1,-7,109,-8,2105,1,0,109,4,1202,-2,43,566,201,-3,566,566,101,639,566,566,1202,-1,1,0,204,-3,204,-2,204,-1,109,-4,2106,0,0,109,3,1202,-1,43,593,201,-2,593,593,101,639,593,593,21002,0,1,-2,109,-3,2106,0,0,109,3,22102,23,-2,1,22201,1,-1,1,21101,0,499,2,21101,0,275,3,21101,0,989,4,21101,630,0,0,1105,1,456,21201,1,1628,-2,109,-3,2105,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,2,2,2,0,2,2,2,2,2,2,0,2,2,0,2,2,2,2,2,0,2,0,2,2,0,0,0,0,2,2,2,2,2,0,0,0,2,2,0,1,1,0,0,0,0,0,0,2,0,2,0,2,2,0,2,0,0,2,0,2,2,2,0,2,2,2,2,0,2,0,2,2,2,2,2,0,2,0,2,2,2,0,1,1,0,2,0,2,0,0,2,2,0,2,0,2,2,2,2,2,0,2,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,2,0,2,2,2,2,2,0,1,1,0,2,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,2,0,0,0,0,2,2,0,0,0,2,2,2,0,0,0,0,2,0,0,2,0,0,1,1,0,2,2,2,2,0,0,2,2,2,2,2,2,2,0,0,0,0,2,0,2,2,2,2,0,0,2,0,0,2,0,0,2,2,2,2,0,0,2,2,0,1,1,0,2,2,2,0,2,2,0,0,2,2,0,2,2,2,0,0,2,0,2,2,0,2,0,2,2,2,2,2,2,0,2,2,2,2,2,2,0,2,2,0,1,1,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,2,2,0,0,0,2,2,2,2,0,2,2,2,2,0,2,2,2,2,2,2,0,1,1,0,0,0,0,2,0,2,2,0,2,2,2,0,0,0,2,0,0,2,0,2,0,2,2,2,0,2,0,2,2,2,2,2,2,0,2,2,0,2,0,0,1,1,0,2,2,2,2,2,0,2,0,0,2,0,2,2,0,2,0,2,2,2,0,2,2,2,0,2,0,0,2,0,2,2,0,2,0,2,0,2,2,2,0,1,1,0,2,2,2,0,0,2,2,2,2,0,2,0,0,0,2,0,0,2,2,2,0,0,2,0,2,0,2,2,2,2,0,2,0,2,0,2,0,0,2,0,1,1,0,2,2,2,2,2,0,0,2,2,0,0,0,2,0,2,0,2,0,0,2,0,0,2,2,2,2,2,2,2,2,2,2,2,0,2,2,2,2,2,0,1,1,0,2,2,2,0,2,0,0,2,0,0,2,0,2,2,0,0,2,0,2,2,0,2,2,2,2,2,0,2,0,0,2,2,2,0,2,0,2,0,2,0,1,1,0,2,2,2,2,2,2,0,2,0,0,2,2,2,0,2,2,0,2,0,0,2,0,0,0,0,2,2,0,0,2,0,0,2,0,0,0,0,2,2,0,1,1,0,2,2,2,2,2,2,0,2,0,0,0,0,0,2,0,0,0,2,2,2,2,0,2,0,2,0,0,0,0,2,0,0,2,2,2,0,0,0,2,0,1,1,0,0,2,0,0,2,0,2,0,2,2,2,0,2,0,2,0,2,2,2,0,0,2,2,0,2,0,0,0,2,2,2,0,0,0,2,2,2,2,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,50,83,69,55,5,36,88,27,48,45,55,26,23,56,75,93,20,97,93,90,50,24,84,49,93,23,74,88,42,37,31,74,42,93,56,81,50,48,64,26,80,53,72,51,63,25,30,74,85,93,5,1,78,10,85,22,20,18,92,98,97,29,52,22,67,48,79,50,19,64,11,1,29,71,44,32,19,30,36,73,78,28,13,42,33,74,56,38,1,55,94,9,53,16,26,24,75,3,17,67,18,19,7,56,61,22,71,85,2,24,80,20,6,33,12,67,38,81,41,59,81,38,17,7,61,10,77,36,96,85,10,71,76,68,90,62,93,16,83,61,59,42,83,81,10,94,35,38,66,27,61,26,61,61,65,1,42,65,83,30,23,96,39,87,30,38,47,97,48,77,38,23,23,26,36,58,77,33,44,23,21,49,72,7,46,73,43,86,8,71,92,43,16,1,72,40,55,10,74,5,84,24,92,24,10,47,7,49,9,23,6,80,18,78,88,50,31,56,45,35,74,62,68,74,45,78,5,20,75,83,72,13,59,66,76,63,49,97,54,9,16,32,39,7,45,16,32,57,71,18,80,90,54,8,27,53,5,10,2,74,79,34,2,76,21,80,75,62,88,46,32,26,5,1,60,14,73,60,7,69,93,36,4,63,94,89,2,55,30,5,7,28,71,72,45,44,3,98,43,42,28,63,69,52,61,67,79,80,55,1,39,1,58,6,82,64,81,11,16,41,50,23,31,94,98,75,96,94,40,98,97,20,88,94,64,17,61,60,63,26,76,87,73,80,30,15,61,90,61,16,41,86,52,67,90,58,85,33,29,59,92,45,10,82,22,65,62,43,14,92,47,17,25,15,55,55,25,70,52,63,86,73,86,34,43,7,2,94,93,13,73,28,88,23,12,82,16,79,56,36,32,52,62,82,81,57,39,88,70,25,50,14,80,52,56,11,81,14,15,83,36,84,76,74,21,19,56,1,29,44,68,87,42,68,92,54,13,76,48,48,66,89,49,64,32,59,53,30,57,20,94,72,42,2,77,7,56,54,27,17,67,67,56,94,8,58,28,81,9,72,64,20,95,92,7,61,7,46,44,2,81,17,78,7,32,64,40,17,47,62,57,19,61,36,88,10,71,6,88,39,43,48,2,50,30,20,39,75,9,46,78,17,56,88,96,20,50,7,14,12,67,7,23,77,94,58,44,96,65,48,44,60,52,65,88,39,45,13,63,37,16,2,26,41,95,73,45,37,29,35,82,30,14,90,18,29,33,92,23,63,51,79,17,86,76,83,85,20,43,48,51,28,94,50,77,74,90,5,33,52,47,14,76,70,3,59,28,95,78,82,1,6,59,97,38,68,60,68,95,31,98,8,32,71,70,25,47,76,75,13,35,60,19,45,7,49,34,61,93,21,79,81,52,17,82,28,69,35,72,10,12,55,25,45,9,67,60,67,27,97,26,13,30,4,6,64,34,36,88,19,90,50,35,32,6,38,15,18,88,10,42,68,71,31,29,45,90,50,85,13,69,80,91,4,21,81,18,21,38,44,42,49,54,47,61,43,17,54,89,47,13,27,6,67,96,54,80,54,85,32,1,39,18,28,98,55,30,2,90,43,9,48,43,54,42,21,3,50,49,2,47,23,51,2,66,88,80,24,66,31,28,68,15,93,34,55,69,86,92,16,13,69,26,78,20,84,16,87,1,51,91,65,89,70,31,28,48,28,81,54,40,81,77,25,64,98,41,46,30,50,9,33,58,24,31,62,41,92,4,40,12,53,32,50,62,78,80,36,90,36,47,9,34,13,91,36,74,82,60,31,74,77,33,16,79,10,68,56,52,43,71,76,31,65,14,68,49,73,36,55,76,48,37,3,33,85,8,42,92,44,66,22,84,54,98,50,8,21,70,63,89,53,21,20,72,9,46,38,27,20,76,66,57,15,73,23,34,36,38,46,53,76,86,45,75,50,27,25,81,80,68,95,73,12,89,58,15,30,79,63,35,62,53,15,27,64,89,21,58,65,80,16,92,64,29,89,16,71,23,68,46,30,17,41,67,4,16,84,25,9,78,46,18,85,3,26,32,12,45,49,79,11,4,65,82,17,21,29,60,1,20,16,93,72,7,17,88,67,75,3,24,73,73,71,54,35,95,57,80,16,7,44,8,58,83,68,87,21,41,90,7,85,32,22,41,23,47,30,56,94,27,50,65,62,36,74,51,39,21,36,44,47,96,15,59,72,97,84,25,649812
+	*/
+	/*
+As you ponder the solitude of space and the ever-increasing three-hour roundtrip for messages between you and Earth, you notice that the Space Mail Indicator Light is blinking. To help keep you sane, the Elves have sent you a care package.
+
+It's a new game for the ship's arcade cabinet! Unfortunately, the arcade is all the way on the other end of the ship. Surely, it won't be hard to build your own - the care package even comes with schematics.
+
+The arcade cabinet runs Intcode software like the game the Elves sent (your puzzle input). It has a primitive screen capable of drawing square tiles on a grid. The software draws tiles to the screen with output instructions: every three output instructions specify the x position (distance from the left), y position (distance from the top), and tile id. The tile id is interpreted as follows:
+
+0 is an empty tile. No game object appears in this tile.
+1 is a wall tile. Walls are indestructible barriers.
+2 is a block tile. Blocks can be broken by the ball.
+3 is a horizontal paddle tile. The paddle is indestructible.
+4 is a ball tile. The ball moves diagonally and bounces off objects.
+For example, a sequence of output values like 1,2,3,6,5,4 would draw a horizontal paddle tile (1 tile from the left and 2 tiles from the top) and a ball tile (6 tiles from the left and 5 tiles from the top).
+
+Start the game. How many block tiles are on the screen when the game exits?
+	*/
+Part1(FileName="",Data="") PUBLIC	;
+{
+	if '$length(Data) {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+		if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+			write !,"Wrong data was red from "_FileName
+			quit 0
+		}
+		set Data=RecordsArr(1)
+	}
+	quit:'$$CheckData(Data)
+	set Output=1
+	set Signal=$$ComputeSignalCode(.Data,.Inputs,.ERR,,,,.Output)
+	quit:$length(ERR) 0
+	if $data(Output)'=11 {
+		write !,"No output"
+		quit 0
+	}
+	kill ^mtempSORT($zname)
+	set (Line,LocationX,LocationY)="" for  {
+		set Line=$order(Output(Line)) quit:Line=""
+		set Data=Output(Line)
+		if Line#3=1 set LocationX=Data
+		if Line#3=2 set LocationY=Data
+		if Line#3=0 set ^mtempSORT($zname,"grid",LocationY,LocationX)=Data,(LocationX,LocationY)=""
+	}
+	write !!
+	zwrite ^mtempSORT($zname)
+	write !!
+	//w !!!!,"new data is ",Data
+	quit $$GetNumOfTiles(2)
+}
+GetNumOfTiles(TileType)
+{
+	set LocationY="",Counter=0 for  {
+		set LocationY=$order(^mtempSORT($zname,"grid",LocationY)) quit:LocationY=""
+		set LocationX="" for  {
+			set LocationX=$order(^mtempSORT($zname,"grid",LocationY,LocationX)) quit:LocationX=""
+			if ^mtempSORT($zname,"grid",LocationY,LocationX)=TileType set Counter=Counter+1
+		}
+	}
+	quit Counter
+}
+    ;              1     2     3        4                   5          6      7        8               9
+ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")	;
+{
+	set OpCode="",ERR="",DiagnosticCode="",InputId=0,ExitSW=0,Offset=0,Line=0
+	//w !,"Data before: ",Data
+	while OpCode'=99&&'$length(ERR)&&'ExitSW {
+		if Data[",," for i=1:1:$length(Data,",") if $piece(Data,",",i)="" set $piece(Data,",",i)=0
+		set Instruction=$piece(Data,",",InstructionPointer)
+		;W !,Instruction,"@",InstructionPointer
+		if Instruction'?1.5n {
+			set ERR="Wrong instruction "_Instruction
+			quit 
+		}
+		set OpCode=+$extract(Instruction,*-1,*)
+		if ",1,2,3,4,5,6,7,8,9,99,"'[(","_OpCode_",") {
+			set ERR="Unknown operation "_OpCode
+			quit
+		}
+		set ParametersMode=$extract(Instruction,1,*-2)
+		//w !,"Instruction=",Instruction,";","Offset=",Offset
+		if OpCode=99
+		{
+			if $length(ParametersMode) set ERR="Exit operation with parmaters "_ParametersMode
+			set ExitSW=1
+			//write !,"Finish computing, exiting code",!!
+			quit
+		}
+		if OpCode=1
+		{
+			if $extract(ParametersMode,1,*-2)>2||($extract(ParametersMode,*-2)=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1) ;W !,"<",Val1
+			set Val2=$piece(Data,",",InstructionPointer+2) ;W !,"<",Val2
+			set OutPos=$piece(Data,",",InstructionPointer+3) ;W !,"<",OutPos
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1) ;W !,"@",Val1
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1) ;W !,"@",Val2
+			if $extract(ParametersMode,*)=2 set Val1=$piece(Data,",",Val1+Offset+1) ;W !,"@",Val1
+			if $extract(ParametersMode,*-1)=2 set Val2=$piece(Data,",",Val2+Offset+1) ;W !,"@",Val2
+			if $extract(ParametersMode,*-2)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1) ;W !,"@",OutPos
+			set Val=Val1+Val2
+			;w !,Val_">"_OutPos
+			//w !,"Operation 1>>Add "_Val1_"+"_Val2_" and store it in "_OutPos
+			//w !,"Data before "_Data
+			set $piece(Data,",",OutPos+1)=Val
+			//w !,"Data after "_Data
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=2
+		{
+			if $extract(ParametersMode,1,*-2)>2||($extract(ParametersMode,*-2)=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1)
+			set Val2=$piece(Data,",",InstructionPointer+2)
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1)
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1)
+			if $extract(ParametersMode,*)=2 set Val1=$piece(Data,",",Val1+Offset+1)
+			if $extract(ParametersMode,*-1)=2 set Val2=$piece(Data,",",Val2+Offset+1)
+			if $extract(ParametersMode,*-2)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1)
+			set $piece(Data,",",OutPos+1)=Val1*Val2
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=3
+		{
+			if $extract(ParametersMode,1,*-1)||(ParametersMode=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set OutPos=$piece(Data,",",InstructionPointer+1)
+			if $extract(ParametersMode,*)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1)
+			set InputId=InputId+1
+			if $data(Inputs(InputId)) {
+				set Val=Inputs(InputId)
+			}
+			else {
+				if $length(InputLabel) do @(InputLabel_"("_Line_")")
+				read !,"Please enter value: ",Val
+				write !
+			}
+			set $piece(Data,",",OutPos+1)=Val
+			set InstructionPointer=InstructionPointer+2
+			continue
+		}
+		if OpCode=4
+		{
+			if $extract(ParametersMode,1,*-1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if $extract(ParametersMode,*)=2 set Val=$piece(Data,",",Val+Offset+1)
+			set:'$length(Val) Val=0
+			set Line=Line+1
+			if '$data(Output) {
+				if $length(OutputLabel) do @(OutputLabel_"("_Line_","_Val_")")
+				write:'$length(OutputLabel) !,Val
+			}
+			else {
+				set Output(Line)=Val
+			}
+			set DiagnosticCode=Val
+			set InstructionPointer=InstructionPointer+2
+			quit:ExitOpCode4
+			continue
+		}
+		if OpCode=5
+		{
+			if $extract(ParametersMode,1,*-2) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if $extract(ParametersMode,*)=2 set Val=$piece(Data,",",Val+Offset+1)
+			if Val {
+				set InstructionPointer=$piece(Data,",",InstructionPointer+2)
+				if '$extract(ParametersMode,*-1) set InstructionPointer=$piece(Data,",",InstructionPointer+1)
+				if $extract(ParametersMode,*-1)=2 set InstructionPointer=$piece(Data,",",InstructionPointer+Offset+1)
+				set InstructionPointer=InstructionPointer+1
+				continue
+			}
+			set InstructionPointer=InstructionPointer+3
+			continue
+		}
+		if OpCode=6
+		{
+			if $extract(ParametersMode,1,*-2) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if $extract(ParametersMode,*)=2 set Val=$piece(Data,",",Val+Offset+1)
+			if 'Val {
+				set InstructionPointer=$piece(Data,",",InstructionPointer+2)
+				if '$extract(ParametersMode,*-1) set InstructionPointer=$piece(Data,",",InstructionPointer+1)
+				if $extract(ParametersMode,*-1)=2 set InstructionPointer=$piece(Data,",",InstructionPointer+Offset+1)
+				set InstructionPointer=InstructionPointer+1
+				continue
+			}
+			set InstructionPointer=InstructionPointer+3
+			continue
+		}
+		if OpCode=7
+		{
+			if $extract(ParametersMode,1,*-2)>2||($extract(ParametersMode,*-2)=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1)
+			set Val2=$piece(Data,",",InstructionPointer+2)
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1)
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1)
+			if $extract(ParametersMode,*)=2 set Val1=$piece(Data,",",Val1+Offset+1)
+			if $extract(ParametersMode,*-1)=2 set Val2=$piece(Data,",",Val2+Offset+1)
+			if $extract(ParametersMode,*-2)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1)
+			set Val=Val1<Val2
+			set $piece(Data,",",OutPos+1)=Val
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=8
+		{
+			if $extract(ParametersMode,1,*-2)>2||($extract(ParametersMode,*-2)=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1)
+			set Val2=$piece(Data,",",InstructionPointer+2)
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1)
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1)
+			if $extract(ParametersMode,*)=2 set Val1=$piece(Data,",",Val1+Offset+1)
+			if $extract(ParametersMode,*-1)=2 set Val2=$piece(Data,",",Val2+Offset+1)
+			if $extract(ParametersMode,*-2)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1)
+			set:'$length(Val1) Val1=0
+			set:'$length(Val2) Val2=0
+			set Val=Val1=Val2
+			set $piece(Data,",",OutPos+1)=Val
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=9
+		{
+			if $extract(ParametersMode,1,*-1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if $extract(ParametersMode,*)=2 set Val=$piece(Data,",",Val+Offset+1)
+			set Offset=Offset+Val
+			set InstructionPointer=InstructionPointer+2
+			continue
+		}
+
+		set ERR="Unknown operation for instruction "_Instruction
+		quit
+	}
+	if $length(ERR) {
+		write !,ERR
+		quit 0
+	}
+	//w !,"Data after: ",Data
+	//write !,"Diagnostic Code is: "_DiagnosticCode
+	quit DiagnosticCode
+}
+	
+	/*
+The game didn't run because you didn't put in any quarters. Unfortunately, you did not bring any quarters. Memory address 0 represents the number of quarters that have been inserted; set it to 2 to play for free.
+
+The arcade cabinet has a joystick that can move left and right. The software reads the position of the joystick with input instructions:
+
+If the joystick is in the neutral position, provide 0.
+If the joystick is tilted to the left, provide -1.
+If the joystick is tilted to the right, provide 1.
+The arcade cabinet also has a segment display capable of showing a single number that represents the player's current score. When three output instructions specify X=-1, Y=0, the third output instruction is not a tile; the value instead specifies the new score to show in the segment display. For example, a sequence of output values like -1,0,12345 would show 12345 as the player's current score.
+
+Beat the game by breaking all the blocks. What is your score after the last block is broken?
+	*/
+Part2(FileName="",Data="") PUBLIC	;
+{
+	if '$length(Data) {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+		if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+			write !,"Wrong data was red from "_FileName
+			quit 0
+		}
+		set Data=RecordsArr(1)
+	}
+	quit:'$$CheckData(Data)
+	kill ^mtempSORT($zname)
+	set (^mtempSORT($zname,"LocationX"),^mtempSORT($zname,"LocationY"))=""
+	//set Status=$$ComputeSignalCode(.Data,.Inputs,.ERR,.InstructionPointer,0,,,"Output","Input")
+	for  {
+		set $extract(Data)=2
+		do ComputeSignalCode(.Data,.Inputs,.ERR,,0,,,"Output","Input")
+		quit:$length(ERR)
+		//b "l+"
+		quit:'$$GetNumOfTiles($char(177))
+	}
+	quit:$length(ERR) 0
+	write !!
+	//zwrite ^mtempSORT($zname,"grid")
+	//write !!
+	//w !!!!,"new data is ",Data
+	quit 1
+}
+Input(Line)	;
+	set LocationY="" for  {
+		set LocationY=$order(^mtempSORT($zname,"grid",LocationY)) quit:LocationY=""
+		write !
+		set LocationX="" for  {
+			set LocationX=$order(^mtempSORT($zname,"grid",LocationY,LocationX)) quit:LocationX=""
+			set Val=^mtempSORT($zname,"grid",LocationY,LocationX)
+			write Val		
+		}
+	}
+	quit
+Output(Line,Val)	;
+
+	set ^mtempSORT($zname,"Output",Line)=Val
+	if Line#3=1 set ^mtempSORT($zname,"LocationX")=Val
+	if Line#3=2 set ^mtempSORT($zname,"LocationY")=Val
+	if Line#3=0 {
+		set LocationX=^mtempSORT($zname,"LocationX")
+		set LocationY=^mtempSORT($zname,"LocationY")
+		if (LocationX'=-1)||(LocationY'=0) {
+	/*
+0 is an empty tile. No game object appears in this tile.
+1 is a wall tile. Walls are indestructible barriers.
+2 is a block tile. Blocks can be broken by the ball.
+3 is a horizontal paddle tile. The paddle is indestructible.
+4 is a ball tile. The ball moves diagonally and bounces off objects.
+	*/
+			set ValToGrid=$case(Val,0:" ",1:$char(219),2:$char(177),3:$char(220),4:"O")
+			set ^mtempSORT($zname,"grid",LocationY,LocationX)=ValToGrid
+		}
+		else {
+			write !,"Score: ",Val
+		}
+		set (^mtempSORT($zname,"LocationX"),^mtempSORT($zname,"LocationY"))=""
+	}
+	quit
+
+CheckData(Data)	;
+{
+	if $length(Data,",")<2,Data'=99 {
+		write !,"Wrong data "_Data
+		quit 0
+	}
+	set ERR=""
+	for Location=1:1:$length(Data,",") {
+		set Val=$piece(Data,",",Location)
+		if Val'?1.n,Val'?1"-"1.n {
+			set ERR="Wrong value "_val
+			write !,ERR
+			quit
+		}
+	}
+	quit:$length(ERR) 0
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::2 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $system.Process.SetZEOF(0)
+	quit 1
+}

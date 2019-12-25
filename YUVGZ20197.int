@@ -1,0 +1,401 @@
+YUVGZ20197	;https://adventofcode.com/2019/day/7;
+	quit
+	/*
+3,8,1001,8,10,8,105,1,0,0,21,34,43,60,81,94,175,256,337,418,99999,3,9,101,2,9,9,102,4,9,9,4,9,99,3,9,102,2,9,9,4,9,99,3,9,102,4,9,9,1001,9,4,9,102,3,9,9,4,9,99,3,9,102,4,9,9,1001,9,2,9,1002,9,3,9,101,4,9,9,4,9,99,3,9,1001,9,4,9,102,2,9,9,4,9,99,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,102,2,9,9,4,9,3,9,1002,9,2,9,4,9,99,3,9,101,2,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,101,1,9,9,4,9,3,9,102,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,1,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,1,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,1001,9,2,9,4,9,99,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,1,9,9,4,9,3,9,101,2,9,9,4,9,3,9,1001,9,2,9,4,9,99,3,9,101,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,101,1,9,9,4,9,3,9,101,1,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,1002,9,2,9,4,9,99,3,9,1001,9,1,9,4,9,3,9,1001,9,1,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,1,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,2,9,9,4,9,3,9,102,2,9,9,4,9,99
+	*/
+	/*
+Based on the navigational maps, you're going to need to send more power to your ship's thrusters to reach Santa in time. To do this, you'll need to configure a series of amplifiers already installed on the ship.
+
+There are five amplifiers connected in series; each one receives an input signal and produces an output signal. They are connected such that the first amplifier's output leads to the second amplifier's input, the second amplifier's output leads to the third amplifier's input, and so on. The first amplifier's input value is 0, and the last amplifier's output leads to your ship's thrusters.
+
+    O-------O  O-------O  O-------O  O-------O  O-------O
+0 ->| Amp A |->| Amp B |->| Amp C |->| Amp D |->| Amp E |-> (to thrusters)
+    O-------O  O-------O  O-------O  O-------O  O-------O
+The Elves have sent you some Amplifier Controller Software (your puzzle input), a program that should run on your existing Intcode computer. Each amplifier will need to run a copy of the program.
+
+When a copy of the program starts running on an amplifier, it will first use an input instruction to ask the amplifier for its current phase setting (an integer from 0 to 4). Each phase setting is used exactly once, but the Elves can't remember which amplifier needs which phase setting.
+
+The program will then call another input instruction to get the amplifier's input signal, compute the correct output signal, and supply it back to the amplifier with an output instruction. (If the amplifier has not yet received an input signal, it waits until one arrives.)
+
+Your job is to find the largest output signal that can be sent to the thrusters by trying every possible combination of phase settings on the amplifiers. Make sure that memory is not shared or reused between copies of the program.
+
+For example, suppose you want to try the phase setting sequence 3,1,2,4,0, which would mean setting amplifier A to phase setting 3, amplifier B to setting 1, C to 2, D to 4, and E to 0. Then, you could determine the output signal that gets sent from amplifier E to the thrusters with the following steps:
+
+Start the copy of the amplifier controller software that will run on amplifier A. At its first input instruction, provide it the amplifier's phase setting, 3. At its second input instruction, provide it the input signal, 0. After some calculations, it will use an output instruction to indicate the amplifier's output signal.
+Start the software for amplifier B. Provide it the phase setting (1) and then whatever output signal was produced from amplifier A. It will then produce a new output signal destined for amplifier C.
+Start the software for amplifier C, provide the phase setting (2) and the value from amplifier B, then collect its output signal.
+Run amplifier D's software, provide the phase setting (4) and input value, and collect its output signal.
+Run amplifier E's software, provide the phase setting (0) and input value, and collect its output signal.
+The final output signal from amplifier E would be sent to the thrusters. However, this phase setting sequence may not have been the best one; another sequence might have sent a higher signal to the thrusters.
+
+Here are some example programs:
+
+Max thruster signal 43210 (from phase setting sequence 4,3,2,1,0):
+
+3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0
+Max thruster signal 54321 (from phase setting sequence 0,1,2,3,4):
+
+3,23,3,24,1002,24,10,24,1002,23,-1,23,
+101,5,23,23,1,24,23,23,4,23,99,0,0
+Max thruster signal 65210 (from phase setting sequence 1,0,4,3,2):
+
+3,31,3,32,1002,32,10,32,1001,31,-2,31,1007,31,0,33,
+1002,33,7,33,1,33,31,31,1,32,31,31,4,31,99,0,0,0
+Try every combination of phase settings on the amplifiers. What is the highest signal that can be sent to the thrusters?
+	*/
+Part1(FileName="",Data="") PUBLIC	;
+{
+	if '$length(Data) {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+		if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+			write !,"Wrong data was red from "_FileName
+			quit 0
+		}
+		set Data=RecordsArr(1)
+	}
+	quit:'$$CheckData(Data)
+	set MaxSignal=-999999999999999999,BestPhase="",ERR=""
+	for i=1234:1:99999
+	{
+		set Phase=i if Phase<10000 set Phase="0"_Phase
+		if $translate(Phase,12340)'="" continue
+		if $length($translate(Phase,0))'=4 continue
+		if $length($translate(Phase,1))'=4 continue
+		if $length($translate(Phase,2))'=4 continue
+		if $length($translate(Phase,3))'=4 continue
+		if $length($translate(Phase,4))'=4 continue
+		set Signal=0
+		for Amplifier=1:1:5 {
+			set Inputs(1)=$extract(Phase,Amplifier)
+			set Inputs(2)=Signal
+			set Signal=$$ComputeSignalCode(Data,.Inputs,.ERR)
+			quit:$length(ERR)
+		}
+		quit:$length(ERR)
+		if Signal>MaxSignal set MaxSignal=Signal,BestPhase=Phase
+	}
+	quit:$length(ERR) 0
+	write !,"MaxSignal=",MaxSignal
+	write !,"BestPhase=",BestPhase
+	quit 1
+}
+ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW)	;
+{
+	set OpCode="",ERR="",DiagnosticCode="",InputId=0,ExitSW=0
+	while OpCode'=99&&'$length(ERR)&&'ExitSW {
+		set Insruction=$piece(Data,",",InstructionPointer)
+		;W !,Insruction,"@",InstructionPointer
+		if Insruction'?1.5n {
+			set ERR="Wrong instruction "_Insruction
+			quit 
+		}
+		set OpCode=+$extract(Insruction,*-1,*)
+		if ",1,2,3,4,5,6,7,8,99,"'[(","_OpCode_",") {
+			set ERR="Unknown operation "_OpCode
+			quit
+		}
+		set ParametersMode=$extract(Insruction,1,*-2)
+		if OpCode=99
+		{
+			if $length(ParametersMode) set ERR="Exit operation with parmaters "_ParametersMode
+			set ExitSW=1
+			//write !,"Finish computing, exiting code",!!
+			quit
+		}
+		if OpCode=1
+		{
+			if $extract(ParametersMode,*-2) {
+				set ERR="Wrong parameter mode for output the insruction "_Insruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1) ;W !,"<",Val1
+			set Val2=$piece(Data,",",InstructionPointer+2) ;W !,"<",Val2
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1) ;W !,"@",Val1
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1) ;W !,"@",Val2
+			set Val=Val1+Val2
+			;w !,Val_">"_OutPos
+			//w !,"Operation 1>>Add "_Val1_"+"_Val2_" and store it in "_OutPos
+			//w !,"Data before "_Data
+			set $piece(Data,",",OutPos+1)=Val
+			//w !,"Data after "_Data
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=2
+		{
+			if $extract(ParametersMode,*-2) {
+				set ERR="Wrong parameter mode for output the insruction "_Insruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1)
+			set Val2=$piece(Data,",",InstructionPointer+2)
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1)
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1)
+			set $piece(Data,",",OutPos+1)=Val1*Val2
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=3
+		{
+			if ParametersMode {
+				set ERR="Wrong parameter mode for output the insruction "_Insruction
+				quit
+			}
+			set OutPos=$piece(Data,",",InstructionPointer+1)
+			set InputId=InputId+1
+			if $data(Inputs(InputId)) {
+				set Val=Inputs(InputId)
+			}
+			else {
+				read !,"Please enter value: ",Val
+				write !
+			}
+			set $piece(Data,",",OutPos+1)=Val
+			set InstructionPointer=InstructionPointer+2
+			continue
+		}
+		if OpCode=4
+		{
+			if $extract(ParametersMode,1,*-1) {
+				set ERR="Wrong parameter mode for output the insruction "_Insruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			write !,Val
+			set DiagnosticCode=Val
+			set InstructionPointer=InstructionPointer+2
+			quit:ExitOpCode4
+			continue
+		}
+		if OpCode=5
+		{
+			if $extract(ParametersMode,1,*-2) {
+				set ERR="Wrong parameter mode for output the insruction "_Insruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if Val {
+				set InstructionPointer=$piece(Data,",",InstructionPointer+2)
+				if '$extract(ParametersMode,*-1) set InstructionPointer=$piece(Data,",",InstructionPointer+1)
+				set InstructionPointer=InstructionPointer+1
+				continue
+			}
+			set InstructionPointer=InstructionPointer+3
+			continue
+		}
+		if OpCode=6
+		{
+			if $extract(ParametersMode,1,*-2) {
+				set ERR="Wrong parameter mode for output the insruction "_Insruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if 'Val {
+				set InstructionPointer=$piece(Data,",",InstructionPointer+2)
+				if '$extract(ParametersMode,*-1) set InstructionPointer=$piece(Data,",",InstructionPointer+1)
+				set InstructionPointer=InstructionPointer+1
+				continue
+			}
+			set InstructionPointer=InstructionPointer+3
+			continue
+		}
+		if OpCode=7
+		{
+			if $extract(ParametersMode,*-2) {
+				set ERR="Wrong parameter mode for output the insruction "_Insruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1)
+			set Val2=$piece(Data,",",InstructionPointer+2)
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1)
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1)
+			set Val=Val1<Val2
+			set $piece(Data,",",OutPos+1)=Val
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=8
+		{
+			if $extract(ParametersMode,*-2) {
+				set ERR="Wrong parameter mode for output the insruction "_Insruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1)
+			set Val2=$piece(Data,",",InstructionPointer+2)
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1)
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1)
+			set Val=Val1=Val2
+			set $piece(Data,",",OutPos+1)=Val
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+
+		set ERR="Unknown operation for instruction "_Insruction
+		quit
+	}
+	if $length(ERR) {
+		write !,ERR
+		quit 0
+	}
+	//write !,"Diagnostic Code is: "_DiagnosticCode
+	quit DiagnosticCode
+}
+	
+	/*
+It's no good - in this configuration, the amplifiers can't generate a large enough output signal to produce the thrust you'll need. The Elves quickly talk you through rewiring the amplifiers into a feedback loop:
+
+      O-------O  O-------O  O-------O  O-------O  O-------O
+0 -+->| Amp A |->| Amp B |->| Amp C |->| Amp D |->| Amp E |-.
+   |  O-------O  O-------O  O-------O  O-------O  O-------O |
+   |                                                        |
+   '--------------------------------------------------------+
+                                                            |
+                                                            v
+                                                     (to thrusters)
+Most of the amplifiers are connected as they were before; amplifier A's output is connected to amplifier B's input, and so on. However, the output from amplifier E is now connected into amplifier A's input. This creates the feedback loop: the signal will be sent through the amplifiers many times.
+
+In feedback loop mode, the amplifiers need totally different phase settings: integers from 5 to 9, again each used exactly once. These settings will cause the Amplifier Controller Software to repeatedly take input and produce output many times before halting. Provide each amplifier its phase setting at its first input instruction; all further input/output instructions are for signals.
+
+Don't restart the Amplifier Controller Software on any amplifier during this process. Each one should continue receiving and sending signals until it halts.
+
+All signals sent or received in this process will be between pairs of amplifiers except the very first signal and the very last signal. To start the process, a 0 signal is sent to amplifier A's input exactly once.
+
+Eventually, the software on the amplifiers will halt after they have processed the final loop. When this happens, the last output signal from amplifier E is sent to the thrusters. Your job is to find the largest output signal that can be sent to the thrusters using the new phase settings and feedback loop arrangement.
+
+Here are some example programs:
+
+Max thruster signal 139629729 (from phase setting sequence 9,8,7,6,5):
+
+3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,
+27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5
+Max thruster signal 18216 (from phase setting sequence 9,7,8,5,6):
+
+3,52,1001,52,-5,52,3,53,1,52,56,54,1007,54,5,55,1005,55,26,1001,54,
+-5,54,1105,1,12,1,53,54,53,1008,54,0,55,1001,55,1,55,2,53,55,53,4,
+53,1001,56,-1,56,1005,56,6,99,0,0,0,0,10
+Try every combination of the new phase settings on the amplifier feedback loop. What is the highest signal that can be sent to the thrusters?
+	*/
+Part2(FileName="",Data="") PUBLIC	;
+{
+	if '$length(Data) {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+		if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+			write !,"Wrong data was red from "_FileName
+			quit 0
+		}
+		set Data=RecordsArr(1)
+	}
+	quit:'$$CheckData(Data)
+	set MaxSignal=-999999999999999999,BestPhase="",ERR=""
+	for i=56789:1:99999
+	{
+		set Phase=i if Phase<10000 set Phase="0"_Phase
+		if $translate(Phase,56789)'="" continue
+		if $length($translate(Phase,5))'=4 continue
+		if $length($translate(Phase,6))'=4 continue
+		if $length($translate(Phase,7))'=4 continue
+		if $length($translate(Phase,8))'=4 continue
+		if $length($translate(Phase,9))'=4 continue
+		w !!!!,"Phase=",Phase
+		set Signal=0,ExitSW=0
+		for Amplifier=1:1:5 {
+			set Data(Amplifier)=Data
+			set InstructionPointer(Amplifier)=1
+		}
+		set StartPhase=1
+		while 'ExitSW {
+			for Amplifier=1:1:5 {
+				//W !,"Amplifier",Amplifier
+				kill Inputs
+				if StartPhase {
+					set Inputs(1)=$extract(Phase,Amplifier)
+					set Inputs(2)=Signal
+				}
+				else {
+					set Inputs(1)=Signal
+				}
+				set AmplifierData=Data(Amplifier),AmplifierInstructionPointer=InstructionPointer(Amplifier)
+				set Answer=$$ComputeSignalCode(.AmplifierData,.Inputs,.ERR,.AmplifierInstructionPointer,1,.ExitSW)
+				quit:$length(ERR)
+				quit:ExitSW
+				set Signal=Answer
+				set Data(Amplifier)=AmplifierData,InstructionPointer(Amplifier)=AmplifierInstructionPointer
+				if Amplifier=5 set StartPhase=0
+			}
+			quit:$length(ERR)
+		}
+		quit:$length(ERR)
+		if Signal>MaxSignal set MaxSignal=Signal,BestPhase=Phase
+	}
+	quit:$length(ERR) 0
+	write !!!,"MaxSignal=",MaxSignal
+	write !,"BestPhase=",BestPhase
+	quit 1
+}
+
+CheckData(Data)	;
+{
+	if $length(Data,",")<2,Data'=99 {
+		write !,"Wrong data "_Data
+		quit 0
+	}
+	set ERR=""
+	for Location=1:1:$length(Data,",") {
+		set Val=$piece(Data,",",Location)
+		if Val'?1.n,Val'?1"-"1.n {
+			set ERR="Wrong value "_val
+			write !,ERR
+			quit
+		}
+	}
+	quit:$length(ERR) 0
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::2 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $system.Process.SetZEOF(0)
+	quit 1
+}

@@ -1,0 +1,625 @@
+YUVGZ201920	;https://adventofcode.com/2019/day/20;
+	quit
+	/*
+                                         J       F           Z     S   X           H     T                                             
+                                         Q       V           V     K   P           K     D                                             
+  #######################################.#######.###########.#####.###.###########.#####.###########################################  
+  #...#...#.#...........#.#.....#.#.....#...#.#.#.....#.#...#...#...#.#...#.........#.#...................#.#.#.#...#.#.....#.......#  
+  ###.###.#.#######.#####.#.#.#.#.###.#.###.#.#.#.###.#.###.#.#####.#.#.#.#######.###.#.#.#.###.###.#.###.#.#.#.###.#.###.#.###.###.#  
+  #.#.....#.#.#.#.#...#.#...#.#.....#.#.....#.......#.#.........#...#...#.#.....#.....#.#.#.#.#...#.#.#.#.......#...#.....#.#.....#.#  
+  #.#####.#.#.#.#.#.###.#########.#.###.#.#####.#######.#.#########.###.#####.#.#####.#.#####.#########.#.#######.#.###.#####.#.#.#.#  
+  #.#...#.....#...#...#.....#...#.#.....#.#.#.......#...#.#...#.....#.#.......#.#.....#.#...........#...#.#.#.....#.#.......#.#.#.#.#  
+  #.###.#.###.###.###.###.###.#####.###.###.###.#########.#.#.#.#.###.#######.#####.###.#.#.###########.###.#.#######.###.###.#####.#  
+  #...#.#.#.#...#.#.....#...#.........#.....#.#...#.........#.#.#.....#.........#.#.#.#...#...#...#.......#.....#...#.#.#.#.#.#.#.#.#  
+  ###.#.###.###.#.###.###.###############.###.#.###.#.###.###.#######.#.###.#####.#.#.#.#.###.#.#######.###.#####.###.#.###.#.#.#.###  
+  #.#.................#.#.#...#...#.........#...#.#.#.#...#.....#.#...#.#.....#.#.....#.#.#.......#.#.......#.....#.#.#.............#  
+  #.#################.#.#.###.#.#####.#.###.###.#.###.#.#.###.###.#.###.#######.#.###.#####.#######.###.###.###.###.#.#.###.###.#####  
+  #.#...#...#...#.#...............#.#.#.#...#.......#.#.#...#.#.......#.......#...#...#...#...............#.......#.......#.#.....#.#  
+  #.###.#.#####.#.#.#####.#####.###.#####.#####.#.###########.###.#.#.#.#######.###.#.#.#.###.#####.###.#########.###.#.###########.#  
+  #...#.....#.#.....#...#.#.#.#.............#...#.#.#...#.#...#...#.#.#.#...#...#...#.#.#.........#...#.....#...#.#...#...#.#.#.#...#  
+  #.###.###.#.#####.###.#.#.#.###.#######.#.###.###.###.#.###.###.###.#.#.#########.#.###.#.###.###.#####.###.#######.#####.#.#.###.#  
+  #...#...#.#.#...#.#.....#.............#.#...#.......#...#.....#.#...#.....#...#.#.#.#...#.#.....#.....#.....#.....#.#.#...#.#.....#  
+  ###.#.#####.###.###.#.#.###.#.#.#######.###.###.###.#.#.###.#.#####.###.###.###.#.#.#.#######.###.#.###########.###.#.###.#.###.###  
+  #.#...#.#...........#.#.#...#.#.#...#...#...#.#...#.#.#.....#.#.#...#...........#.#.#...#.#.....#.#.....#.#...#.#.....#.#...#.#...#  
+  #.#.###.#.#####.#.#.###.#########.#####.###.#.#.###########.###.###.#.#.#.###.#####.#.###.###########.###.###.#.###.###.#.###.#.###  
+  #.#.....#.#.....#.#.#.......#.....#...#.#...#.....#.....#.#.....#...#.#.#...#.....#.#.#.#...#...#.#.....#.#.......#.........#.#.#.#  
+  #.#.###########################.#####.###.#.#.#########.#.#.#######.#.#######.#.###.#.#.#.###.#.#.#.#.###.###.#####.#.###.###.#.#.#  
+  #.....#.....#.#...#.....#.#...#.....#.#.#.#.#...#...#.#...#...#.....#.....#.#.#.#...#...#.....#...#.#.#.....#.#.#.#.#...#.#.#.....#  
+  #.#.###.#####.#.#.#####.#.###.###.###.#.###.#.###.###.#.#.#.#######.#.#.###.#.#####.###.#.###############.###.#.#.###.#####.###.###  
+  #.#.....#...#...#.....#.#.....#...#.#...#...#.......#...#...#.......#.#.#.#...#...#.#.....#.#.#.....#.#.................#...#.#...#  
+  ###.#######.#####.#.#.#.#####.#.#.#.###.###.#.#.###.#.#######.###.###.###.###.#.#.#.#.#.###.#.###.###.#######.###.#####.###.#.#.###  
+  #...#.#.#...#.#.#.#.#.....#.#.#.#...#.....#.#.#...#.#.....#.#.#...#.....#...#.#.#...#.#.#.#.......#.....#.#.....#.....#.#.....#.#.#  
+  #.#.#.#.#.###.#.#########.#.#.#####.###.###.#.#.###.#.#.#.#.#####.###.#.###.#####.###.###.#.###.#.###.#.#.###.#############.###.#.#  
+  #.#.#.#...#.#.#.....#.............#.#.....#.#.#.#...#.#.#.....#.....#.#.....#...#...#...#.#.#.#.#...#.#.#...#.#...#.#...#.....#...#  
+  #.###.#.###.#.###.#####.###.#####.#.#####.#.###.###.#######.#######.###.###.###.###.#.###.#.#.###.#####.###.#.###.#.###.###.###.#.#  
+  #...#.....#...#.#.....#.#.#...#.#.............#.#.....#...#.....#.#...#.#...#...#...#.......#...#.#.#...#.....#.#...#.....#...#.#.#  
+  #.#######.###.#.###.#####.#####.#####.#.###.###.###.#####.#.#####.#.#######.#.#.#.#####.###.#.#####.###.#.#####.###.###.#####.###.#  
+  #...#.#.....#.....#...#...#...#.#.....#.#...#.#.#...#.......#...#.#...#.....#.#.#...#...#...#...#...#.#.....#.#.#.#.#...#...#...#.#  
+  #.###.###.###.#######.#.#####.#.###########.#.#.###.#.###.###.#.#.#.#######.#.#.###.###.#.###.###.###.#.###.#.#.#.#.###.#.###.###.#  
+  #.#.#.............#.#...#.#.#...#.#...........#.#...#...#...#.#.........#...#.#.......#.#.......#.........#.....#.#...#...........#  
+  #.#.#.#####.#.#.#.#.#.#.#.#.#.###.#####.#########.#####.#####.###########.###.#############.#######.#.###########.###.#######.#.###  
+  #...#.#...#.#.#.#.#...#.#.#...#...#    J         R     L     Y           L   I             X    #.#.#.#.#.#.#...#.#...#.....#.#.#.#  
+  #.###.#.###########.#####.###.#.###    N         P     P     L           S   B             P    #.###.#.#.#.#.###.#.#######.#.###.#  
+  #...#.#...........#.#.#.#...#...#.#                                                             #.#.....#.........#.....#.#...#.#..AA
+  #.###.#.#.#########.#.#.###.#.###.#                                                             #.###.#.#.#.###.#.#.###.#.###.#.#.#  
+YL..#.....#.#.#.#.#.#.#..............EK                                                           #.....#.#.#.#...#...#.......#.#....UT
+  #.###.#.###.#.#.#.#.###.#####.###.#                                                             #.#####.#.#.#.###.###.#######.###.#  
+  #.....#.......#.......#.#.#.#.#.#.#                                                           ZV..#...#.#.#.#...#...#.#.....#.....#  
+  #####.###.###.#######.###.#.#.#.###                                                             #.#.###.#.###.#######.###.#.#.#.#.#  
+  #.......#...#.#.........#.........#                                                             #.#.#.#.....#.#...#.......#...#.#.#  
+  #########.#######.###.#.#.###.#####                                                             ###.#.#.#.#.#.#.#########.###.###.#  
+  #.#...#...........#...#...#.#.#...#                                                             #.....#.#.#.#.#.........#...#.#.#.#  
+  #.###.#####################.#####.#                                                             ###.#.#########.#.#.###.#######.###  
+  #.............#...........#...#.#..YS                                                           #...#.#...#.#.#.#.#.#.........#...#  
+  #####.###.###.#.#####.###.###.#.#.#                                                             #.#.#.#.###.#.#####.#####.#######.#  
+  #.......#...#.......#...#.........#                                                           FV..#.#...#.....#...#...#...#...#...#  
+  ###.#.#.#.#.#.#.###.#.###.###.###.#                                                             #####.#####.#.###.###.#.###.#.#.#.#  
+JB..#.#.#.#.#.#.#...#.#.#.....#.#.#.#                                                             #...........#.........#.....#...#..ZP
+  #.#.###########.#.###.#########.###                                                             #.#.#######################.#######  
+ZZ....#.....#.#.#.#.#.....#.........#                                                             #.#.#.#...#.#.............#.#......IB
+  #.#####.###.#.#######.###.###.#####                                                             #####.#.#.#.#.#.#.#.#####.###.#.#.#  
+  #.#...........#.....#.#...#.#.....#                                                           QR......#.#.#...#.#.#...#.....#.#.#.#  
+  ###.#.#####.#####.#########.#.###.#                                                             #####.#.#.#.#####.#########.#.###.#  
+  #.#.#...#.#.....#.#.......#.....#.#                                                             #.#.....#.....#...#.#...#...#...#.#  
+  #.#####.#.###.###.###.#####.#.#.#.#                                                             #.###.#.###.###.#.#.#.###.###.#####  
+  #.#...#.....#...#.#.#.#.#.#.#.#.#..ZP                                                           #...#.#...#...#.#.#.#.#.......#.#.#  
+  #.#.#.#####.#.###.#.#.#.#.#####.###                                                             #.#################.#.#.#.#####.#.#  
+YS....#.......#...................#.#                                                           TD..#...#.....#.#...#.#.#.#.#.....#..ZJ
+  #######.###.#########.###.#.###.#.#                                                             #.###.###.###.#.###.#.###.#.###.#.#  
+EK......#.#.#...#.........#.#.#.....#                                                             #.......#...#.....#.#.#...#...#.#.#  
+  #####.###.#####.#.#################                                                             ###.#.###.###.#.###.#.#######.#.#.#  
+  #.....#.#.#...#.#.#.#.#.....#.#...#                                                             #...#.#.....#.#.#.....#.......#...#  
+  ###.#.#.#.#.#######.#.#.###.#.#.###                                                             #####.###.###.#.###.#.###.#.#.#.#.#  
+  #...#.#.......#.........#.#.#.#...#                                                             #.#.#.........#.....#.....#.#.#.#.#  
+  ###.###.###.#.#####.###.#.#.#.#.###                                                             #.#.#######################.#######  
+  #.#.......#.#.......#.#.#.#........QP                                                           #...#...#...........#.....#.#.....#  
+  #.###########.#####.#.###.#########                                                             #.#.#.#.#.###.#####.#.#.#####.###.#  
+MP........#...#...#...#.......#.....#                                                             #.#...#.....#.#.....#.#.....#...#.#  
+  #######.#.#########.#.#####.#.###.#                                                             #.###.#.#.#.#.#####.#.#####.###.#.#  
+  #.........#...#...#.#.#.....#...#..TV                                                         NU....#.#.#.#.#.#.........#.....#.#..RP
+  #.###.#######.#.#####.###.#####.###                                                             #.###.###############.#######.#.###  
+  #.#...#.......#.#.#...#...#.....#.#                                                             #.#.#...#...#.#...#.#.#...#.......#  
+  #.#####.#.#####.#.#.#####.###.###.#                                                             ###.#.###.###.###.#.###.#####.#####  
+  #.......#...........#...#.....#.#.#                                                           RX....#.#.#.#.....#.#.#...#.#...#....JN
+  #######.#######.#.#.#.#########.#.#                                                             #.#####.#.#.#####.#.#.#.#.#######.#  
+  #...#.......#...#.#.#.....#...#....MP                                                           #.#.#...#...#.........#.#.....#...#  
+  #.###################.###.#.#.#.#.#                                                             #.#.###.###.#####.#.#.#####.#####.#  
+OF..#...#...#...#.#.#.....#...#.#.#..NZ                                                           #.#.....#...#...#.#.#.#.#.#.#.#.#.#  
+  #.###.###.###.#.#.###.#.#####.#.#.#                                                             #.#.#.###.#.###.###.#.#.#.#.#.#.#.#  
+QP..#...#...........#...#.#.....#.#.#                                                             #...#.....#.........#.............#  
+  #.#.#.###.###.#.#.#####.#.#####.###                                                             #.#.#.#.###.###.###.#.#.#.#.###.#.#  
+  #...#.....#...#.#.......#.......#.#                                                             #.#.#.#...#.#.#.#...#.#.#.#.#.#.#.#  
+  #.#####.###.#.#.#.#.#.###.#.#.#.#.#      O           U     J   J       Z         H       S      ###.#####.#.#.#####.#.#.#####.#.###  
+  #.....#.#...#.#.#.#.#.#...#.#.#...#      F           T     Q   B       J         K       K      #.....#.#.#.#.......#.#...#.......#  
+  #.#.###.#.#.#.###.#.#.###.###.#.#########.###########.#####.###.#######.#########.#######.###########.#.#####.#.#.#.#####.###.#####  
+  #.#...#.#.#.#...#.#.#.#.....#.#...#.......#...#.#...#.#.....#.........#...#...#.....#.#...#...#...........#...#.#.#.....#.#.......#  
+  #.#.###.#.#.#.###.#.###.#####.#.#######.###.#.#.#.#.#.###.#######.#######.#.#.#.#####.###.#.###.#####.#.###.#.#####.#########.#.#.#  
+  #.#.#.#.#.#.#...#.#...#...#...#...#...#.....#...#.#...#.#...#.#...#...#...#.#.#...#.#.#.......#...#...#...#.#.#.......#.#.....#.#.#  
+  #.#.#.###.###.#.#######.#.###.#######.#######.#.#.#####.#.#.#.#.#####.#.###.#.#.###.#.#.#####.#########.###.###.#.###.#.#.###.#.###  
+  #.#.#.#...#...#.#.......#...#.#...#.#.....#...#.#...#.....#...#.#...........#.#.......#...#.#.....#.....#.....#.#.#.....#...#.#.#.#  
+  #.#.#.#.#.###.###.###.###.#######.#.#.#.#.#.#.#####.#####.#####.###.###.#.###.###.###.###.#.#######.#.#.#######.#.#####.#####.###.#  
+  #.#...#.#.#...#.....#.#...#...........#.#...#.#.#.....#.....#.#...#.#...#.#.#...#...#.#.......#...#.#.#...#.....#...#...#.#.......#  
+  #.#.###.#.#######.#.#####.#.###.###.###.#######.#.#.###.#####.#.#####.#.###.#.#######.#.###.#.#.#####.#.#####.###.#.###.#.###.###.#  
+  #.#...#.#.....#.#.#.#...#.#.#.#...#.#...#.......#.#...#.......#.....#.#...#...#...#.#.#...#.#.#.....#.#.#.#.....#.#.#.....#.#...#.#  
+  #.#.#####.#.###.#.#.###.#.###.#.#######.#.#.###.#####.###.###.###.#########.#.#.###.#.#.#####.#.#####.###.#.###.###.###.#.#.#.###.#  
+  #.#.#.....#...#.#.#.#.....#.....#.........#.#.....#.#...#.#...#.......#.#...#...#.....#...#.........#.#.....#.#...#.#...#...#...#.#  
+  ###.###.###.###.#######.#.#####.###########.#####.#.#.#######.#.#.###.#.#####.#####.###.###.###.###########.#.###.#####.#####.#.#.#  
+  #.#.#.#...#...#.....#...#...#...#...............#.#...#.......#.#...#...#.#.....#.#...#...#.#.#.#.#.#.#.#.......#...#.....#...#.#.#  
+  #.#.#.#.###.###.#.###.###.#######.#.#.#.#.###########.#####.#.#.#.#####.#.#.#.###.###.#.#####.###.#.#.#.#####.#########.#.#####.###  
+  #.....#.#.#...#.#.....#.......#.#.#.#.#.#.#.......#...#.....#.#.#.#.#...#.#.#.#...#...#.....#.#.#.#.#.....#.....#.......#.#...#...#  
+  #.#.###.#.#.#######.#.#.###.###.#######.#######.###.#######.###.###.#####.#.#.#.#.###.#.#####.#.#.#.#.###########.#.#.#.###.###.###  
+  #.#...#...#.#.....#.#.#.#...#.#.#.#...........#.#.....#.....#...#...#.....#.#...#.#...#...#.#...#.....#.#.....#.#.#.#.#.......#.#.#  
+  #.#####.#.#####.#####.#.#.###.#.#.#####.#.#####.#.###.###.#.###.###.###.#.###.#######.#.###.#.###.###.#.###.###.#.#.###.#####.#.#.#  
+  #...#...#...#.........#.#.#.........#...#.#.....#.#.....#.#.#.#.....#.#.#.......#.#...#.......#.#.#.#.#.....#...#.#.#.......#.#...#  
+  #.###.#.#.#.###.###.###.#######.###.###.#.#####.###.#.#####.#.#.#.###.###.###.###.###.###.#.###.#.#.###.#####.###.#####.#######.#.#  
+  #...#.#.#.#.#.#...#...#...#.#.....#...#.#.....#.....#...#.....#.#.#.#.....#.#.#.#.....#...#...............#.....#.....#...#.#...#.#  
+  #.###.#.#.###.#.###.#######.#.#.#####.#.#######.#.###.###.###.#.###.###.#.#.###.###.#####.#.#.###.#########.#####.#.#####.#.#######  
+  #.#.#.#.#.#.....#...#.#.#.....#.#.......#.#.#.#.#...#.#.#.#.#.#.#.....#.#.....#...#.....#.#.#...#...#...#...#...#.#...#.....#.....#  
+  ###.#.###.#.#.###.###.#.#.#.#.###.#####.#.#.#.#.#######.###.#.#.#.#.#.#######.###.###.#######.#########.###.#.#.#.#######.###.#.###  
+  #.#...#.#.#.#...#.#.......#.#.#...#...........#.#...#.........#.#.#.#...#.....#.........#.#.#...#.....#.....#.#.#.#.#.#.#.....#...#  
+  #.###.#.#.###.#.#.#.#.###.###.#.#######.#.###.#.#.#####.#####.#.###.#.###.#.#.#.###.#####.#.#.#######.#.###.###.###.#.#.###.#.#.#.#  
+  #.....#...#...#.#.#.#.#...#...#.#...#...#.#.#.#.......#.#.....#.#...#...#.#.#.#...#.#.#.#.......#.#.......#.#.#.......#.#...#.#.#.#  
+  #.#.#########.###.#.#####.###.#####.###.###.#.#######.#####.###.#.###.#####.###.###.#.#.#.#.#.###.#####.###.#.#.#######.#####.###.#  
+  #.#.#...........#.#.#.....#.#.#.....#.#.#.....#.#.#.....#...#...#.#.#.#.#.#.#...#.#.#.#...#.#.....#.#.....#.#.#.............#.#...#  
+  #######.###.#.###.#.#.#####.###.###.#.#.###.###.#.#.#######.###.#.#.#.#.#.#.###.#.###.#.###.#######.###.#####.#.###################  
+  #...#...#...#...#.#.#...#.#...#.#.....#.#.#.....#.....#.......#...#.......#...#.......#.#.#...........#.#.#.#.#.#...........#.#.#.#  
+  ###.#.#####.#####.#.###.#.###.#.###.#.###.###.#.#.###.###.#.#.#.#.#.#########.#######.###.#.#.#########.#.#.#.#.#.#####.#.###.#.#.#  
+  #.........#.#.....#.#...#.......#...#.........#.#.#.....#.#.#.#.#.#...#.......#...........#.#.........................#.#.........#  
+  #########################################.#######.###########.#######.###.#####.#############.#####################################  
+                                           L       R           N       L   T     N             Q                                       
+                                           P       X           Z       S   V     U             R                                       
+	*/
+	/*
+You notice a strange pattern on the surface of Pluto and land nearby to get a closer look. Upon closer inspection, you realize you've come across one of the famous space-warping mazes of the long-lost Pluto civilization!
+
+Because there isn't much space on Pluto, the civilization that used to live here thrived by inventing a method for folding spacetime. Although the technology is no longer understood, mazes like this one provide a small glimpse into the daily life of an ancient Pluto citizen.
+
+This maze is shaped like a donut. Portals along the inner and outer edge of the donut can instantly teleport you from one side to the other. For example:
+
+         A           
+         A           
+  #######.#########  
+  #######.........#  
+  #######.#######.#  
+  #######.#######.#  
+  #######.#######.#  
+  #####  B    ###.#  
+BC...##  C    ###.#  
+  ##.##       ###.#  
+  ##...DE  F  ###.#  
+  #####    G  ###.#  
+  #########.#####.#  
+DE..#######...###.#  
+  #.#########.###.#  
+FG..#########.....#  
+  ###########.#####  
+             Z       
+             Z       
+This map of the maze shows solid walls (#) and open passages (.). Every maze on Pluto has a start (the open tile next to AA) and an end (the open tile next to ZZ). Mazes on Pluto also have portals; this maze has three pairs of portals: BC, DE, and FG. When on an open tile next to one of these labels, a single step can take you to the other tile with the same label. (You can only walk on . tiles; labels and empty space are not traversable.)
+
+One path through the maze doesn't require any portals. Starting at AA, you could go down 1, right 8, down 12, left 4, and down 1 to reach ZZ, a total of 26 steps.
+
+However, there is a shorter path: You could walk from AA to the inner BC portal (4 steps), warp to the outer BC portal (1 step), walk to the inner DE (6 steps), warp to the outer DE (1 step), walk to the outer FG (4 steps), warp to the inner FG (1 step), and finally walk to ZZ (6 steps). In total, this is only 23 steps.
+
+Here is a larger example:
+
+                   A               
+                   A               
+  #################.#############  
+  #.#...#...................#.#.#  
+  #.#.#.###.###.###.#########.#.#  
+  #.#.#.......#...#.....#.#.#...#  
+  #.#########.###.#####.#.#.###.#  
+  #.............#.#.....#.......#  
+  ###.###########.###.#####.#.#.#  
+  #.....#        A   C    #.#.#.#  
+  #######        S   P    #####.#  
+  #.#...#                 #......VT
+  #.#.#.#                 #.#####  
+  #...#.#               YN....#.#  
+  #.###.#                 #####.#  
+DI....#.#                 #.....#  
+  #####.#                 #.###.#  
+ZZ......#               QG....#..AS
+  ###.###                 #######  
+JO..#.#.#                 #.....#  
+  #.#.#.#                 ###.#.#  
+  #...#..DI             BU....#..LF
+  #####.#                 #.#####  
+YN......#               VT..#....QG
+  #.###.#                 #.###.#  
+  #.#...#                 #.....#  
+  ###.###    J L     J    #.#.###  
+  #.....#    O F     P    #.#...#  
+  #.###.#####.#.#####.#####.###.#  
+  #...#.#.#...#.....#.....#.#...#  
+  #.#####.###.###.#.#.#########.#  
+  #...#.#.....#...#.#.#.#.....#.#  
+  #.###.#####.###.###.#.#.#######  
+  #.#.........#...#.............#  
+  #########.###.###.#############  
+           B   J   C               
+           U   P   P               
+Here, AA has no direct path to ZZ, but it does connect to AS and CP. By passing through AS, QG, BU, and JO, you can reach ZZ in 58 steps.
+
+In your maze, how many steps does it take to get from the open tile marked AA to the open tile marked ZZ?
+	*/
+	/*
+S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P20.txt"
+S FNE1="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P20E1.txt"
+S FNE2="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P20E2.txt"
+
+S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\65370689939067312.txt"
+S FNE1="c:\inetpub\wwwroot\nikuv\image\wbemployee\653706900762519652.txt"
+S FNE2="c:\inetpub\wwwroot\nikuv\image\wbemployee\653706902051519652.txt"
+W $$Part1^YUVGZ201920(FN)
+	*/
+
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckDataAndGetPortals(.RecordsArr,.Portals,.Locations) 0
+	//zwrite Portals,Locations
+	set Entrance="" for  {
+		set Entrance=$order(Portals(Entrance)) quit:Entrance=""
+		set PortalNum="" for  {
+			set PortalNum=$order(Portals(Entrance,PortalNum)) quit:PortalNum=""
+			do ComputeConnections(Entrance,PortalNum,.Connections,.Portals,.Locations,.RecordsArr)
+		}
+	}
+	//zwrite Connections
+	do ComputeRoutes("AA","ZZ",.Connections,.Routes,"")
+	//zwrite Routes
+	set Route="",MinSteps=999999999999999,MinRoute=""
+	for  {
+		set Route=$order(Routes(Route)) quit:Route=""
+		set Steps=$$ComputeSizeSteps(Route,.Connections)
+		set Routes(Route)=Steps
+		if Steps<MinSteps set MinSteps=Steps,MinRoute=Route
+	}
+	//zwrite Routes
+	//w !,MinRoute,!
+	quit MinSteps
+}
+ComputeSizeSteps(Route,Connections)
+{
+	set Total=0,LastPort=""
+	for EntranceIndex=1:1:$length(Route,",")-1 {
+		set FromEntrance=$piece(Route,",",EntranceIndex)
+		set ToEntrance=$piece(Route,",",EntranceIndex+1)
+		set Port="" for  {
+			set Port=$order(Connections(FromEntrance,Port)) quit:Port=""
+			set To=$order(Connections(FromEntrance,Port,ToEntrance))
+			continue:$piece(To,",")'=ToEntrance
+			set Steps=Connections(FromEntrance,Port,To)
+			if LastPort,LastPort'=Port set Steps=Steps+1
+			set LastPort=$piece(To,",",2)
+			quit
+		}
+		set Total=Total+Steps
+	}
+	quit Total
+}
+ComputeRoutes(From,To,Connections,Routes,Route,Level="",Levels)
+{
+	//w !,"Route=",Route," From=",From," To=",To
+	if ","_Route_","[(","_From_",") quit
+	set Route=Route_$select(Route="":"",1:",")_From
+	if From=To {
+		set Routes(Route)=""
+		quit
+	}
+	set Entrance="" for  {
+		set Entrance=$order(Connections(From,Entrance)) quit:Entrance=""
+		set TempTo="" for  {
+			set TempTo=$order(Connections(From,Entrance,TempTo)) quit:TempTo=""
+			//w !,From,",",TempTo
+			do ComputeRoutes($piece(TempTo,","),To,.Connections,.Routes,Route)
+		}
+	}
+	//w !!
+}
+ComputeRoutes2(From,FromEntrance,To,Connections,Routes,Route,Level,Levels)
+{
+	quit:Level<0
+	quit:Level>50  //25//169
+	//w !,"Route=",Route," From=",From," To=",To
+	if From=To,Level'=0 quit
+	//if ","_Route_","[(","_From_","),$data(Levels(From,Level)) quit
+	set Route=Route_$select(Route="":"",1:",")_From //,Levels(From,Level)=""
+	quit:$length(Route)>511
+	//W $L(Route),!
+	if From=To {
+		set Routes(Route)=""
+		quit
+	}
+	//set Entrance="" for  {
+	//	set Entrance=$order(Connections(From,Entrance)) quit:Entrance=""
+		set Entrance=3-FromEntrance
+		set TempTo="" for  {
+			set TempTo=$order(Connections(From,Entrance,TempTo)) quit:TempTo=""
+			set InOut=$piece(TempTo,",",2),NextFrom=$piece(TempTo,",",1)
+			set tempLevel=Level
+			if InOut=1,NextFrom'=To set tempLevel=Level-1
+			if InOut=2,NextFrom'=To set tempLevel=Level+1
+			continue:$data(Levels(NextFrom,tempLevel))
+			set Levels(NextFrom,tempLevel)=""
+
+			//i From="AA",NextFrom="BC",Level=8 W !!!,"HERE",!!! K A S A=A
+			//ZW Levels
+			//w !,From,",",TempTo,",",Level,! H .1
+			kill tempLevels
+			merge tempLevels=Levels
+			do ComputeRoutes2(NextFrom,InOut,To,.Connections,.Routes,Route,tempLevel,.tempLevels)
+		}
+	//}
+	//w !!
+}
+ComputeConnections(Entrance,PortalNum,Connections,Portals,Locations,RecordsArr)
+{
+	kill Connections(Entrance,PortalNum)
+	set Data=Portals(Entrance,PortalNum)
+	set FromX=+Data,FromY=$piece(Data,",",2)
+	for Direction="U","D","L","R" {
+		kill ConnectionsZ
+		do GetConnectedPortals(FromX,FromY,.ConnectionsZ,.Portals,.Locations,Direction,.RecordsArr,1)
+		merge Connections(Entrance,PortalNum)=ConnectionsZ
+	}
+}
+GetConnectedPortals(FromX,FromY,ConnectionsZ,Portals,Locations,Direction,RecordsArr,Moves)
+{
+	//w !,"From ",FromX,",",FromY," going ",Direction
+	set ToX=FromX,ToY=FromY
+	if Direction="U" set ToY=ToY-1
+	if Direction="D" set ToY=ToY+1
+	if Direction="L" set ToX=ToX-1
+	if Direction="R" set ToX=ToX+1
+	quit:$extract($get(RecordsArr(ToY)),ToX)="#"
+	quit:$extract($get(RecordsArr(ToY)),ToX)=" "
+	quit:$extract($get(RecordsArr(ToY)),ToX)?1U
+	if $data(Locations(ToX,ToY)) {
+		set ConnectionsZ(Locations(ToX,ToY))=Moves
+		quit
+	}
+	for NewDirection="U","D","L","R" {
+		if NewDirection="U",Direction="D" continue
+		if NewDirection="D",Direction="U" continue
+		if NewDirection="L",Direction="R" continue
+		if NewDirection="R",Direction="L" continue
+		do GetConnectedPortals(ToX,ToY,.ConnectionsZ,.Portals,.Locations,NewDirection,.RecordsArr,Moves+1)
+	}
+	quit
+}
+	/*
+Strangely, the exit isn't open when you reach it. Then, you remember: the ancient Plutonians were famous for building recursive spaces.
+
+The marked connections in the maze aren't portals: they physically connect to a larger or smaller copy of the maze. Specifically, the labeled tiles around the inside edge actually connect to a smaller copy of the same maze, and the smaller copy's inner labeled tiles connect to yet a smaller copy, and so on.
+
+When you enter the maze, you are at the outermost level; when at the outermost level, only the outer labels AA and ZZ function (as the start and end, respectively); all other outer labeled tiles are effectively walls. At any other level, AA and ZZ count as walls, but the other outer labeled tiles bring you one level outward.
+
+Your goal is to find a path through the maze that brings you back to ZZ at the outermost level of the maze.
+
+In the first example above, the shortest path is now the loop around the right side. If the starting level is 0, then taking the previously-shortest path would pass through BC (to level 1), DE (to level 2), and FG (back to level 1). Because this is not the outermost level, ZZ is a wall, and the only option is to go back around to BC, which would only send you even deeper into the recursive maze.
+
+In the second example above, there is no path that brings you to ZZ at the outermost level.
+
+Here is a more interesting example:
+
+             Z L X W       C                 
+             Z P Q B       K                 
+  ###########.#.#.#.#######.###############  
+  #...#.......#.#.......#.#.......#.#.#...#  
+  ###.#.#.#.#.#.#.#.###.#.#.#######.#.#.###  
+  #.#...#.#.#...#.#.#...#...#...#.#.......#  
+  #.###.#######.###.###.#.###.###.#.#######  
+  #...#.......#.#...#...#.............#...#  
+  #.#########.#######.#.#######.#######.###  
+  #...#.#    F       R I       Z    #.#.#.#  
+  #.###.#    D       E C       H    #.#.#.#  
+  #.#...#                           #...#.#  
+  #.###.#                           #.###.#  
+  #.#....OA                       WB..#.#..ZH
+  #.###.#                           #.#.#.#  
+CJ......#                           #.....#  
+  #######                           #######  
+  #.#....CK                         #......IC
+  #.###.#                           #.###.#  
+  #.....#                           #...#.#  
+  ###.###                           #.#.#.#  
+XF....#.#                         RF..#.#.#  
+  #####.#                           #######  
+  #......CJ                       NM..#...#  
+  ###.#.#                           #.###.#  
+RE....#.#                           #......RF
+  ###.###        X   X       L      #.#.#.#  
+  #.....#        F   Q       P      #.#.#.#  
+  ###.###########.###.#######.#########.###  
+  #.....#...#.....#.......#...#.....#.#...#  
+  #####.#.###.#######.#######.###.###.#.#.#  
+  #.......#.......#.#.#.#.#...#...#...#.#.#  
+  #####.###.#####.#.#.#.#.###.###.#.###.###  
+  #.......#.....#.#...#...............#...#  
+  #############.#.#.###.###################  
+               A O F   N                     
+               A A D   M                     
+One shortest path through the maze is the following:
+
+Walk from AA to XF (16 steps)
+Recurse into level 1 through XF (1 step)
+Walk from XF to CK (10 steps)
+Recurse into level 2 through CK (1 step)
+Walk from CK to ZH (14 steps)
+Recurse into level 3 through ZH (1 step)
+Walk from ZH to WB (10 steps)
+Recurse into level 4 through WB (1 step)
+Walk from WB to IC (10 steps)
+Recurse into level 5 through IC (1 step)
+Walk from IC to RF (10 steps)
+Recurse into level 6 through RF (1 step)
+Walk from RF to NM (8 steps)
+Recurse into level 7 through NM (1 step)
+Walk from NM to LP (12 steps)
+Recurse into level 8 through LP (1 step)
+Walk from LP to FD (24 steps)
+Recurse into level 9 through FD (1 step)
+Walk from FD to XQ (8 steps)
+Recurse into level 10 through XQ (1 step)
+Walk from XQ to WB (4 steps)
+Return to level 9 through WB (1 step)
+Walk from WB to ZH (10 steps)
+Return to level 8 through ZH (1 step)
+Walk from ZH to CK (14 steps)
+Return to level 7 through CK (1 step)
+Walk from CK to XF (10 steps)
+Return to level 6 through XF (1 step)
+Walk from XF to OA (14 steps)
+Return to level 5 through OA (1 step)
+Walk from OA to CJ (8 steps)
+Return to level 4 through CJ (1 step)
+Walk from CJ to RE (8 steps)
+Return to level 3 through RE (1 step)
+Walk from RE to IC (4 steps)
+Recurse into level 4 through IC (1 step)
+Walk from IC to RF (10 steps)
+Recurse into level 5 through RF (1 step)
+Walk from RF to NM (8 steps)
+Recurse into level 6 through NM (1 step)
+Walk from NM to LP (12 steps)
+Recurse into level 7 through LP (1 step)
+Walk from LP to FD (24 steps)
+Recurse into level 8 through FD (1 step)
+Walk from FD to XQ (8 steps)
+Recurse into level 9 through XQ (1 step)
+Walk from XQ to WB (4 steps)
+Return to level 8 through WB (1 step)
+Walk from WB to ZH (10 steps)
+Return to level 7 through ZH (1 step)
+Walk from ZH to CK (14 steps)
+Return to level 6 through CK (1 step)
+Walk from CK to XF (10 steps)
+Return to level 5 through XF (1 step)
+Walk from XF to OA (14 steps)
+Return to level 4 through OA (1 step)
+Walk from OA to CJ (8 steps)
+Return to level 3 through CJ (1 step)
+Walk from CJ to RE (8 steps)
+Return to level 2 through RE (1 step)
+Walk from RE to XQ (14 steps)
+Return to level 1 through XQ (1 step)
+Walk from XQ to FD (8 steps)
+Return to level 0 through FD (1 step)
+Walk from FD to ZZ (18 steps)
+This path takes a total of 396 steps to move from AA at the outermost layer to ZZ at the outermost layer.
+
+In your maze, when accounting for recursion, how many steps does it take to get from the open tile marked AA to the open tile marked ZZ, both at the outermost layer?
+	*/
+	/*
+S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\65370689939067312.txt"
+S FNE1="c:\inetpub\wwwroot\nikuv\image\wbemployee\653706900762519652.txt"
+S FNE2="c:\inetpub\wwwroot\nikuv\image\wbemployee\653706902051519652.txt"
+S FNE3="c:\inetpub\wwwroot\nikuv\image\wbemployee\653707466965213008.txt"
+W $$Part2^YUVGZ201920(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckDataAndGetPortals(.RecordsArr,.Portals,.Locations) 0
+	//zwrite Portals,Locations
+	set Entrance="" for  {
+		set Entrance=$order(Portals(Entrance)) quit:Entrance=""
+		set PortalNum="" for  {
+			set PortalNum=$order(Portals(Entrance,PortalNum)) quit:PortalNum=""
+			do ComputeConnections(Entrance,PortalNum,.Connections,.Portals,.Locations,.RecordsArr)
+		}
+	}
+	//zwrite Connections
+	do ComputeRoutes2("AA",2,"ZZ",.Connections,.Routes,"",0,.Levels)
+	//zwrite Routes,Levels
+	set Route="",MinSteps=999999999999999,MinRoute=""
+	for  {
+		set Route=$order(Routes(Route)) quit:Route=""
+		set Steps=$$ComputeSizeSteps(Route,.Connections)
+		set Routes(Route)=Steps
+		if Steps<MinSteps set MinSteps=Steps,MinRoute=Route
+	}
+	//zwrite Routes
+	//w !,MinRoute,!
+	quit MinSteps
+}
+
+CheckDataAndGetPortals(RecordsArr,Portals,Locations)
+{
+	kill Portals
+	set ERR="",LenSize="",LastLine=$order(RecordsArr(""),-1)
+	//W !,LastLine,!
+	set Line="" for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		if $data(RecordsArr(Line))'=1 {
+			set ERR="Wrong data"
+			write !,ERR
+			quit
+		}
+		set Data=RecordsArr(Line)
+		if '$length(Data) {
+			set ERR="Missing data in line "_Line
+			write !,ERR
+			quit
+		}
+		set DefaultError="Wrong data in line "_Line_"("_Data_")"
+		if $translate(Data," .#")'?.U {
+			set ERR=$$DisplayErr(DefaultError_"-1") quit
+		}
+		if '$length($translate(Data," .#")) continue
+		set:'$length(LenSize) LenSize=$length(Data)
+		if LenSize'=$length(Data) {
+			set ERR=$$DisplayErr(DefaultError_"-8") quit
+		}
+		for I=1:1:LenSize {
+			set Char=$extract(Data,I)
+			if " .#"[Char continue
+			if $extract(Data,I-1)?1U continue
+			if $extract($get(RecordsArr(Line-1)),I)?1U continue
+			if $extract(Data,I+1)'?1U,$extract($get(RecordsArr(Line+1)),I)'?1U {
+				set ERR=$$DisplayErr(DefaultError_"-2") quit
+			}
+			if $extract(Data,I+1)?1U,$extract($get(RecordsArr(Line+1)),I)?1U {
+				set ERR=$$DisplayErr(DefaultError_"-3") quit
+			}
+			if $extract(Data,I+1)?1U,$extract(Data,I+2)'=".",$extract(Data,I-1)'="." {
+				set ERR=$$DisplayErr(DefaultError_"-4") quit
+			}
+			if $extract($get(RecordsArr(Line+1)),I)?1U,$extract($get(RecordsArr(Line+2)),I)'=".",$extract($get(RecordsArr(Line-1)),I)'="." {
+				set ERR=$$DisplayErr(DefaultError_"-5") quit
+			}
+			set Entrance=Char_$select($extract(Data,I+1)?1U:$extract(Data,I+1),1:$extract(RecordsArr(Line+1),I))
+			set LocationX=$select($extract(Data,I+1)?1U:$select($extract(Data,I+2)=".":I+2,1:I-1),1:I)
+			set LocationY=$select($extract(Data,I+1)?1U:Line,1:$select($extract($get(RecordsArr(Line+2)),I)=".":Line+2,1:Line-1))
+			if $get(Portals(Entrance))>=2 {
+				set ERR=$$DisplayErr(DefaultError_"-6") quit
+			}
+			if (Entrance="AA")||(Entrance="ZZ"),$data(Portals(Entrance)) {
+				set ERR=$$DisplayErr(DefaultError_"-7") quit
+			}
+			set Portals(Entrance)=$get(Portals(Entrance))+1
+			set Count=2
+			if (LocationX=3)||(LocationY=3) set Count=1
+			if (LocationX=(LenSize-2))||(LocationY=(LastLine-2)) set Count=1
+			if $data(Portals(Entrance,Count)) {
+				set ERR=$$DisplayErr(DefaultError_"-9") quit
+			}
+			set Portals(Entrance,Count)=LocationX_","_LocationY
+			set Locations(LocationX,LocationY)=Entrance_","_Count
+		}
+	}
+	quit:$length(ERR) 0
+	quit 1
+}
+DisplayErr(Error) {
+	write !,Error
+	quit Error
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::2 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

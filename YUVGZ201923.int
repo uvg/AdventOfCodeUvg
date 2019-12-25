@@ -1,0 +1,492 @@
+YUVGZ201923	;https://adventofcode.com/2019/day/23;
+	quit
+	/*
+3,62,1001,62,11,10,109,2249,105,1,0,674,715,1300,1401,1150,2030,1599,1533,1119,2183,1826,2152,750,1566,2061,977,2092,812,1440,606,1502,913,1758,1630,849,1964,1335,944,1900,2218,1663,1187,1696,781,1869,1014,1999,637,880,1727,1084,1797,1372,571,1053,1933,1224,1471,2123,1265,0,0,0,0,0,0,0,0,0,0,0,0,3,64,1008,64,-1,62,1006,62,88,1006,61,170,1106,0,73,3,65,21001,64,0,1,21002,66,1,2,21101,105,0,0,1105,1,436,1201,1,-1,64,1007,64,0,62,1005,62,73,7,64,67,62,1006,62,73,1002,64,2,132,1,132,68,132,1001,0,0,62,1001,132,1,140,8,0,65,63,2,63,62,62,1005,62,73,1002,64,2,161,1,161,68,161,1102,1,1,0,1001,161,1,169,1001,65,0,0,1102,1,1,61,1101,0,0,63,7,63,67,62,1006,62,203,1002,63,2,194,1,68,194,194,1006,0,73,1001,63,1,63,1106,0,178,21101,0,210,0,106,0,69,2102,1,1,70,1102,0,1,63,7,63,71,62,1006,62,250,1002,63,2,234,1,72,234,234,4,0,101,1,234,240,4,0,4,70,1001,63,1,63,1106,0,218,1105,1,73,109,4,21102,0,1,-3,21101,0,0,-2,20207,-2,67,-1,1206,-1,293,1202,-2,2,283,101,1,283,283,1,68,283,283,22001,0,-3,-3,21201,-2,1,-2,1106,0,263,21201,-3,0,-3,109,-4,2105,1,0,109,4,21102,1,1,-3,21102,0,1,-2,20207,-2,67,-1,1206,-1,342,1202,-2,2,332,101,1,332,332,1,68,332,332,22002,0,-3,-3,21201,-2,1,-2,1105,1,312,22102,1,-3,-3,109,-4,2105,1,0,109,1,101,1,68,358,21002,0,1,1,101,3,68,367,20101,0,0,2,21102,376,1,0,1105,1,436,21201,1,0,0,109,-1,2106,0,0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,1048576,2097152,4194304,8388608,16777216,33554432,67108864,134217728,268435456,536870912,1073741824,2147483648,4294967296,8589934592,17179869184,34359738368,68719476736,137438953472,274877906944,549755813888,1099511627776,2199023255552,4398046511104,8796093022208,17592186044416,35184372088832,70368744177664,140737488355328,281474976710656,562949953421312,1125899906842624,109,8,21202,-6,10,-5,22207,-7,-5,-5,1205,-5,521,21101,0,0,-4,21101,0,0,-3,21101,51,0,-2,21201,-2,-1,-2,1201,-2,385,471,20101,0,0,-1,21202,-3,2,-3,22207,-7,-1,-5,1205,-5,496,21201,-3,1,-3,22102,-1,-1,-5,22201,-7,-5,-7,22207,-3,-6,-5,1205,-5,515,22102,-1,-6,-5,22201,-3,-5,-3,22201,-1,-4,-4,1205,-2,461,1105,1,547,21101,0,-1,-4,21202,-6,-1,-6,21207,-7,0,-5,1205,-5,547,22201,-7,-6,-7,21201,-4,1,-4,1106,0,529,21202,-4,1,-7,109,-8,2106,0,0,109,1,101,1,68,564,20102,1,0,0,109,-1,2106,0,0,1102,94777,1,66,1101,3,0,67,1101,0,598,68,1102,1,302,69,1101,0,1,71,1102,1,604,72,1105,1,73,0,0,0,0,0,0,22,158001,1102,1,64187,66,1102,1,1,67,1102,1,633,68,1102,556,1,69,1102,1,1,71,1102,635,1,72,1106,0,73,1,-209,1,140758,1102,66361,1,66,1102,4,1,67,1102,664,1,68,1102,1,253,69,1101,1,0,71,1102,672,1,72,1106,0,73,0,0,0,0,0,0,0,0,27,98491,1102,4973,1,66,1101,1,0,67,1101,701,0,68,1101,556,0,69,1101,6,0,71,1101,0,703,72,1105,1,73,1,19485,13,98398,25,67979,25,203937,2,27953,2,55906,2,83859,1101,0,70379,66,1102,3,1,67,1101,0,742,68,1101,0,302,69,1101,1,0,71,1101,0,748,72,1105,1,73,0,0,0,0,0,0,22,52667,1102,71453,1,66,1102,1,1,67,1101,0,777,68,1102,1,556,69,1101,1,0,71,1101,0,779,72,1106,0,73,1,-10,43,94777,1101,1877,0,66,1102,1,1,67,1102,1,808,68,1101,556,0,69,1101,0,1,71,1101,810,0,72,1105,1,73,1,-9414,4,53377,1101,20789,0,66,1102,1,1,67,1101,0,839,68,1102,556,1,69,1101,4,0,71,1101,0,841,72,1106,0,73,1,3,28,326,38,22963,3,65476,15,123722,1101,2767,0,66,1102,1,1,67,1101,876,0,68,1102,556,1,69,1101,1,0,71,1102,1,878,72,1106,0,73,1,890,35,13492,1101,0,22963,66,1101,2,0,67,1102,1,907,68,1102,1,302,69,1101,0,1,71,1102,911,1,72,1105,1,73,0,0,0,0,3,81845,1101,0,62897,66,1102,1,1,67,1101,0,940,68,1101,556,0,69,1102,1,1,71,1101,942,0,72,1105,1,73,1,11,3,16369,1101,98491,0,66,1101,2,0,67,1102,1,971,68,1101,0,351,69,1101,0,1,71,1101,0,975,72,1105,1,73,0,0,0,0,255,4973,1102,61861,1,66,1101,0,4,67,1101,0,1004,68,1101,0,302,69,1101,1,0,71,1102,1012,1,72,1106,0,73,0,0,0,0,0,0,0,0,25,135958,1101,0,3373,66,1101,0,5,67,1102,1041,1,68,1102,1,302,69,1101,1,0,71,1102,1,1051,72,1105,1,73,0,0,0,0,0,0,0,0,0,0,22,263335,1102,29063,1,66,1101,1,0,67,1101,0,1080,68,1102,556,1,69,1102,1,1,71,1101,1082,0,72,1105,1,73,1,41,31,34318,1101,0,67391,66,1101,1,0,67,1101,0,1111,68,1102,556,1,69,1101,3,0,71,1102,1,1113,72,1106,0,73,1,5,26,185582,26,278373,46,68732,1102,1,67273,66,1101,1,0,67,1102,1146,1,68,1102,1,556,69,1102,1,1,71,1101,0,1148,72,1106,0,73,1,-67607,4,106754,1102,53377,1,66,1101,4,0,67,1102,1,1177,68,1102,253,1,69,1102,1,1,71,1102,1,1185,72,1106,0,73,0,0,0,0,0,0,0,0,28,163,1102,17159,1,66,1102,4,1,67,1102,1,1214,68,1101,0,302,69,1101,0,1,71,1102,1,1222,72,1106,0,73,0,0,0,0,0,0,0,0,13,49199,1101,17183,0,66,1101,6,0,67,1102,1,1251,68,1102,1,302,69,1102,1,1,71,1101,0,1263,72,1106,0,73,0,0,0,0,0,0,0,0,0,0,0,0,27,196982,1101,10589,0,66,1102,1,3,67,1101,1292,0,68,1101,302,0,69,1102,1,1,71,1102,1,1298,72,1105,1,73,0,0,0,0,0,0,22,210668,1102,1,27953,66,1102,1,3,67,1102,1327,1,68,1101,302,0,69,1101,0,1,71,1101,0,1333,72,1106,0,73,0,0,0,0,0,0,37,66361,1102,92791,1,66,1102,4,1,67,1102,1,1362,68,1101,302,0,69,1102,1,1,71,1102,1,1370,72,1106,0,73,0,0,0,0,0,0,0,0,46,34366,1102,82261,1,66,1101,1,0,67,1102,1,1399,68,1101,556,0,69,1101,0,0,71,1102,1,1401,72,1106,0,73,1,1466,1102,16369,1,66,1102,1,5,67,1101,0,1428,68,1101,302,0,69,1102,1,1,71,1101,0,1438,72,1105,1,73,0,0,0,0,0,0,0,0,0,0,37,265444,1102,14479,1,66,1101,0,1,67,1101,0,1467,68,1101,0,556,69,1102,1,1,71,1101,1469,0,72,1106,0,73,1,2927,31,68636,1101,0,31657,66,1101,1,0,67,1101,1498,0,68,1101,556,0,69,1102,1,1,71,1102,1500,1,72,1105,1,73,1,-177,15,247444,1102,1,100069,66,1101,1,0,67,1101,0,1529,68,1102,556,1,69,1101,0,1,71,1102,1,1531,72,1105,1,73,1,470263,4,160131,1102,72997,1,66,1101,1,0,67,1102,1,1560,68,1101,0,556,69,1102,2,1,71,1102,1562,1,72,1105,1,73,1,71,3,32738,15,61861,1101,0,49199,66,1102,1,2,67,1101,1593,0,68,1102,302,1,69,1102,1,1,71,1101,1597,0,72,1105,1,73,0,0,0,0,37,132722,1101,0,97,66,1101,1,0,67,1102,1,1626,68,1101,0,556,69,1101,0,1,71,1102,1,1628,72,1106,0,73,1,-97389,4,213508,1102,1,25693,66,1101,0,2,67,1101,0,1657,68,1101,0,302,69,1102,1,1,71,1101,0,1661,72,1105,1,73,0,0,0,0,43,189554,1101,69067,0,66,1101,1,0,67,1101,1690,0,68,1101,556,0,69,1102,2,1,71,1101,0,1692,72,1106,0,73,1,10,26,92791,46,85915,1101,1583,0,66,1102,1,1,67,1102,1723,1,68,1101,556,0,69,1102,1,1,71,1102,1725,1,72,1105,1,73,1,160,46,17183,1102,79187,1,66,1101,0,1,67,1102,1754,1,68,1101,0,556,69,1102,1,1,71,1102,1,1756,72,1106,0,73,1,28,35,3373,1101,0,52667,66,1101,0,5,67,1101,0,1785,68,1101,0,253,69,1101,1,0,71,1101,1795,0,72,1106,0,73,0,0,0,0,0,0,0,0,0,0,38,45926,1102,1,30271,66,1101,1,0,67,1102,1824,1,68,1102,1,556,69,1102,0,1,71,1101,0,1826,72,1105,1,73,1,1649,1101,67169,0,66,1101,0,1,67,1102,1853,1,68,1101,0,556,69,1102,7,1,71,1102,1855,1,72,1105,1,73,1,1,35,16865,23,25693,43,284331,1,70379,49,31767,31,51477,15,185583,1102,53479,1,66,1101,0,1,67,1101,0,1896,68,1101,0,556,69,1101,0,1,71,1102,1898,1,72,1106,0,73,1,1539,49,10589,1102,163,1,66,1102,2,1,67,1102,1927,1,68,1102,1,302,69,1102,1,1,71,1102,1,1931,72,1105,1,73,0,0,0,0,22,105334,1102,75253,1,66,1102,1,1,67,1101,0,1960,68,1102,1,556,69,1102,1,1,71,1101,1962,0,72,1105,1,73,1,125,26,371164,1101,67979,0,66,1101,0,3,67,1101,0,1991,68,1101,302,0,69,1101,0,1,71,1101,0,1997,72,1105,1,73,0,0,0,0,0,0,37,199083,1102,1,50363,66,1101,1,0,67,1102,2026,1,68,1101,556,0,69,1102,1,1,71,1102,1,2028,72,1105,1,73,1,59,3,49107,1101,0,93763,66,1101,0,1,67,1101,2057,0,68,1102,556,1,69,1101,0,1,71,1101,0,2059,72,1106,0,73,1,2381,49,21178,1101,73961,0,66,1102,1,1,67,1102,2088,1,68,1102,1,556,69,1101,1,0,71,1102,1,2090,72,1106,0,73,1,17,35,6746,1101,31153,0,66,1102,1,1,67,1102,2119,1,68,1101,556,0,69,1102,1,1,71,1102,2121,1,72,1105,1,73,1,1489,1,211137,1102,30553,1,66,1101,1,0,67,1102,1,2150,68,1101,0,556,69,1101,0,0,71,1102,1,2152,72,1105,1,73,1,1357,1101,7079,0,66,1101,0,1,67,1101,0,2179,68,1101,0,556,69,1102,1,1,71,1102,1,2181,72,1105,1,73,1,9781,31,17159,1102,65587,1,66,1102,1,1,67,1101,0,2210,68,1101,556,0,69,1101,3,0,71,1102,2212,1,72,1106,0,73,1,2,35,10119,46,51549,46,103098,1101,57383,0,66,1102,1,1,67,1102,2245,1,68,1101,556,0,69,1101,1,0,71,1102,1,2247,72,1105,1,73,1,78283,23,51386
+	*/
+	/*
+The droids have finished repairing as much of the ship as they can. Their report indicates that this was a Category 6 disaster - not because it was that bad, but because it destroyed the stockpile of Category 6 network cables as well as most of the ship's network infrastructure.
+
+You'll need to rebuild the network from scratch.
+
+The computers on the network are standard Intcode computers that communicate by sending packets to each other. There are 50 of them in total, each running a copy of the same Network Interface Controller (NIC) software (your puzzle input). The computers have network addresses 0 through 49; when each computer boots up, it will request its network address via a single input instruction. Be sure to give each computer a unique network address.
+
+Once a computer has received its network address, it will begin doing work and communicating over the network by sending and receiving packets. All packets contain two values named X and Y. Packets sent to a computer are queued by the recipient and read in the order they are received.
+
+To send a packet to another computer, the NIC will use three output instructions that provide the destination address of the packet followed by its X and Y values. For example, three output instructions that provide the values 10, 20, 30 would send a packet with X=20 and Y=30 to the computer with address 10.
+
+To receive a packet from another computer, the NIC will use an input instruction. If the incoming packet queue is empty, provide -1. Otherwise, provide the X value of the next packet; the computer will then use a second input instruction to receive the Y value for the same packet. Once both values of the packet are read in this way, the packet is removed from the queue.
+
+Note that these input and output instructions never block. Specifically, output instructions do not wait for the sent packet to be received - the computer might send multiple packets before receiving any. Similarly, input instructions do not wait for a packet to arrive - if no packet is waiting, input instructions should receive -1.
+
+Boot up all 50 computers and attach them to your network. What is the Y value of the first packet sent to address 255?
+	*/
+Part1(FileName="",Data="") PUBLIC	;
+{
+	if '$length(Data) {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+		if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+			write !,"Wrong data was red from "_FileName
+			quit 0
+		}
+		set Data=RecordsArr(1)
+	}
+	quit:'$$CheckData(Data)
+	set PartKey="Part1"
+	kill ^mtempSORT($zname,"STOP")
+	kill ^mtempSORT($zname,PartKey)
+	set ^mtempSORT($zname,"PartKey")=PartKey
+	for Computer=0:1:49 {
+		job RunComputer(Computer,Data)
+	}
+	for  {
+		hang .1
+		quit:$data(^mtempSORT($zname,PartKey,255,"Input","Data"))
+		if $data(^mtempSORT($zname,"STOP")) quit
+	}
+	quit $piece(^mtempSORT($zname,PartKey,255,"Input","Data"),",",2)
+}
+RunComputer(Computer,Data)	;
+	set PartKey=^mtempSORT($zname,"PartKey")
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Computer")=Computer
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Start")=$zutil(188)
+	set ^mtempSORT($zname,PartKey,Computer,"Input","State")="I"
+	set ^mtempSORT($zname,PartKey,Computer,"Output","State")="D"
+	//if Computer=255 job IdleMonitor  //Idle monitor in a different process or in input/output????
+	do ComputeSignalCode(Data,,,,0,,,"Output","Input")
+	set ^mtempSORT($zname,PartKey,"Process",$job,"End")=$zutil(188)
+	quit
+IdleMonitor	;
+	set ^mtempSORT($zname,"Part2","Process",$job,"Start")=$zutil(188)_"*"
+	set ^mtempSORT($zname,"Part2",255,"Idle")=0
+	for  {
+		hang .1
+		do IdleMonitorInner
+		if $data(^mtempSORT($zname,"STOP")) halt
+		quit:$data(^mtempSORT($zname,"Part2",255,"Send2times"))
+	}
+	set ^mtempSORT($zname,"Part2","Process",$job,"End")=$zutil(188)
+	quit
+IdleMonitorInner()
+{
+	//set ^mtempSORT($zname,"Part2",255,"Idle",0,$zu(188))=""
+	quit:'$data(^mtempSORT($zname,"Part2",255,"Input","Data"))  //No data to send
+	//set ^mtempSORT($zname,"Part2",255,"Idle",.1,$zu(188))=""
+	set Val=^mtempSORT($zname,"Part2",255,"Input","Data")
+	set Idle=$$IsIdle()
+	//set ^mtempSORT($zname,"Part2",255,"Idle",.2,$zu(188))=Idle
+	if 'Idle {
+		set ^mtempSORT($zname,"Part2",255,"Idle")=0
+		quit
+	}
+	set Idle=^mtempSORT($zname,"Part2",255,"Idle")+1
+	set ^mtempSORT($zname,"Part2",255,"Idle")=Idle
+	//set ^mtempSORT($zname,"Part2",255,"Idle",.3,$zu(188))=Idle
+	quit:Idle<10  //Wait 1 second before deciding that system is in idle mode
+	//set ^mtempSORT($zname,"Part2",255,"Idle",1,$zu(188))=""
+	kill LastVal
+	kill ^mtempSORT($zname,"Part2",255,"Input","Data")
+	if $data(^mtempSORT($zname,"Part2",255,"Input","LastVal")) set LastVal=^mtempSORT($zname,"Part2",255,"Input","LastVal")
+	if $data(LastVal),$piece(Val,",",1,2)=$piece(LastVal,",",1,2) {
+		set ^mtempSORT($zname,"Part2",255,"Send2times")=LastVal
+		halt  //Drop idle monitorting process
+	}
+	set ^mtempSORT($zname,"Part2",255,"Input","LastVal")=Val
+	do SendMessage("Part2",255,0,$piece(Val,",",1),$piece(Val,",",2))
+	//set ^mtempSORT($zname,"Part2",255,"Idle",2,$zu(188))=""
+}
+IsIdle()
+{
+	set SW=1
+	for i=0:1:49 {
+		if $order(^mtempSORT($zname,"Part2",i,"Que",""),-1) {
+			set SW=0
+			quit
+		}
+	}
+	quit SW
+}
+
+	//
+	//
+	//^mtempSORT($zname,PartKey,Computer,"Input","State")="I"/"X"/"Y"
+	//                                            "I" - Init so send computer id
+	//                                            "X" - X value
+	//                                            "Y" - Y Value
+Input(Line)	;
+	if $data(^mtempSORT($zname,"STOP")) halt
+	set PartKey=^mtempSORT($zname,"PartKey")
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Input")=1_"*"_$zutil(188)
+	if PartKey="Part1",$data(^mtempSORT($zname,PartKey,255,"Input","Data")) halt
+	if PartKey="Part2",$data(^mtempSORT($zname,PartKey,255,"Send2times")) halt
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Input")=1.1_"*"_$zutil(188)
+	set Computer=^mtempSORT($zname,PartKey,"Process",$job,"Computer")
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Input")=1.2_"*"_$zutil(188)
+	//if Computer=255 do IdleMonitorInner(PartKey)
+	set State=^mtempSORT($zname,PartKey,Computer,"Input","State")
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Input")=2_"*"_$zutil(188)
+	if State="I" {
+		set ^mtempSORT($zname,PartKey,Computer,"Input","State")="X"
+		quit Computer
+	}
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Input")=3_"*"_$zutil(188)
+	if Computer'=255 {
+		set QueId=$order(^mtempSORT($zname,PartKey,Computer,"Que",""))
+		if '$length(QueId) quit -1
+		set ^mtempSORT($zname,PartKey,"Process",$job,"Input")=4_"*"_$zutil(188)
+		set Val=^mtempSORT($zname,PartKey,Computer,"Que",QueId,State)
+	}
+	else {
+		set Val=$piece($get(^mtempSORT($zname,PartKey,255,"Input","Data")),",",$select(State="X":1,1:2))
+	}
+	set State=$case(State,"X":"Y","Y":"X")
+	if State="X",Computer'=255 kill ^mtempSORT($zname,PartKey,Computer,"Que",QueId)
+	set ^mtempSORT($zname,PartKey,Computer,"Input","State")=State
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Input")=5_"*"_$zutil(188)
+	quit Val
+	//
+	//
+	//^mtempSORT($zname,PartKey,Computer,"Output","State")="D"/"X"/"Y"
+	//                                            "D" - Destination
+	//                                            "X" - X value
+	//                                            "Y" - Y Value
+Output(Line,Val)	;
+	if $data(^mtempSORT($zname,"STOP")) halt
+	set PartKey=^mtempSORT($zname,"PartKey")
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Output")=1_"*"_$zutil(188)
+	if PartKey="Part1",$data(^mtempSORT($zname,PartKey,255,"Input","Data")) halt
+	if PartKey="Part2",$data(^mtempSORT($zname,PartKey,255,"Send2times")) halt
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Output")=2_"*"_$zutil(188)
+	set ^mtempSORT($zname,PartKey,"LastVal")=Val
+	set Computer=^mtempSORT($zname,PartKey,"Process",$job,"Computer")
+	set State=^mtempSORT($zname,PartKey,Computer,"Output","State")
+	set ^mtempSORT($zname,PartKey,Computer,"Output",State)=Val
+	set State=$case(State,"D":"X","X":"Y","Y":"D")
+	set ^mtempSORT($zname,PartKey,Computer,"Output","State")=State
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Output")=3_"*"_$zutil(188)
+	if State="D" {
+		set Destination=^mtempSORT($zname,PartKey,Computer,"Output","D")
+		set X=^mtempSORT($zname,PartKey,Computer,"Output","X")
+		set Y=^mtempSORT($zname,PartKey,Computer,"Output","Y")
+		if Destination=255 {
+			set ^mtempSORT($zname,PartKey,255,"Input","Data")=X_","_Y_","_Computer
+		}
+		else {
+			do SendMessage(PartKey,Computer,Destination,X,Y)
+		}
+	}
+	set ^mtempSORT($zname,PartKey,"Process",$job,"Output")=4_"*"_$zutil(188)
+	quit
+SendMessage(PartKey,From,To,X,Y)
+{
+	set QueId=$increment(^mtempSORT($zname,PartKey,To,"Que"))
+	set ^mtempSORT($zname,PartKey,To,"Que",QueId,"X")=X
+	set ^mtempSORT($zname,PartKey,To,"Que",QueId,"Y")=Y
+	set ^mtempSORT($zname,PartKey,To,"Que",QueId,"F")=From
+}
+    ;              1     2     3        4                   5          6      7        8               9
+ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")	;
+{
+	set OpCode="",ERR="",DiagnosticCode="",InputId=0,ExitSW=0,Offset=0,Line=0
+	//w !,"Data before: ",Data
+	while OpCode'=99&&'$length(ERR)&&'ExitSW {
+		if Data[",," for i=1:1:$length(Data,",") if $piece(Data,",",i)="" set $piece(Data,",",i)=0
+		set Instruction=$piece(Data,",",InstructionPointer)
+		;W !,Instruction,"@",InstructionPointer
+		if Instruction'?1.5n {
+			set ERR="Wrong instruction "_Instruction
+			quit 
+		}
+		set OpCode=+$extract(Instruction,*-1,*)
+		if ",1,2,3,4,5,6,7,8,9,99,"'[(","_OpCode_",") {
+			set ERR="Unknown operation "_OpCode
+			quit
+		}
+		set ParametersMode=$extract(Instruction,1,*-2)
+		//w !,"Instruction=",Instruction,";","Offset=",Offset
+		if OpCode=99
+		{
+			if $length(ParametersMode) set ERR="Exit operation with parmaters "_ParametersMode
+			set ExitSW=1
+			//write !,"Finish computing, exiting code",!!
+			quit
+		}
+		if OpCode=1
+		{
+			if $extract(ParametersMode,1,*-2)>2||($extract(ParametersMode,*-2)=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1) ;W !,"<",Val1
+			set Val2=$piece(Data,",",InstructionPointer+2) ;W !,"<",Val2
+			set OutPos=$piece(Data,",",InstructionPointer+3) ;W !,"<",OutPos
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1) ;W !,"@",Val1
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1) ;W !,"@",Val2
+			if $extract(ParametersMode,*)=2 set Val1=$piece(Data,",",Val1+Offset+1) ;W !,"@",Val1
+			if $extract(ParametersMode,*-1)=2 set Val2=$piece(Data,",",Val2+Offset+1) ;W !,"@",Val2
+			if $extract(ParametersMode,*-2)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1) ;W !,"@",OutPos
+			set Val=Val1+Val2
+			;w !,Val_">"_OutPos
+			//w !,"Operation 1>>Add "_Val1_"+"_Val2_" and store it in "_OutPos
+			//w !,"Data before "_Data
+			set $piece(Data,",",OutPos+1)=Val
+			//w !,"Data after "_Data
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=2
+		{
+			if $extract(ParametersMode,1,*-2)>2||($extract(ParametersMode,*-2)=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1)
+			set Val2=$piece(Data,",",InstructionPointer+2)
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1)
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1)
+			if $extract(ParametersMode,*)=2 set Val1=$piece(Data,",",Val1+Offset+1)
+			if $extract(ParametersMode,*-1)=2 set Val2=$piece(Data,",",Val2+Offset+1)
+			if $extract(ParametersMode,*-2)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1)
+			set $piece(Data,",",OutPos+1)=Val1*Val2
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=3
+		{
+			if $extract(ParametersMode,1,*-1)||(ParametersMode=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set OutPos=$piece(Data,",",InstructionPointer+1)
+			if $extract(ParametersMode,*)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1)
+			set InputId=InputId+1
+			if $data(Inputs(InputId)) {
+				set Val=Inputs(InputId)
+			}
+			elseif $length(InputLabel) {
+				set Val=$$@(InputLabel)(Line)
+			}
+			else {
+				read !,"Please enter value: ",Val
+				write !
+			}
+			set $piece(Data,",",OutPos+1)=Val
+			set InstructionPointer=InstructionPointer+2
+			continue
+		}
+		if OpCode=4
+		{
+			if $extract(ParametersMode,1,*-1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if $extract(ParametersMode,*)=2 set Val=$piece(Data,",",Val+Offset+1)
+			set:'$length(Val) Val=0
+			set Line=Line+1
+			if '$data(Output) {
+				if $length(OutputLabel) do @(OutputLabel_"("_Line_","_$select((Val?1.N)&&($extract(Val)||(Val=0)):Val,1:""""_Val_"""")_")")
+				write:'$length(OutputLabel) !,Val
+			}
+			else {
+				set Output(Line)=Val
+			}
+			set DiagnosticCode=Val
+			set InstructionPointer=InstructionPointer+2
+			quit:ExitOpCode4
+			continue
+		}
+		if OpCode=5
+		{
+			if $extract(ParametersMode,1,*-2) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if $extract(ParametersMode,*)=2 set Val=$piece(Data,",",Val+Offset+1)
+			if Val {
+				set InstructionPointer=$piece(Data,",",InstructionPointer+2)
+				if '$extract(ParametersMode,*-1) set InstructionPointer=$piece(Data,",",InstructionPointer+1)
+				if $extract(ParametersMode,*-1)=2 set InstructionPointer=$piece(Data,",",InstructionPointer+Offset+1)
+				set InstructionPointer=InstructionPointer+1
+				continue
+			}
+			set InstructionPointer=InstructionPointer+3
+			continue
+		}
+		if OpCode=6
+		{
+			if $extract(ParametersMode,1,*-2) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if $extract(ParametersMode,*)=2 set Val=$piece(Data,",",Val+Offset+1)
+			if 'Val {
+				set InstructionPointer=$piece(Data,",",InstructionPointer+2)
+				if '$extract(ParametersMode,*-1) set InstructionPointer=$piece(Data,",",InstructionPointer+1)
+				if $extract(ParametersMode,*-1)=2 set InstructionPointer=$piece(Data,",",InstructionPointer+Offset+1)
+				set InstructionPointer=InstructionPointer+1
+				continue
+			}
+			set InstructionPointer=InstructionPointer+3
+			continue
+		}
+		if OpCode=7
+		{
+			if $extract(ParametersMode,1,*-2)>2||($extract(ParametersMode,*-2)=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1)
+			set Val2=$piece(Data,",",InstructionPointer+2)
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1)
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1)
+			if $extract(ParametersMode,*)=2 set Val1=$piece(Data,",",Val1+Offset+1)
+			if $extract(ParametersMode,*-1)=2 set Val2=$piece(Data,",",Val2+Offset+1)
+			if $extract(ParametersMode,*-2)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1)
+			set Val=Val1<Val2
+			set $piece(Data,",",OutPos+1)=Val
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=8
+		{
+			if $extract(ParametersMode,1,*-2)>2||($extract(ParametersMode,*-2)=1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val1=$piece(Data,",",InstructionPointer+1)
+			set Val2=$piece(Data,",",InstructionPointer+2)
+			set OutPos=$piece(Data,",",InstructionPointer+3)
+			if '$extract(ParametersMode,*) set Val1=$piece(Data,",",Val1+1)
+			if '$extract(ParametersMode,*-1) set Val2=$piece(Data,",",Val2+1)
+			if $extract(ParametersMode,*)=2 set Val1=$piece(Data,",",Val1+Offset+1)
+			if $extract(ParametersMode,*-1)=2 set Val2=$piece(Data,",",Val2+Offset+1)
+			if $extract(ParametersMode,*-2)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1)
+			set:'$length(Val1) Val1=0
+			set:'$length(Val2) Val2=0
+			set Val=Val1=Val2
+			set $piece(Data,",",OutPos+1)=Val
+			set InstructionPointer=InstructionPointer+4
+			continue
+		}
+		if OpCode=9
+		{
+			if $extract(ParametersMode,1,*-1) {
+				set ERR="Wrong parameter mode for output the instruction "_Instruction
+				quit
+			}
+			set Val=$piece(Data,",",InstructionPointer+1)
+			if '$extract(ParametersMode,*) set Val=$piece(Data,",",Val+1)
+			if $extract(ParametersMode,*)=2 set Val=$piece(Data,",",Val+Offset+1)
+			set Offset=Offset+Val
+			set InstructionPointer=InstructionPointer+2
+			continue
+		}
+
+		set ERR="Unknown operation for instruction "_Instruction
+		quit
+	}
+	if $length(ERR) {
+		write !,ERR
+		quit 0
+	}
+	//w !,"Data after: ",Data
+	//write !,"Diagnostic Code is: "_DiagnosticCode
+	quit DiagnosticCode
+}
+
+	/*
+Packets sent to address 255 are handled by a device called a NAT (Not Always Transmitting). The NAT is responsible for managing power consumption of the network by blocking certain packets and watching for idle periods in the computers.
+
+If a packet would be sent to address 255, the NAT receives it instead. The NAT remembers only the last packet it receives; that is, the data in each packet it receives overwrites the NAT's packet memory with the new packet's X and Y values.
+
+The NAT also monitors all computers on the network. If all computers have empty incoming packet queues and are continuously trying to receive packets without sending packets, the network is considered idle.
+
+Once the network is idle, the NAT sends only the last packet it received to address 0; this will cause the computers on the network to resume activity. In this way, the NAT can throttle power consumption of the network when the ship needs power in other areas.
+
+Monitor packets released to the computer at address 0 by the NAT. What is the first Y value delivered by the NAT to the computer at address 0 twice in a row?
+	*/
+Part2(FileName="",Data="") PUBLIC	;
+{
+	if '$length(Data) {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+		if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+			write !,"Wrong data was red from "_FileName
+			quit 0
+		}
+		set Data=RecordsArr(1)
+	}
+	quit:'$$CheckData(Data)
+	set PartKey="Part2"
+	kill ^mtempSORT($zname,"STOP")
+	kill ^mtempSORT($zname,PartKey)
+	set ^mtempSORT($zname,"PartKey")=PartKey
+	for Computer=0:1:49 {
+		job RunComputer(Computer,Data)
+	}
+	job IdleMonitor  //Idle monitor in a different process or in input/output????
+	for  {
+		hang .1
+		quit:$data(^mtempSORT($zname,"Part2",255,"Send2times"))
+		if $data(^mtempSORT($zname,"STOP")) quit
+	}
+	quit $piece(^mtempSORT($zname,"Part2",255,"Send2times"),",",2)
+}
+CheckData(Data)	;
+{
+	if $length(Data,",")<2,Data'=99 {
+		write !,"Wrong data "_Data
+		quit 0
+	}
+	set ERR=""
+	for Location=1:1:$length(Data,",") {
+		set Val=$piece(Data,",",Location)
+		if Val'?.1"-"1.n {
+			set ERR="Wrong value "_val
+			write !,ERR
+			quit
+		}
+	}
+	quit:$length(ERR) 0
+	quit 1
+}
+LoadFile(Filename,LineArr)	;
+{
+	kill LineArr
+	set eofSW=$zutil(68,40,1)
+	open Filename::2 quit:'$test 0
+	use Filename for Counter=1:1 read Line quit:$zeof  set:$length(Line) LineArr(Counter)=Line
+	close Filename
+	if 'eofSW do $zutil(68,40,0)
+	quit 1
+}

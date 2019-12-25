@@ -1,0 +1,462 @@
+YUVGZ201918	;https://adventofcode.com/2019/day/18;
+	quit
+	/*
+#################################################################################
+#...........#.............#...#.....#...#...............#.....#.....#....t#.....#
+#.#####.###.###.#########.#.#.#.#.###.#.#.#####.#######.#.###.#.###.#.###.#.#.#.#
+#..m#.#...#...#...#...#...#.#...#.....#.#.....#...#...#...#...#...#...#...#.#.#.#
+###.#.###.###.###.###.#.#######.#######.#######.#.#.#.#####.#####.#####.###.#.#.#
+#.#...#...#.#...#...#.#.#.....#.#.......#.....#.#...#.....#.#...#...#.#...#.#.#.#
+#.###.#.###.###.###.#.#.#.###.#.#.#####.#.###.###########.#.#.#.###.#.###.#.#.#.#
+#.#...#.#.....#.....#.#...#.#.#.#.#.#...#...#...B.........#...#.J.#.#...#.#.#.#.#
+#.#.###.###.#########.#####.#.###.#.#.#####.#####################.#.###.#.###.#.#
+#.#...#.#...#.........#...#.#...#.#.#.#.#...#.............#...#...#.#...#....v#.#
+#.###.#.#.###.#####.#.#.#.#.###.#.#.#.#.#.###.###########.#.#.#.###.#.#########P#
+#.#...#.#.....#.#...#...#.#...#...#.#.#.#...#.....#...#...#.#...#w..#.#...#.....#
+#V#.###.#.#####.#.#######.#.#.#####.#.#.#.#.#####.#.#.#.###.#####.###.#.#.#.#####
+#...#...#.....#.#.#.......#.#.......#.#.#.#.#.....#.#.#.#.#.#...#.#...#.#.#.....#
+#####.#######.#.#.#######.###.#####.#.#.#.#.#.#####.#.#.#.#.###.#.#.###.#.#####.#
+#...#...#.......#.......#.....#.....#.#.#.#.#...#...#.....#.....#.#.#...#...#...#
+#.#.###.###.#######.###.#######.#####.#.#.#N#.#.#########.###.###.#.#.###.###.###
+#.#...#...#.#.....#...#.#...#.#.....#...#.#.#.#...#.....#.#...#...#...#.#...#.#.#
+#.###.###.###.###.###.#.#.#.#.###.#####.###.#.###.#.###.###.###.###.###D###.#.#.#
+#.#.......#...#.#...#.#...#.#.....#...#.#...#.#...#...#.#...#...#.#.#.....#.#...#
+#.#######.#.###.###.###.###.#######.#.#.#.###.#.#####.#.#.###.###.#.#.###.#.###.#
+#.T.#.....#.#.....#...#...#.........#...#.#...#.....#.#.....#.#...#.#.#...#.....#
+###.#.#####.#.#.#########.###############.#########.#.###########.#.#.###########
+#.#.#...#...#.#.........#...#.........#.#...#.....#.....#.........#.#...........#
+#.#.#####.###.#####.#######.#######.#.#.###.#.###.#######.#####.###.#####.#######
+#.#......l#.#.....#.......#.........#...#...#.#.#.#.....#...#.#...#.....#...#...#
+#.#########.#.#########.#.#############.#.###.#.#.#.###.###.#.###.#####.#.#.#.#.#
+#.....#.....#.#...#...#.#...#.......#..z#.....#.#...#.....#.#...#.......#.#...#.#
+#.###.#.###.#.#.#.#.#.###.#.#.###.#.#.###.#####.#####.#####.#.#.#########.#####.#
+#...#.#.#.#...#.#.#.#...#.#.#.#...#.#...#.#.........#.....#...#.#...#.....#.....#
+###.###.#.#####.#.#.###.#.#.###.#.#####.#.#######.#.#####.#####.#.#.#.#####.###.#
+#...#..d#.#...#.#.#...#...#...#.#.#.....#.....#...#.....#.....#...#.#...#q..#.#.#
+#.#.#.###.#.#.#.#.###.#######.#.#.#.#########.#.###########.#.#####.#####.###.#.#
+#.#.#...#.#.#...#.#...#.........#.#.#...#.#...#...........#.#.....#...#...#...#.#
+#.#####.#.#.#####.#.#######.#######.#.###.#.###.#########.#.#####.###.#.#####.#.#
+#.......#.#...#...#.#.....#.#.......#...#.#.#.....#.....#.#...#...#...#.....#...#
+#.#######.###.###.#.#.###.###.#######.#.#.#.#####.#.#####.###.#####.#######.#####
+#.......#...#...#...#.#.#...#.#...#...#.#.#.#...#...#...#...#.....#.#.....#.....#
+#######.#.#.###.#####.#.###.#.#.#.#####.#.#.#.#.#####.#.###.#####.#.#.###.#####.#
+#.........#...#...........#.....#.............#....c..#.........#.....#.........#
+#######################################.@.#######################################
+#...........#.........#.C.........#...........#.........#.....................X.#
+#Q#########.#.#.#####.#.#########.#.###.#.###.#.#######.#.###############.#####.#
+#.#.........#.#...#.#...#.......#.#.#.#.#...#.....#...#.#.....#.#.......#...#...#
+#.#####.#########.#.#####.#####.#.#.#.#.###.#######.#.#.#####.#.#.#####.#.###.#.#
+#.....#.#.....#...#.....#.#...#.#...#.#.#.#.#...#...#...#.....#.#.#.....#.#u..#.#
+#.###.#U#.###.#.#####.###.#.###.#####.#.#.#.###.#.#.#####.#####.#.#.#######.###.#
+#j..#.#...#...#.....#.#...#...#.....#.#.#.#.....#.#.#.....#.....#.#.........#...#
+###.#.#####.#######.#.#.#####.###.#.#.#.#.#####.#.###.#####.###.#.#####.#######.#
+#...#.....#.....#...#.#...#...#...#.#.#.#...#...#.....#.....#...#.#...#.#.....#.#
+#######.#.#####.#.###.###.#.#.#.###.#.#.###.#.#########.#####.###.#.#.###.###.###
+#.....#.#...#.#.#.#.....#.#.#.#.#.....#.#...#.#.....#...#.....#.#...#.......#...#
+#.###.#.###.#.#.#.###.#.#.#.#.#.#######.#.###.###.#.###.#.#####.###########.###.#
+#f#.#.#.#...#.#.#...#.#.#b#.#.#.#.......#.#...#...#.#...#.....#...#.....#...#...#
+#.#.#.###.###.#.###.#.#.#.#.###.#.#######.#.###.###.#.#######.###.#.###.#####.#.#
+#.#.......#...#.#...#.#...#...#...#.....#...#...#.....#...........#.#.#.#.....#.#
+#.#########.#.#.#.###.#######.#######.###.###.#.#######.###########.#.#.#.#####.#
+#.....#.....#.....#....x....#.......#...#n#...#.#.....#.....#.....#.#.#.F.#...#.#
+#.###.#####.###############.###.###.###.#.###.###.###.#######.###.#.#.#####.###.#
+#...#.....#.#r..........#.#.....#.#...#.#.....#...#...........#...#.#.#.........#
+#.#######.###.#########R#.#######.###.#.#####.#.###.###########.###K#.#.#########
+#.#.......#...#....g#...#.........#...#.#.....#.#...#.......#.#.....#.#...#.....#
+#.#.#######.#######.#####.#.#######.###.#.#####.#.###.#####.#.#######.###.#.#.###
+#.#...#...#...#.....#.....#.......#...#.#...#.#.#.#...#...#.#.#.#...#.....#.#...#
+#.###.#.#.###G#.###I#.###########.###.#.###.#.#.#.#.#####.#.#.#.#.#.#.#####.###.#
+#k#...#.#...#...#...#.....#s....#.#...#.#...#.#.#.#.......#...#...#.#.#.#...#.L.#
+###.#.#.###.#####.#######.#.###O#.#.###.#.###.#.#.#######.#####.###.#.#.#.###.#.#
+#..p#.#...#.....#.......#.#.#...#.#.....#.Z...#.#...#...#.#...#.#.#...#.#...#.#.#
+#.###.###.###.#########.###.#.###.#####.#######.###.###.#.#.#.#.#.#####.###.#.###
+#.#.#...#...#.......#..i#...#...#.#.....#.....#.#.#.....#.#.#...#....a....#.#...#
+#.#.###.#.#######.#.#H###.#####.#.#.#####.###.#.#.#.#####.#.#####.#.#######.###.#
+#.#.....#.#.....#.#.#.#...#o....#.#.#...#...#...#...#.....#.#...E.#.#......y..#.#
+#.#######.#.###.###.#.#S#####.###.#.###.#.#.###.#####W#####.#.#.###.#.#########.#
+#.#.......#.#.......#.#.....#.A.#.....#.#.#.#...#...#...#...#.#.#...#.#...#.....#
+#.#.#######.#######.#.#####.###.#####.#.###.#.###.#.###.#.###.#.#####.###.#.###.#
+#.#...#...#.#.Y.#...#..h....#.#...#.#.#.#...#...#.#.....#.#...#...........#...#.#
+#.###.#.#.#.#.#.#############.###.#.#.#.#.###.###.#######.#############.#####.#.#
+#...#...#.#...#...........#.......#.#.#.#.#...#...#.....#...#.........#.#.....#.#
+#.#.#####.###########.#####.#######.#.#.#.#####.###.#######.#.#######.###.#####.#
+#.#.....M...........#e......#...........#.......#.............#...........#.....#
+#################################################################################
+	*/
+	/*
+As you approach Neptune, a planetary security system detects you and activates a giant tractor beam on Triton! You have no choice but to land.
+
+A scan of the local area reveals only one interesting feature: a massive underground vault. You generate a map of the tunnels (your puzzle input). The tunnels are too narrow to move diagonally.
+
+Only one entrance (marked @) is present among the open passages (marked .) and stone walls (#), but you also detect an assortment of keys (shown as lowercase letters) and doors (shown as uppercase letters). Keys of a given letter open the door of the same letter: a opens A, b opens B, and so on. You aren't sure which key you need to disable the tractor beam, so you'll need to collect all of them.
+
+For example, suppose you have the following map:
+
+#########
+#b.A.@.a#
+#########
+Starting from the entrance (@), you can only access a large door (A) and a key (a). Moving toward the door doesn't help you, but you can move 2 steps to collect the key, unlocking A in the process:
+
+#########
+#b.....@#
+#########
+Then, you can move 6 steps to collect the only other key, b:
+
+#########
+#@......#
+#########
+So, collecting every key took a total of 8 steps.
+
+Here is a larger example:
+
+########################
+#f.D.E.e.C.b.A.@.a.B.c.#
+######################.#
+#d.....................#
+########################
+The only reasonable move is to take key a and unlock door A:
+
+########################
+#f.D.E.e.C.b.....@.B.c.#
+######################.#
+#d.....................#
+########################
+Then, do the same with key b:
+
+########################
+#f.D.E.e.C.@.........c.#
+######################.#
+#d.....................#
+########################
+...and the same with key c:
+
+########################
+#f.D.E.e.............@.#
+######################.#
+#d.....................#
+########################
+Now, you have a choice between keys d and e. While key e is closer, collecting it now would be slower in the long run than collecting key d first, so that's the best choice:
+
+########################
+#f...E.e...............#
+######################.#
+#@.....................#
+########################
+Finally, collect key e to unlock door E, then collect key f, taking a grand total of 86 steps.
+
+Here are a few more examples:
+
+########################
+#...............b.C.D.f#
+#.######################
+#.....@.a.B.c.d.A.e.F.g#
+########################
+Shortest path is 132 steps: b, a, c, d, f, e, g
+
+#################
+#i.G..c...e..H.p#
+########.########
+#j.A..b...f..D.o#
+########@########
+#k.E..a...g..B.n#
+########.########
+#l.F..d...h..C.m#
+#################
+Shortest paths are 136 steps;
+one is: a, f, b, j, g, n, h, d, l, o, e, p, c, i, k, m
+
+########################
+#@..............ac.GI.b#
+###d#e#f################
+###A#B#C################
+###g#h#i################
+########################
+Shortest paths are 81 steps; one is: a, c, f, i, d, g, b, e, h
+
+How many steps is the shortest path that collects all of the keys?
+	*/
+	/*
+S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1.txt"
+S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1E1.txt"
+S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1E2.txt"
+S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1E3.txt"
+S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1E4.txt"
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set TotalSteps=0 merge tempGrid=RecordsArr
+	/*
+	merge tempGrid=^mtempSORT($zname,"Part1","OldOptions",2,2,"grid")
+	merge Keys=^mtempSORT($zname,"Part1","OldOptions",2,2,"Keys")
+	set TotalSteps=^mtempSORT($zname,"Part1","OldOptions",2,2,"Steps")*/
+	kill ^mtempSORT($zname,"Part1")
+	do SetOptions(.tempGrid,,TotalSteps)
+	set Moves=""
+	for  {
+		set CurrentOption=$order(^mtempSORT($zname,"Part1","NewOptions",""),-1)
+		//B "L+" //1
+		quit:'CurrentOption
+		merge tempGrid=^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"grid")
+		kill Keys merge Keys=^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"Keys")
+		set TotalSteps=^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"Steps")
+		w !,"TotalSteps=",TotalSteps,!,"BEFORE:",!
+		zw tempGrid,Keys
+		for  {
+			set TotalKeys=$$GetTotalKeysAndMyLocation(.tempGrid)
+			quit:'TotalKeys
+			set Steps=$$MakeNextMove(.tempGrid,"",.Keys,.Moves,CurrentOption)
+			quit:'Steps
+			set TotalSteps=TotalSteps+Steps
+			quit:CurrentOption'=$order(^mtempSORT($zname,"Part1","NewOptions",""),-1)
+			merge ^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"grid")=tempGrid
+			merge ^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"Keys")=Keys
+			set ^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"Steps")=TotalSteps
+			//w !!!,"TotalSteps=",TotalSteps,!!! zw tempGrid,Keys,Moves
+		}
+		//B "L+" //2
+		set Option="" for  {
+			set Option=$order(^mtempSORT($zname,"Part1","NewOptions",Option)) quit:Option=""
+			merge ^mtempSORT($zname,"Part1","OldOptions",Option,$increment(^mtempSORT($zname,"Part1","OldOptions")))=^mtempSORT($zname,"Part1","NewOptions",Option)
+		}
+		merge tempGrid=^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"grid")
+		kill ^mtempSORT($zname,"Part1","NewOptions",CurrentOption)
+		quit:CurrentOption=$order(^mtempSORT($zname,"Part1","NewOptions",""),-1)
+		w !,"TotalSteps=",TotalSteps,!,"AFTER:",!
+		zw ^mtempSORT($zname,"Part1","NewOptions")
+
+	}
+	quit TotalSteps
+}
+	//"U"/"D"/"L"/"R"
+GetNextLocation(Grid,Direction,Keys,Moves,CurrentOption)
+{
+	set Moves=""
+	quit:'$$GetTotalKeysAndMyLocation(.Grid,.LocationX,.LocationY) 0
+	//w !,"From: ",LocationX,"x",LocationY
+	set NewLocationY=LocationY,NewLocationX=LocationX
+	if Direction="U" set NewLocationY=LocationY-1
+	if Direction="D" set NewLocationY=LocationY+1
+	if Direction="L" set NewLocationX=LocationX-1
+	if Direction="R" set NewLocationX=LocationX+1
+	set Val=$extract($get(Grid(NewLocationY)),NewLocationX)
+	//w " To: ",NewLocationX,"x",NewLocationY,"=",Val,!
+	if '$length(Val) quit 0
+	if Val="#" quit 0
+	if Val?1U,'$data(Keys($char($ascii(Val)+32))) quit 0
+	set Moves=Direction,$extract(Grid(LocationY),LocationX)="."
+	if Val?1l set Keys(Val)=""
+	set $extract(Grid(NewLocationY),NewLocationX)="@"
+	quit 1+$$MakeNextMove(.Grid,Direction,.Keys,.Moves,CurrentOption)
+}
+MakeNextMove(Grid,Direction,Keys,Moves,CurrentOption)
+{
+	quit:CurrentOption'=$order(^mtempSORT($zname,"Part1","NewOptions",""),-1) A
+	merge tempGrid=Grid
+	for NextDirection="U","D","R","L" {
+		if Direction="U" continue:NextDirection="D"
+		if Direction="D" continue:NextDirection="U"
+		if Direction="R" continue:NextDirection="L"
+		if Direction="L" continue:NextDirection="R"
+		kill KeysZ
+		merge tempGridZ=tempGrid,KeysZ=Keys
+		set MovesZ=Moves
+		set Steps(NextDirection)=$$GetNextLocation(.tempGridZ,NextDirection,.KeysZ,.MovesZ,CurrentOption)
+		merge grid(NextDirection)=tempGridZ
+		merge keys(NextDirection)=KeysZ
+		set Moves(NextDirection)=MovesZ
+	}
+	for NextDirection="U","D","R","L" {
+		set SW=0
+		set Key="" for  {
+			set Key=$order(keys(NextDirection,Key)) quit:Key=""
+			if '$data(Keys(Key)) set SW=1 quit
+		}
+		if 'SW kill Moves(NextDirection),keys(NextDirection),grid(NextDirection),Steps(NextDirection)
+	}
+	if '$data(keys) quit 0
+	set Direction=$order(keys(""))
+	if Direction=$order(keys(""),-1) {
+		set Moves=Moves_Direction
+		merge Keys=keys(Direction)
+		merge Grid=grid(Direction)
+		//w !!!,"Direction=",Direction,!!!
+		quit Steps(Direction)
+	}
+	set Direction="" for  {
+		set Direction=$order(keys(Direction)) quit:Direction=""
+		kill Keys,Grid
+		merge Keys=keys(Direction),Grid=grid(Direction)
+		set Steps=Steps(Direction)
+		do SetOptions(.Grid,.Keys,Steps)
+	}
+	//w "dddddddddddddddddd" k a s a=a
+	//zwrite grid,keys,Moves,Steps
+	quit 1
+}
+SetOptions(Grid,Keys,Steps)
+{
+	set Option=$increment(^mtempSORT($zname,"Part1"))
+	merge ^mtempSORT($zname,"Part1","NewOptions",Option,"grid")=Grid
+	merge ^mtempSORT($zname,"Part1","NewOptions",Option,"Keys")=Keys
+	set ^mtempSORT($zname,"Part1","NewOptions",Option,"Steps")=Steps
+}
+GetNextLocationZ(Grid,Direction,Keys,Moves)
+{
+	quit:'$$GetTotalKeysAndMyLocation(.Grid,.LocationX,.LocationY) 0
+	r "Press any key to continue",temp
+	set Min=999999999999999999,SW=0,MinDir=""
+	kill tempMinGrid,tempMinKeys
+	set tempMoves=Moves
+	if Direction'="D" {
+		set SW=$$MakeMove(.Grid,.Keys,LocationX,LocationY,LocationX,LocationY-1,"U",.TotalMoves,.tempGrid,.tempMoves,.tempKeys)
+		if SW,TotalMoves<Min set Min=TotalMoves,MinDir="U" merge tempMinGrid=tempGrid,tempMinKeys=tempKeys
+	}
+	if Direction'="U" {
+		set SW=$$MakeMove(.Grid,.Keys,LocationX,LocationY,LocationX,LocationY+1,"D",.TotalMoves,.tempGrid,.tempMoves,.tempKeys)
+		if SW,TotalMoves<Min set Min=TotalMoves,MinDir="D" merge tempMinGrid=tempGrid,tempMinKeys=tempKeys
+	}
+	if Direction'="R" {
+		set SW=$$MakeMove(.Grid,.Keys,LocationX,LocationY,LocationX-1,LocationY,"L",.TotalMoves,.tempGrid,.tempMoves,.tempKeys)
+		if SW,TotalMoves<Min set Min=TotalMoves,MinDir="L" merge tempMinGrid=tempGrid,tempMinKeys=tempKeys
+	}
+	if Direction'="L" {
+		set SW=$$MakeMove(.Grid,.Keys,LocationX,LocationY,LocationX+1,LocationY,"R",.TotalMoves,.tempGrid,.tempMoves,.tempKeys)
+		if SW,TotalMoves<Min set Min=TotalMoves,MinDir="R" merge tempMinGrid=tempGrid,tempMinKeys=tempKeys
+	}
+	/*if 'SW {
+		if Direction="D" {
+			write !,"UP"
+			set SW=$$MakeMove(.Grid,.Keys,LocationX,LocationY,LocationX,LocationY-1,"U",.TotalMoves,.tempGrid,.tempMoves)
+			if SW,TotalMoves<Min set Min=TotalMoves,MinDir="U" merge tempMinGrid=tempGrid w " OKUZ"
+			if SW,'$$GetTotalKeysAndMyLocation(.tempMinGrid) write !,"Min=",Min,",TotalMoves=",TotalMoves,",SW=",SW
+		}
+		if Direction="U" {
+			write !,"DOWN"
+			set SW=$$MakeMove(.Grid,.Keys,LocationX,LocationY,LocationX,LocationY+1,"D",.TotalMoves,.tempGrid,.tempMoves)
+			if SW,TotalMoves<Min set Min=TotalMoves,MinDir="D" merge tempMinGrid=tempGrid w " OKDZ"
+			if SW,'$$GetTotalKeysAndMyLocation(.tempMinGrid) write !,"Min=",Min,",TotalMoves=",TotalMoves,",SW=",SW
+		}
+		if Direction="R" {
+			write !,"LEFT"
+			set SW=$$MakeMove(.Grid,.Keys,LocationX,LocationY,LocationX-1,LocationY,"L",.TotalMoves,.tempGrid,.tempMoves)
+			if SW,TotalMoves<Min set Min=TotalMoves,MinDir="L" merge tempMinGrid=tempGrid w " OKLZ"
+			if SW,'$$GetTotalKeysAndMyLocation(.tempMinGrid) write !,"Min=",Min,",TotalMoves=",TotalMoves,",SW=",SW
+		}
+		if Direction="L" {
+			write !,"RIGHT"
+			set SW=$$MakeMove(.Grid,.Keys,LocationX,LocationY,LocationX+1,LocationY,"R",.TotalMoves,.tempGrid,.tempMoves)
+			if SW,TotalMoves<Min set Min=TotalMoves,MinDir="R" merge tempMinGrid=tempGrid w " OKRZ"
+			if SW,'$$GetTotalKeysAndMyLocation(.tempMinGrid) write !,"Min=",Min,",TotalMoves=",TotalMoves,",SW=",SW
+		}
+		if 'SW quit 0
+	}*/
+	set Moves=tempMoves_MinDir
+	w !,Moves
+	merge Grid=tempMinGrid,Keys=tempMinKeys
+	if '$$GetTotalKeysAndMyLocation(.Grid) write !,"FINISH"
+	quit Min+1
+}
+MakeMove(Grid,Keys,LocationX,LocationY,newLocationX,newLocationY,Direction,TotalMoves,tempGrid,tempMoves,tempKeys)
+{
+	kill tempGrid,tempKeys merge tempGrid=Grid,tempKeys=Keys
+	set SW=0,NextTile=$extract(tempGrid(newLocationY),newLocationX),TotalMoves=0
+	if NextTile?1l set Keys(NextTile)=""
+	if (NextTile=".")||(NextTile?1l)||((NextTile?1U)&&$data(Keys($char($ascii(NextTile)+32)))) {
+		set SW=1
+		set $extract(tempGrid(LocationY),LocationX)="."
+		set $extract(tempGrid(newLocationY),newLocationX)="@"
+		set TotalMoves=$$GetNextLocation(.tempGrid,Direction,.tempKeys,.tempMoves)
+	}
+	quit SW
+}
+
+GetTotalKeysAndMyLocation(RecordsArr,LocationX,LocationY)
+{
+	set Total=0
+	set Line="" for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Data=RecordsArr(Line)
+		set tempX=$find(Data,"@") if tempX {
+			set LocationX=tempX-1,LocationY=Line
+		}
+		write !,Data
+		set Total=Total+$length($zstrip(Data,"*E'L"))
+	}
+	quit Total
+}
+	/*
+	*/
+Part2(FileName="",RecordsArr,Materials,Cargo="") PUBLIC	;
+{
+}
+
+CheckData(RecordsArr) {
+	set ERR=""
+	set AtLocation=""
+	set Line="" for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		if $data(RecordsArr(Line))'=1 {
+			set ERR="Wrong data"
+			write !,ERR
+			quit
+		}
+		set Data=RecordsArr(Line)
+		if '$length(Data) {
+			set ERR="Missing data in line "_Line
+			write !,ERR
+			quit
+		}
+		set DefaultError="Wrong data in line "_Line_"("_Data_")"
+		if $translate(Data,"#.@")'?.A {
+			set ERR=$$DisplayErr(DefaultError_"-1") quit
+		}
+		if Data["@" {
+			if $length(Data,"@")'=2 {
+				set ERR=$$DisplayErr(DefaultError_"-2") quit
+			}
+			if $length(AtLocation) {
+				set ERR=$$DisplayErr("Both lines "_Line_" and "_AtLocation_" contain '@'-3") quit
+			}
+			set AtLocation=Line
+		}
+	}
+	quit:$length(ERR) 0
+	quit 1
+}
+DisplayErr(Error) {
+	write !,Error
+	quit Error
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::2 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0)
+	quit 1
+}

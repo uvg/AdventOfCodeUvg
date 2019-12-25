@@ -1,0 +1,433 @@
+YUVGZ201922	;https://adventofcode.com/2019/day/22;
+	quit
+	/*
+deal into new stack
+cut -2732
+deal into new stack
+deal with increment 57
+cut 5974
+deal into new stack
+deal with increment 32
+cut -1725
+deal with increment 24
+cut 6093
+deal with increment 6
+cut -2842
+deal with increment 14
+cut 2609
+deal with increment 12
+cut -6860
+deal with increment 51
+cut -6230
+deal with increment 61
+cut 3152
+deal with increment 28
+cut 2202
+deal into new stack
+deal with increment 60
+cut 433
+deal into new stack
+cut -6256
+deal with increment 13
+deal into new stack
+cut 8379
+deal into new stack
+deal with increment 54
+cut 1120
+deal with increment 16
+cut -5214
+deal with increment 63
+deal into new stack
+cut -8473
+deal with increment 11
+cut 228
+deal with increment 45
+cut -6755
+deal with increment 50
+cut -3391
+deal with increment 44
+cut -1341
+deal with increment 28
+cut -6788
+deal with increment 52
+cut 3062
+deal with increment 41
+cut 4541
+deal with increment 57
+cut -7962
+deal with increment 56
+cut 9621
+deal with increment 57
+cut 3881
+deal with increment 36
+deal into new stack
+deal with increment 45
+cut 522
+deal with increment 9
+deal into new stack
+deal with increment 60
+deal into new stack
+deal with increment 12
+cut -9181
+deal with increment 63
+deal into new stack
+deal with increment 14
+cut -2906
+deal with increment 10
+cut 848
+deal with increment 75
+cut 798
+deal with increment 29
+cut 1412
+deal with increment 10
+deal into new stack
+cut -5295
+deal into new stack
+cut 4432
+deal with increment 72
+cut -7831
+deal into new stack
+cut 6216
+deal into new stack
+deal with increment 7
+cut -1720
+deal into new stack
+cut -5465
+deal with increment 70
+cut -5173
+deal with increment 7
+cut 3874
+deal with increment 65
+cut 921
+deal with increment 8
+cut -3094
+	*/
+	/*
+There isn't much to do while you wait for the droids to repair your ship. At least you're drifting in the right direction. You decide to practice a new card shuffle you've been working on.
+
+Digging through the ship's storage, you find a deck of space cards! Just like any deck of space cards, there are 10007 cards in the deck numbered 0 through 10006. The deck must be new - they're still in factory order, with 0 on the top, then 1, then 2, and so on, all the way through to 10006 on the bottom.
+
+You've been practicing three different techniques that you use while shuffling. Suppose you have a deck of only 10 cards (numbered 0 through 9):
+
+To deal into new stack, create a new stack of cards by dealing the top card of the deck onto the top of the new stack repeatedly until you run out of cards:
+
+Top          Bottom
+0 1 2 3 4 5 6 7 8 9   Your deck
+                      New stack
+
+  1 2 3 4 5 6 7 8 9   Your deck
+                  0   New stack
+
+    2 3 4 5 6 7 8 9   Your deck
+                1 0   New stack
+
+      3 4 5 6 7 8 9   Your deck
+              2 1 0   New stack
+
+Several steps later...
+
+                  9   Your deck
+  8 7 6 5 4 3 2 1 0   New stack
+
+                      Your deck
+9 8 7 6 5 4 3 2 1 0   New stack
+Finally, pick up the new stack you've just created and use it as the deck for the next technique.
+
+To cut N cards, take the top N cards off the top of the deck and move them as a single unit to the bottom of the deck, retaining their order. For example, to cut 3:
+
+Top          Bottom
+0 1 2 3 4 5 6 7 8 9   Your deck
+
+      3 4 5 6 7 8 9   Your deck
+0 1 2                 Cut cards
+
+3 4 5 6 7 8 9         Your deck
+              0 1 2   Cut cards
+
+3 4 5 6 7 8 9 0 1 2   Your deck
+You've also been getting pretty good at a version of this technique where N is negative! In that case, cut (the absolute value of) N cards from the bottom of the deck onto the top. For example, to cut -4:
+
+Top          Bottom
+0 1 2 3 4 5 6 7 8 9   Your deck
+
+0 1 2 3 4 5           Your deck
+            6 7 8 9   Cut cards
+
+        0 1 2 3 4 5   Your deck
+6 7 8 9               Cut cards
+
+6 7 8 9 0 1 2 3 4 5   Your deck
+To deal with increment N, start by clearing enough space on your table to lay out all of the cards individually in a long line. Deal the top card into the leftmost position. Then, move N positions to the right and deal the next card there. If you would move into a position past the end of the space on your table, wrap around and keep counting from the leftmost card again. Continue this process until you run out of cards.
+
+For example, to deal with increment 3:
+
+
+0 1 2 3 4 5 6 7 8 9   Your deck
+. . . . . . . . . .   Space on table
+^                     Current position
+
+Deal the top card to the current position:
+
+  1 2 3 4 5 6 7 8 9   Your deck
+0 . . . . . . . . .   Space on table
+^                     Current position
+
+Move the current position right 3:
+
+  1 2 3 4 5 6 7 8 9   Your deck
+0 . . . . . . . . .   Space on table
+      ^               Current position
+
+Deal the top card:
+
+    2 3 4 5 6 7 8 9   Your deck
+0 . . 1 . . . . . .   Space on table
+      ^               Current position
+
+Move right 3 and deal:
+
+      3 4 5 6 7 8 9   Your deck
+0 . . 1 . . 2 . . .   Space on table
+            ^         Current position
+
+Move right 3 and deal:
+
+        4 5 6 7 8 9   Your deck
+0 . . 1 . . 2 . . 3   Space on table
+                  ^   Current position
+
+Move right 3, wrapping around, and deal:
+
+          5 6 7 8 9   Your deck
+0 . 4 1 . . 2 . . 3   Space on table
+    ^                 Current position
+
+And so on:
+
+0 7 4 1 8 5 2 9 6 3   Space on table
+Positions on the table which already contain cards are still counted; they're not skipped. Of course, this technique is carefully designed so it will never put two cards in the same position or leave a position empty.
+
+Finally, collect the cards on the table so that the leftmost card ends up at the top of your deck, the card to its right ends up just below the top card, and so on, until the rightmost card ends up at the bottom of the deck.
+
+The complete shuffle process (your puzzle input) consists of applying many of these techniques. Here are some examples that combine techniques; they all start with a factory order deck of 10 cards:
+
+deal with increment 7
+deal into new stack
+deal into new stack
+Result: 0 3 6 9 2 5 8 1 4 7
+cut 6
+deal with increment 7
+deal into new stack
+Result: 3 0 7 4 1 8 5 2 9 6
+deal with increment 7
+deal with increment 9
+cut -2
+Result: 6 3 0 7 4 1 8 5 2 9
+deal into new stack
+cut -2
+deal with increment 7
+cut 8
+cut -4
+deal with increment 7
+cut 3
+deal with increment 9
+deal with increment 3
+cut -1
+Result: 9 2 5 8 1 4 7 0 3 6
+Positions within the deck count from 0 at the top, then 1 for the card immediately below the top card, and so on to the bottom. (That is, cards start in the position matching their number.)
+
+After shuffling your factory order deck of 10007 cards, what is the position of card 2019?
+	*/
+	/*
+S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P22.txt"
+S FNE1="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P22E1.txt"
+S FNE2="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P22E2.txt"
+S FNE3="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P22E3.txt"
+S FNE4="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P22E4.txt"
+W $$Part1^YUVGZ201922(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set DeckSize=10007,CardToFind=2019
+	;set DeckSize=10,CardToFind=6
+	for i=0:1:DeckSize-1 set Cards(i)=i
+	set Line="" for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Command=RecordsArr(Line)
+		kill newStack
+		if Command="deal into new stack" {
+			for i=DeckSize-1:-1:0 {
+				set newStack(i)=Cards(DeckSize-1-i)
+			}
+		}
+		elseif $piece(Command," ",1)="cut" {
+			set NumOfCards=$piece(Command," ",2),Order=1
+			set:NumOfCards<0 NumOfCards=-NumOfCards,Order=-1
+			if Order=1 {
+				for i=0:1:NumOfCards-1 {
+					set newStack(DeckSize-NumOfCards+i)=Cards(i)
+				}
+				for i=NumOfCards:1:DeckSize-1 {
+					set newStack(i-NumOfCards)=Cards(i)
+				}
+			}
+			else {
+				for i=0:1:NumOfCards-1 {
+					set newStack(i)=Cards(DeckSize-NumOfCards+i)
+				}
+				for i=NumOfCards:1:DeckSize-1 {
+					set newStack(i)=Cards(i-NumOfCards)
+				}
+			}
+		}
+		else {
+			set NumOfCards=$piece(Command," ",4),NewPosition=0
+			for i=0:1:DeckSize-1 {
+				set newStack(NewPosition)=Cards(i)
+				set NewPosition=NewPosition+NumOfCards
+				if NewPosition>=DeckSize set NewPosition=NewPosition#DeckSize
+			}
+		}
+		kill Cards merge Cards=newStack
+	}
+	for i=0:1:DeckSize-1 quit:Cards(i)=CardToFind
+	//w !!!
+	//zw Cards
+	//w !!!
+	if $get(Cards(i))'=CardToFind quit -1
+	quit i
+}
+
+	
+	/*
+After a while, you realize your shuffling skill won't improve much more with merely a single deck of cards. You ask every 3D printer on the ship to make you some more cards while you check on the ship repairs. While reviewing the work the droids have finished so far, you think you see Halley's Comet fly past!
+
+When you get back, you discover that the 3D printers have combined their power to create for you a single, giant, brand new, factory order deck of 119315717514047 space cards.
+
+Finally, a deck of cards worthy of shuffling!
+
+You decide to apply your complete shuffle process (your puzzle input) to the deck 101741582076661 times in a row.
+
+You'll need to be careful, though - one wrong move with this many cards and you might overflow your entire ship!
+
+After shuffling your new, giant, factory order deck that many times, what number is on the card that ends up in position 2020?
+	*/
+Part2(FileName="",RecordsArr,Materials,Cargo="") PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set DeckSize=119315717514047,CardPosition=2020,NumberOfTimes=101741582076661
+	;set DeckSize=10,CardPosition=6,NumberOfTimes=3
+	set TempCard=0,TempCardPos=1
+	set Line="" for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Command=RecordsArr(Line)
+		if Command="deal into new stack" {
+			set TempCard=(DeckSize-1-TempCard)#DeckSize
+			set TempCardPos=-TempCardPos#DeckSize
+		}
+		elseif $piece(Command," ",1)="cut" {
+			set NumOfCards=$piece(Command," ",2)
+			//set TempCard=(TempCard+NumOfCards)#DeckSize
+			set TempCard=(TempCard-NumOfCards)#DeckSize
+		}
+		else {
+			set NumOfCards=$piece(Command," ",4)
+			/*
+			if '(TempCard#NumOfCards) {
+				set TempCard=TempCard\NumOfCards
+			}
+			else {
+				set TempCard=(NumOfCards*(NumOfCards-(TempCard#NumOfCards))+(TempCard\NumOfCards)+1)#DeckSize
+			}*/
+			set TempCard=NumOfCards*TempCard#DeckSize
+			set TempCardPos=NumOfCards*TempCardPos#DeckSize
+		}
+	}
+	//
+	//Maybe try and use an external software or find some arithmetic library that can handle number with 100 bits or more (Cache can handle up to 63 bits)
+	//
+	//set RecurseVal=(TempCard*(((1-TempCardPos)**(DeckSize-2))#DeckSize))#DeckSize - for this part i used a scietific calculator to compute and got 39782176582654
+	set RecurseVal=39782176582654
+	//
+	//
+	//set Card=((CardPosition-RecurseVal)*((TempCardPos**(NumberOfTimes*(DeckSize-2)))#DeckSize)+RecurseVal)#DeckSize  - for this part i used a scietific calculator to compute and got 73729306030290
+	set Card=73729306030290
+	quit Card
+}
+
+CheckData(RecordsArr) {
+	set ERR=""
+	set Line="" for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		if $data(RecordsArr(Line))'=1 {
+			set ERR="Wrong data"
+			write !,ERR
+			quit
+		}
+		set Data=RecordsArr(Line)
+		if '$length(Data) {
+			set ERR="Missing data in line "_Line
+			write !,ERR
+			quit
+		}
+		set DefaultError="Wrong data in line "_Line_"("_Data_")"
+		if Data="deal into new stack" continue
+		if Data?1"cut ".1"-"1.n continue
+		if Data?1"deal with increment "1.n continue
+		set ERR=$$DisplayErr(DefaultError) quit
+	}
+	quit:$length(ERR) 0
+	quit 1
+}
+DisplayErr(Error) {
+	write !,Error
+	quit Error
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::2 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}
