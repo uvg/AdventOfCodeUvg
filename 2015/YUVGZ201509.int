@@ -1,0 +1,215 @@
+ROUTINE YUVGZ201509 [Type=INT]
+YUVGZ201509	;https://adventofcode.com/2015/day/9;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+AlphaCentauri to Snowdin = 66
+AlphaCentauri to Tambi = 28
+AlphaCentauri to Faerun = 60
+AlphaCentauri to Norrath = 34
+AlphaCentauri to Straylight = 34
+AlphaCentauri to Tristram = 3
+AlphaCentauri to Arbre = 108
+Snowdin to Tambi = 22
+Snowdin to Faerun = 12
+Snowdin to Norrath = 91
+Snowdin to Straylight = 121
+Snowdin to Tristram = 111
+Snowdin to Arbre = 71
+Tambi to Faerun = 39
+Tambi to Norrath = 113
+Tambi to Straylight = 130
+Tambi to Tristram = 35
+Tambi to Arbre = 40
+Faerun to Norrath = 63
+Faerun to Straylight = 21
+Faerun to Tristram = 57
+Faerun to Arbre = 83
+Norrath to Straylight = 9
+Norrath to Tristram = 50
+Norrath to Arbre = 60
+Straylight to Tristram = 27
+Straylight to Arbre = 81
+Tristram to Arbre = 90
+	*/
+	/*
+Every year, Santa manages to deliver all of his presents in a single night.
+
+This year, however, he has some new locations to visit; his elves have provided him the distances between every pair of locations. He can start and end at any two (different) locations he wants, but he must visit each location exactly once. What is the shortest distance he can travel to achieve this?
+
+For example, given the following distances:
+
+London to Dublin = 464
+London to Belfast = 518
+Dublin to Belfast = 141
+The possible routes are therefore:
+
+Dublin -> London -> Belfast = 982
+London -> Dublin -> Belfast = 605
+London -> Belfast -> Dublin = 659
+Dublin -> Belfast -> London = 659
+Belfast -> Dublin -> London = 605
+Belfast -> London -> Dublin = 982
+The shortest of these is London -> Dublin -> Belfast = 605, and so the answer is 605 in this example.
+
+What is the distance of the shortest route?
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Line="",ERR="",TotalPlaces=0 for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Data=RecordsArr(Line)
+		set From=$piece(Data," ",1),To=$piece(Data," ",3),Distance=$piece(Data," ",5)
+		set Distances(To,From)=Distance
+		set Distances(From,To)=Distance
+		if '$data(Places(From)) set TotalPlaces=TotalPlaces+1,OrderdPlaces(TotalPlaces)=From
+		if '$data(Places(To)) set TotalPlaces=TotalPlaces+1,OrderdPlaces(TotalPlaces)=To
+		set Places(From)=""
+		set Places(To)=""
+		quit:$length(ERR)
+	}
+	quit:$length(ERR) 0
+	set Num="" for i=1:1:TotalPlaces set Num=Num_","_i
+	set $extract(Num)=""
+	set MinDistance=99999999999999,Route=""
+	for i=10**(TotalPlaces-1):1:(10**TotalPlaces-1)
+	{
+		set SW=0
+		for j=1:1:TotalPlaces
+		{
+			if i'[$piece(Num,",",j) set SW=1 quit
+		}
+		continue:SW
+		set Distance=0
+		for j=1:1:TotalPlaces-1 {
+			set Distance=Distance+Distances(OrderdPlaces($extract(i,j)),OrderdPlaces($extract(i,j+1)))
+		}
+		if Distance<MinDistance set MinDistance=Distance,Route=i
+	}
+	w !,"Route=",Route," Distance=",MinDistance,!
+	zw OrderdPlaces
+	quit MinDistance
+}
+
+	/*
+The next year, just to show off, Santa decides to take the route with the longest distance instead.
+
+He can still start and end at any two (different) locations he wants, and he still must visit each location exactly once.
+
+For example, given the distances above, the longest route would be 982 via (for example) Dublin -> London -> Belfast.
+
+What is the distance of the longest route?
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Line="",ERR="",TotalPlaces=0 for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Data=RecordsArr(Line)
+		set From=$piece(Data," ",1),To=$piece(Data," ",3),Distance=$piece(Data," ",5)
+		set Distances(To,From)=Distance
+		set Distances(From,To)=Distance
+		if '$data(Places(From)) set TotalPlaces=TotalPlaces+1,OrderdPlaces(TotalPlaces)=From
+		if '$data(Places(To)) set TotalPlaces=TotalPlaces+1,OrderdPlaces(TotalPlaces)=To
+		set Places(From)=""
+		set Places(To)=""
+		quit:$length(ERR)
+	}
+	quit:$length(ERR) 0
+	//set TotalPlaces=8
+	set Num="" for i=1:1:TotalPlaces set Num=Num_","_i
+	set $extract(Num)=""
+	set MaxDistance=0,Route=""
+	for i=10**(TotalPlaces-1):1:(10**TotalPlaces-1)
+	{
+		set SW=0
+		for j=1:1:TotalPlaces
+		{
+			if i'[$piece(Num,",",j) set SW=1 quit
+		}
+		continue:SW
+		set Distance=0
+		for j=1:1:TotalPlaces-1 {
+			set Distance=Distance+Distances(OrderdPlaces($extract(i,j)),OrderdPlaces($extract(i,j+1)))
+		}
+		if Distance>MaxDistance set MaxDistance=Distance,Route=i
+	}
+	w !,"Route=",Route," Distance=",MaxDistance,!
+	zw OrderdPlaces
+	quit MaxDistance
+}
+CheckData(RecordsArr) {
+	set ERR=""
+	set Line="" for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		if $data(RecordsArr(Line))'=1 {
+			set ERR="Wrong data"
+			write !,ERR
+			quit
+		}
+		set Data=RecordsArr(Line)
+		if '$length(Data) {
+			set ERR="Missing data in line "_Line
+			write !,ERR
+			quit
+		}
+		//AlphaCentauri to Arbre = 108
+		set DefaultError="Wrong data in line "_Line_"("_Data_")"
+		if Data'?1.a1" to "1.a1" = "1.n set ERR=$$DisplayErr(DefaultError_"-1") quit
+	}
+	quit:$length(ERR) 0
+	quit 1
+}
+DisplayErr(Error) {
+	write !,Error
+	quit Error
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::2 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $system.Process.SetZEOF(0)
+	quit 1
+}
+

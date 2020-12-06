@@ -1,0 +1,196 @@
+ROUTINE YUVGZ201514 [Type=INT]
+YUVGZ201514	;https://adventofcode.com/2015/day/14;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+Rudolph can fly 22 km/s for 8 seconds, but then must rest for 165 seconds.
+Cupid can fly 8 km/s for 17 seconds, but then must rest for 114 seconds.
+Prancer can fly 18 km/s for 6 seconds, but then must rest for 103 seconds.
+Donner can fly 25 km/s for 6 seconds, but then must rest for 145 seconds.
+Dasher can fly 11 km/s for 12 seconds, but then must rest for 125 seconds.
+Comet can fly 21 km/s for 6 seconds, but then must rest for 121 seconds.
+Blitzen can fly 18 km/s for 3 seconds, but then must rest for 50 seconds.
+Vixen can fly 20 km/s for 4 seconds, but then must rest for 75 seconds.
+Dancer can fly 7 km/s for 20 seconds, but then must rest for 119 seconds.
+	*/
+	/*
+Day 14 part 1:
+This year is the Reindeer Olympics! Reindeer can fly at high speeds, but must rest occasionally to recover their energy. Santa would like to know which of his reindeer is fastest, and so he has them race.
+
+Reindeer can only either be flying (always at their top speed) or resting (not moving at all), and always spend whole seconds in either state.
+
+For example, suppose you have the following Reindeer:
+
+Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.
+Dancer can fly 16 km/s for 11 seconds, but then must rest for 162 seconds.
+After one second, Comet has gone 14 km, while Dancer has gone 16 km. After ten seconds, Comet has gone 140 km, while Dancer has gone 160 km. On the eleventh second, Comet begins resting (staying at 140 km), and Dancer continues on for a total distance of 176 km. On the 12th second, both reindeer are resting. They continue to rest until the 138th second, when Comet flies for another ten seconds. On the 174th second, Dancer flies for another 11 seconds.
+
+In this example, after the 1000th second, both reindeer are resting, and Comet is in the lead at 1120 km (poor Dancer has only gotten 1056 km by that point). So, in this situation, Comet would win (if the race ended at 1000 seconds).
+
+Given the descriptions of each reindeer (in your puzzle input), after exactly 2503 seconds, what distance has the winning reindeer traveled?
+	*/
+	/*
+W $$Part1^YUVGZ201514(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do AnalayzeData(.RecordsArr,.Reindeers)
+	zwrite RecordsArr,Reindeers
+	set Ans="",TotalTravelTime=2503
+	set Reindeer="",MaxDistance=0
+	for  {
+		set Reindeer=$order(Reindeers(Reindeer)) quit:Reindeer=""
+		set ReindeerData=Reindeers(Reindeer)
+		set Velocity=$list(ReindeerData,1)
+		set TravelTime=$list(ReindeerData,2)
+		set RestTime=$list(ReindeerData,3)
+		/*
+		For anyone wondering, distance traveled for time t, speed v, travel time g, and rest time r is
+
+		v*g*(t\(g + r)) + v*min(g, t # (g + r))
+		*/
+
+		set Distance=Velocity*TravelTime*(TotalTravelTime\(TravelTime+RestTime))+(Velocity*$$Min(TravelTime,TotalTravelTime#(TravelTime+RestTime)))
+		set:Distance>MaxDistance MaxDistance=Distance_"*"_Reindeer
+	}
+	quit MaxDistance
+}
+Min(Number1,Number2)
+{
+	quit:Number1<Number2 Number1
+	quit Number2
+}
+	//
+	//
+AnalayzeData(RecordsArr,Reindeers)
+{
+	set Line=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		;Rudolph can fly 22 km/s for 8 seconds, but then must rest for 165 seconds.
+		set Reindeers($piece(Record," ",1))=$listbuild($piece(Record," ",4),$piece(Record," ",7),$piece(Record," ",14))
+	}
+}
+
+	/*
+Day 14 part 2:
+Seeing how reindeer move in bursts, Santa decides he's not pleased with the old scoring system.
+
+Instead, at the end of each second, he awards one point to the reindeer currently in the lead. (If there are multiple reindeer tied for the lead, they each get one point.) He keeps the traditional 2503 second time limit, of course, as doing otherwise would be entirely ridiculous.
+
+Given the example reindeer from above, after the first second, Dancer is in the lead and gets one point. He stays in the lead until several seconds into Comet's second burst: after the 140th second, Comet pulls into the lead and gets his first point. Of course, since Dancer had been in the lead for the 139 seconds before that, he has accumulated 139 points by the 140th second.
+
+After the 1000th second, Dancer has accumulated 689 points, while poor Comet, our old champion, only has 312. So, with the new scoring system, Dancer would win (if the race ended at 1000 seconds).
+
+Again given the descriptions of each reindeer (in your puzzle input), after exactly 2503 seconds, how many points does the winning reindeer have?
+	*/
+	/*
+W $$Part2^YUVGZ201514(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do AnalayzeData(.RecordsArr,.Reindeers)
+	zwrite RecordsArr,Reindeers
+	set Ans=""
+	for TotalTravelTime=1:1:2503 {
+		set Reindeer="",MaxDistance=0
+		for {
+			set Reindeer=$order(Reindeers(Reindeer)) quit:Reindeer=""
+			set ReindeerData=Reindeers(Reindeer)
+			set Velocity=$list(ReindeerData,1)
+			set TravelTime=$list(ReindeerData,2)
+			set RestTime=$list(ReindeerData,3)
+			/*
+			For anyone wondering, distance traveled for time t, speed v, travel time g, and rest time r is
+
+			v*g*(t\(g + r)) + v*min(g, t # (g + r))
+			*/
+
+			set Distance=Velocity*TravelTime*(TotalTravelTime\(TravelTime+RestTime))+(Velocity*$$Min(TravelTime,TotalTravelTime#(TravelTime+RestTime)))
+			set $list(ReindeerData,4)=Distance,Reindeers(Reindeer)=ReindeerData
+			set:Distance>MaxDistance MaxDistance=Distance
+		}
+		set Reindeer=""
+		for {
+			set Reindeer=$order(Reindeers(Reindeer)) quit:Reindeer=""
+			set ReindeerData=Reindeers(Reindeer)
+			if $list(ReindeerData,4)=MaxDistance,$increment(Points(Reindeer))
+		}
+	}
+	set Reindeer="",MaxPoints=0
+	for {
+		set Reindeer=$order(Points(Reindeer)) quit:Reindeer=""
+		set Points=Points(Reindeer)
+		set:Points>MaxPoints MaxPoints=Points
+	}
+	zw Points
+	quit MaxPoints
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.e1" can fly "1.n1" km/s for "1.n1" seconds, but then must rest for "1.n1" seconds." {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}
