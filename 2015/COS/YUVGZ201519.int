@@ -1,0 +1,257 @@
+ROUTINE YUVGZ201519 [Type=INT]
+YUVGZ201519	;https://adventofcode.com/2015/day/19;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+Al => ThF
+Al => ThRnFAr
+B => BCa
+B => TiB
+B => TiRnFAr
+Ca => CaCa
+Ca => PB
+Ca => PRnFAr
+Ca => SiRnFYFAr
+Ca => SiRnMgAr
+Ca => SiTh
+F => CaF
+F => PMg
+F => SiAl
+H => CRnAlAr
+H => CRnFYFYFAr
+H => CRnFYMgAr
+H => CRnMgYFAr
+H => HCa
+H => NRnFYFAr
+H => NRnMgAr
+H => NTh
+H => OB
+H => ORnFAr
+Mg => BF
+Mg => TiMg
+N => CRnFAr
+N => HSi
+O => CRnFYFAr
+O => CRnMgAr
+O => HP
+O => NRnFAr
+O => OTi
+P => CaP
+P => PTi
+P => SiRnFAr
+Si => CaSi
+Th => ThCa
+Ti => BP
+Ti => TiTi
+e => HF
+e => NAl
+e => OMg
+
+ORnPBPMgArCaCaCaSiThCaCaSiThCaCaPBSiRnFArRnFArCaCaSiThCaCaSiThCaCaCaCaCaCaSiRnFYFArSiRnMgArCaSiRnPTiTiBFYPBFArSiRnCaSiRnTiRnFArSiAlArPTiBPTiRnCaSiAlArCaPTiTiBPMgYFArPTiRnFArSiRnCaCaFArRnCaFArCaSiRnSiRnMgArFYCaSiRnMgArCaCaSiThPRnFArPBCaSiRnMgArCaCaSiThCaSiRnTiMgArFArSiThSiThCaCaSiRnMgArCaCaSiRnFArTiBPTiRnCaSiAlArCaPTiRnFArPBPBCaCaSiThCaPBSiThPRnFArSiThCaSiThCaSiThCaPTiBSiRnFYFArCaCaPRnFArPBCaCaPBSiRnTiRnFArCaPRnFArSiRnCaCaCaSiThCaRnCaFArYCaSiRnFArBCaCaCaSiThFArPBFArCaSiRnFArRnCaCaCaFArSiRnFArTiRnPMgArF
+	*/
+	/*
+Day 19 part 1:
+Rudolph the Red-Nosed Reindeer is sick! His nose isn't shining very brightly, and he needs medicine.
+
+Red-Nosed Reindeer biology isn't similar to regular reindeer biology; Rudolph is going to need custom-made medicine. Unfortunately, Red-Nosed Reindeer chemistry isn't similar to regular reindeer chemistry, either.
+
+The North Pole is equipped with a Red-Nosed Reindeer nuclear fusion/fission plant, capable of constructing any Red-Nosed Reindeer molecule you need. It works by starting with some input molecule and then doing a series of replacements, one per step, until it has the right molecule.
+
+However, the machine has to be calibrated before it can be used. Calibration involves determining the number of molecules that can be generated in one step from a given starting point.
+
+For example, imagine a simpler machine that supports only the following replacements:
+
+H => HO
+H => OH
+O => HH
+Given the replacements above and starting with HOH, the following molecules could be generated:
+
+HOOH (via H => HO on the first H).
+HOHO (via H => HO on the second H).
+OHOH (via H => OH on the first H).
+HOOH (via H => OH on the second H).
+HHHH (via O => HH).
+So, in the example above, there are 4 distinct molecules (not five, because HOOH appears twice) after one replacement from HOH. Santa's favorite molecule, HOHOHO, can become 7 distinct molecules (over nine replacements: six from H, and three from O).
+
+The machine replaces without regard for the surrounding characters. For example, given the string H2O, the transition H => OO would result in OO2O.
+
+Your puzzle input describes all of the possible replacements and, at the bottom, the medicine molecule for which you need to calibrate the machine. How many distinct molecules can be created after all the different ways you can do one replacement on the medicine molecule?
+	*/
+	/*
+W $$Part1^YUVGZ201519(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Molecule=$$AnalayzeData(.RecordsArr,.SubstituteArr)
+	w !,Molecule,!
+	zw SubstituteArr
+	do GetSubMolecules(Molecule,.SubstituteArr,.MoleculesArr)
+	;zw MoleculesArr
+	set Count=0
+	set i=""
+	for  {
+		set i=$order(MoleculesArr(i)) quit:i=""
+		set j=""
+		for  {
+			set j=$order(MoleculesArr(i,j)) quit:j=""
+			set Count=Count+1
+		}
+	}
+	quit Count
+}
+GetSubMolecules(Molecule,SubstituteArr,MoleculesArr)
+{
+	set From=""
+	for  {
+		set From=$order(SubstituteArr("FromTo",From)) quit:From=""
+		S To=""
+		f  {
+			set To=$o(SubstituteArr("FromTo",From,To)) q:To=""
+			set nextMolecule=Molecule
+			for i=1:1:$length(Molecule) {
+				if $extract(Molecule,i,i+$length(From)-1)=From {
+					set nextMolecule=Molecule
+					set $extract(nextMolecule,i,i+$length(From)-1)=To
+					set MoleculesArr($extract(nextMolecule,1,$length(nextMolecule)\2),$extract(nextMolecule,$length(nextMolecule)\2+1,*))=""
+				}
+			}
+		}
+	}
+}
+AnalayzeData(RecordsArr,SubstituteArr)
+{
+	set Line=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		continue:'$length(Record)
+		continue:Record'[" => "
+		set From=$piece(Record," => ",1)
+		set To=$piece(Record," => ",2)
+		set SubstituteArr("FromTo",From,To)=""
+		set SubstituteArr("ToFrom",To,From)=""
+	}
+	quit RecordsArr($order(RecordsArr(""),-1))
+}
+
+	/*
+Day 19 part 2:
+Now that the machine is calibrated, you're ready to begin molecule fabrication.
+
+Molecule fabrication always begins with just a single electron, e, and applying replacements one at a time, just like the ones during calibration.
+
+For example, suppose you have the following replacements:
+
+e => H
+e => O
+H => HO
+H => OH
+O => HH
+If you'd like to make HOH, you start with e, and then make the following replacements:
+
+e => O to get O
+O => HH to get HH
+H => OH (on the second H) to get HOH
+So, you could make HOH after 3 steps. Santa's favorite molecule, HOHOHO, can be made in 6 steps.
+
+How long will it take to make the medicine? Given the available replacements and the medicine molecule in your puzzle input, what is the fewest number of steps to go from e to the medicine molecule?
+	*/
+	/*
+W $$Part2^YUVGZ201519(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Molecule=$$AnalayzeData(.RecordsArr,.SubstituteArr)
+	w !,Molecule,!
+	zw SubstituteArr
+	do GetSubMolecules(Molecule,.SubstituteArr,.MoleculesArr)
+	;zw MoleculesArr
+	set Count=0
+	set i=""
+	for  {
+		set i=$order(MoleculesArr(i)) quit:i=""
+		set j=""
+		for  {
+			set j=$order(MoleculesArr(i,j)) quit:j=""
+			set Count=Count+1
+		}
+	}
+	quit Count
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error="",LastLine=$order(RecordsArr(""),-1)
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Line+1<LastLine,Record'?1.E1" => "1.E {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		if Line+1=LastLine,$length(Record)
+		{
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		if Line=LastLine,'$length(Record)
+		{
+			set Error="Wrong data format at line "_Line
+			quit
+		}		
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}
