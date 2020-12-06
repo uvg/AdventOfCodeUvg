@@ -1,4 +1,6 @@
+ROUTINE YUVGZ201920 [Type=INT]
 YUVGZ201920	;https://adventofcode.com/2019/day/20;
+	//Intersystems developer community id: 130669-ab1f69bf
 	quit
 	/*
                                          J       F           Z     S   X           H     T                                             
@@ -205,13 +207,6 @@ Here, AA has no direct path to ZZ, but it does connect to AS and CP. By passing 
 In your maze, how many steps does it take to get from the open tile marked AA to the open tile marked ZZ?
 	*/
 	/*
-S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P20.txt"
-S FNE1="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P20E1.txt"
-S FNE2="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ19P20E2.txt"
-
-S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\65370689939067312.txt"
-S FNE1="c:\inetpub\wwwroot\nikuv\image\wbemployee\653706900762519652.txt"
-S FNE2="c:\inetpub\wwwroot\nikuv\image\wbemployee\653706902051519652.txt"
 W $$Part1^YUVGZ201920(FN)
 	*/
 

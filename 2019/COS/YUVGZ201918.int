@@ -1,4 +1,6 @@
+ROUTINE YUVGZ201918 [Type=INT]
 YUVGZ201918	;https://adventofcode.com/2019/day/18;
+	//Intersystems developer community id: 130669-ab1f69bf
 	quit
 	/*
 #################################################################################
@@ -175,15 +177,9 @@ Shortest paths are 81 steps; one is: a, c, f, i, d, g, b, e, h
 
 How many steps is the shortest path that collects all of the keys?
 	*/
-	/*
-S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1.txt"
-S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1E1.txt"
-S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1E2.txt"
-S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1E3.txt"
-S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\YUVGZ201918P1E4.txt"
-	*/
 Part1(FileName="",RecordsArr) PUBLIC	;
 {
+	set $zstorage=4194304  //Change process memory to 4G
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
 			read !,"Enter filename: ",FileName
@@ -200,11 +196,15 @@ Part1(FileName="",RecordsArr) PUBLIC	;
 		}
 	}
 	quit:'$$CheckData(.RecordsArr) 0
-	set TotalSteps=0 merge tempGrid=RecordsArr
+	do AnalayzeData(.RecordsArr,.Grid,.Keys,.Doors,.StartPoints,0)
+	set MinPath=$$GetMinPath(.Grid,.Keys,.Doors,.StartPoints)
+	quit MinPath
+	/*set TotalSteps=0 merge tempGrid=RecordsArr*/
 	/*
 	merge tempGrid=^mtempSORT($zname,"Part1","OldOptions",2,2,"grid")
 	merge Keys=^mtempSORT($zname,"Part1","OldOptions",2,2,"Keys")
 	set TotalSteps=^mtempSORT($zname,"Part1","OldOptions",2,2,"Steps")*/
+	/*
 	kill ^mtempSORT($zname,"Part1")
 	do SetOptions(.tempGrid,,TotalSteps)
 	set Moves=""
@@ -215,8 +215,8 @@ Part1(FileName="",RecordsArr) PUBLIC	;
 		merge tempGrid=^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"grid")
 		kill Keys merge Keys=^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"Keys")
 		set TotalSteps=^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"Steps")
-		w !,"TotalSteps=",TotalSteps,!,"BEFORE:",!
-		zw tempGrid,Keys
+		write !,"TotalSteps=",TotalSteps,!,"BEFORE:",!
+		zwrite tempGrid,Keys
 		for  {
 			set TotalKeys=$$GetTotalKeysAndMyLocation(.tempGrid)
 			quit:'TotalKeys
@@ -237,12 +237,311 @@ Part1(FileName="",RecordsArr) PUBLIC	;
 		merge tempGrid=^mtempSORT($zname,"Part1","NewOptions",CurrentOption,"grid")
 		kill ^mtempSORT($zname,"Part1","NewOptions",CurrentOption)
 		quit:CurrentOption=$order(^mtempSORT($zname,"Part1","NewOptions",""),-1)
-		w !,"TotalSteps=",TotalSteps,!,"AFTER:",!
-		zw ^mtempSORT($zname,"Part1","NewOptions")
+		write !,"TotalSteps=",TotalSteps,!,"AFTER:",!
+		zwrite ^mtempSORT($zname,"Part1","NewOptions")
 
 	}
-	quit TotalSteps
+	quit TotalSteps*/
 }
+AnalayzeData(RecordsArr,Grid,Keys,Doors,StartPoints,IsPart2=0)
+{
+	kill Grid,Keys,Doors,StartPoints
+	set Length=$length(RecordsArr(1))
+	if IsPart2 {
+		set MiddleX=(Length+1)/2
+		set MiddleY=($order(RecordsArr(""),-1)+1)/2
+		set $extract(RecordsArr(MiddleY-1),MiddleX-1,MiddleX+1)="@#@"
+		set $extract(RecordsArr(MiddleY),MiddleX-1,MiddleX+1)="###"
+		set $extract(RecordsArr(MiddleY+1),MiddleX-1,MiddleX+1)="@#@"
+	}
+	set Line=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		for Location=1:1:Length {
+			set Char=$extract(Record,Location)
+			continue:Char="#"
+			set Grid(Location,Line)=1
+			continue:Char="."
+			set Point=$listbuild(Location,Line)
+			if Char="@" {
+				set StartPoints($increment(StartPoints)-1)=Point
+				continue
+			}
+			set Ascii=$ascii(Char)
+			if Ascii>=97 {  //Lower case ==> Key
+				set Keys(Ascii-97)=Point
+			}
+			else {  //Upper case ==> Door
+				set Doors(Ascii-65)=Point
+			}
+		}
+	}
+	set Key="",Keys=0
+	for  {
+		set Key=$order(Keys(Key),-1) quit:Key=""
+		set Keys(Key+StartPoints)=Keys(Key),Keys=Keys+1
+		kill Keys(Key)
+	}
+	set Door="",Doors=0
+	for  {
+		set Door=$order(Doors(Door),-1) quit:Door=""
+		set Doors(Door+StartPoints)=Doors(Door),Doors=Doors+1
+		kill Doors(Door)
+	}
+	//zw StartPoints
+	//ZW Keys
+	ZW RecordsArr
+}
+GetMinPath(Grid,Keys,Doors,StartPoints)
+{
+	do BuildGraph(.Grid,.Graph)
+	do ComputeDistances(.Graph,.Keys,.Doors,.StartPoints,.FromTo)
+	//zw FromTo
+	set MinFullPathLength=9999999999999999
+	set startPointsList="",startIndex=""
+	for  {
+		set startIndex=$order(StartPoints(startIndex)) quit:startIndex=""
+		set startPointsList=startPointsList_$listbuild(startIndex)
+	}
+	//                      1     ,         2            ,         3 
+	//           =$lb(current path,current collected keys,current path length)
+	//                            1         , 2,3
+	set StartPath=$listbuild(startPointsList,"",0) ;,FullPaths=""
+	set PossiblePaths($increment(PossiblePaths))=StartPath
+	while $data(PossiblePaths)>1 {
+		i $i(Counter)>20 k undef w undef
+		set pathIndex=$order(PossiblePaths(""))
+		set path=PossiblePaths(pathIndex)
+		kill PossiblePaths(pathIndex)
+		//zw path h 5
+		continue:$get(MinPathsLength($list(path,1,2)))<$list(path,3)
+		set nextPaths=$$GetNextPaths(.FromTo,path)
+		while $length(nextPaths) {
+			;zw nextPaths,FullPaths
+			;r "press any key to continue",anyKey
+			;w !,"======================",!
+			;zw nextPath
+			;h 1
+			set nextPath=$list(nextPaths,1)
+			set nextPaths=$list(nextPaths,2,*)
+			if $list(nextPath,3)<MinFullPathLength {
+				set isBetter=0
+				if $data(MinPathsLength($list(nextPath,1,2)))
+				{
+					if $list(nextPath,3)<MinPathsLength($list(nextPath,1,2))
+					{
+						set MinPathsLength($list(nextPath,1,2))=$list(nextPath,3)
+						set isBetter=1
+					}
+				}
+				else {
+					set MinPathsLength($list(nextPath,1,2))=$list(nextPath,3)
+					set isBetter=1
+				}
+				if isBetter {
+					if $listlength($list(nextPath,2))=Keys {
+						set:$list(nextPath,3)<MinFullPathLength MinFullPathLength=$list(nextPath,3)
+						//set FullPaths(nextPath)=""
+					}
+					else {
+						set PossiblePaths($increment(PossiblePaths))=nextPath
+					}
+				}
+			}
+		}
+	}
+	;w !!!!!!!!!!!!!!
+	;zw FullPaths
+	;w MinFullPathLength,!
+	;zwrite Graph
+	;if StartPoints=1 quit 4510  //TEMPPPP
+	;quit 1816  //TEMPPPP
+	quit MinFullPathLength
+}
+GetNextPaths(FromTo,Path)
+{
+	;w !!!!!
+	zw Path
+	set currentPositions=$list(Path,1),totalCurrentPositions=$listlength(currentPositions)
+	set currentCollectedKeys=$list(Path,2)
+	set currentLength=$list(Path,3)
+	set fromKey=""
+	for  {
+		set fromKey=$order(FromTo(fromKey)) quit:fromKey=""
+		set fromKeyPosition=$listfind(currentPositions,fromKey)
+		continue:'fromKeyPosition
+		;zw FromTo(fromKey)
+		set toKey=""
+		for  {
+			set toKey=$order(FromTo(fromKey,toKey)) quit:toKey=""
+			continue:$listfind(currentCollectedKeys,toKey)
+			;w !,"From ",fromKey," to ",toKey,!
+			set value=FromTo(fromKey,toKey)
+			set dist=$list(value,1),DoorsInPath=$list(value,2)
+			;zw DoorsInPath
+			set sw=1
+			for doorIndex=1:1:$listlength(DoorsInPath) {
+				//s xxx=$list(DoorsInPath,doorIndex) zw xxx
+				if '$listfind(currentCollectedKeys,$list(DoorsInPath,doorIndex)) {
+					set sw=0
+					quit
+				}
+			}
+			continue:'sw
+			;w !,">>>>>>>>>>>>>>>>>>",fromKey,",",toKey,"<<<<<<<<<<<<<<",!
+
+			set removedKey=currentPositions,$list(removedKey,fromKeyPosition)=""
+			set newPosition=""
+			for index=1:1:totalCurrentPositions set:$length($list(removedKey,index)) newPosition=newPosition_$listbuild($list(removedKey,index))
+			set newPosition=newPosition_$listbuild(toKey)
+			set nextPath=$listbuild(newPosition,currentCollectedKeys_$listbuild(toKey),currentLength+dist)
+			;zw nextPath
+			;w !!!!
+			set Paths(nextPath)=""
+		}
+	}
+	set nextPath="",AllNextPaths=""
+	for  {
+		set nextPath=$order(Paths(nextPath)) quit:nextPath=""
+		set AllNextPaths=AllNextPaths_$listbuild(nextPath)
+	}
+	quit AllNextPaths
+}
+BuildGraph(Grid,Graph)
+{
+	set x=""
+	for  {
+		set x=$order(Grid(x)) quit:x=""
+		set y=""
+		for  {
+			set y=$order(Grid(x,y)) quit:y=""
+			set Point=$listbuild(x,y)
+			if $get(Grid(x-1,y)) set Graph(Point,$listbuild(x-1,y))=""
+			if $get(Grid(x+1,y)) set Graph(Point,$listbuild(x+1,y))=""
+			if $get(Grid(x,y-1)) set Graph(Point,$listbuild(x,y-1))=""
+			if $get(Grid(x,y+1)) set Graph(Point,$listbuild(x,y+1))=""
+		}
+	}
+}
+ComputeDistances(Graph,Keys,Doors,StartPoints,FromTo)
+{
+	set startIndex=""
+	for  {
+		set startIndex=$order(StartPoints(startIndex)) quit:startIndex=""
+		set startPoint=StartPoints(startIndex)
+		set totalKeys=0
+		set keyIndex=""
+		for  {
+			set keyIndex=$order(Keys(keyIndex)) quit:keyIndex=""
+			set keyPoint=Keys(keyIndex)
+			set ans=$$GetDistance(.Graph,startPoint,keyPoint,.Doors)
+			if $length(ans) {
+				set totalKeys=totalKeys+1
+				set FromTo(startIndex,keyIndex)=ans
+			}
+			;w !,"From startPoint #"_startIndex_" ("_$li(startPoint,1)_","_$li(startPoint,2)_") to key #"_keyIndex_" ("_$li(keyPoint,1)_","_$li(keyPoint,2)_")="
+			;w $li(ans,1)
+		}
+		//w !,"From startPoint #"_startIndex_" ("_$li(startPoint,1)_","_$li(startPoint,2)_") to "_totalKeys_" keys",!!
+	}
+	set keyIndex=""
+	for  {
+		set keyIndex=$order(Keys(keyIndex)) quit:keyIndex=""
+		set nextKeyIndex=keyIndex
+		for  {
+			set nextKeyIndex=$order(Keys(nextKeyIndex)) quit:nextKeyIndex=""
+			set ans=$$GetDistance(.Graph,Keys(keyIndex),Keys(nextKeyIndex),.Doors)
+			if $length(ans) {
+				set FromTo(keyIndex,nextKeyIndex)=ans
+				set FromTo(nextKeyIndex,keyIndex)=ans
+			}			
+		}
+	}
+}
+GetDistance(Graph,fromPoint,toPoint,Doors)
+{
+	kill DoorsInPath
+	quit:'$$HasPath(.Graph,fromPoint,toPoint) ""
+	set path=$$GetShortestPath(.Graph,fromPoint,toPoint)
+	set doorIndex="",DoorsInPath=""
+	for  {
+		set doorIndex=$order(Doors(doorIndex)) quit:doorIndex=""
+		set door=Doors(doorIndex)
+		if $listfind(path,door) set DoorsInPath=DoorsInPath_$listbuild(doorIndex)
+	}
+	quit $listbuild($listlength(path)-1,DoorsInPath)
+}
+HasPath(Graph,fromPoint,toPoint)	;BFS (Breadth First Search)
+{
+	set hasPath=0
+	set Queue($increment(Queue))=fromPoint
+	set Visited(fromPoint)=""
+	while $data(Queue)>1 {
+		;zw Queue
+		;w !,"Press any key to continue to continue",!
+		;r x#1
+		set index=$order(Queue(""))
+		set currentPoint=Queue(index)
+		kill Queue(index)
+		set adjacentPoint="" 
+		for  {
+			set adjacentPoint=$order(Graph(currentPoint,adjacentPoint)) quit:adjacentPoint=""
+			if adjacentPoint=toPoint {
+				set hasPath=1
+				quit
+			}
+			if '$data(Visited(adjacentPoint))
+			{
+				set Visited(adjacentPoint)=""
+				set Queue($increment(Queue))=adjacentPoint
+			}
+		}
+		quit:hasPath
+	}
+	quit hasPath
+}
+GetShortestPath(Graph,fromPoint,toPoint)	;Using Dijkstra algorithm
+{
+	set vertex="",dist=999999999999999999
+	for  {
+		set vertex=$order(Graph(vertex)) quit:vertex=""
+		set dist(vertex)=dist
+		set prev(vertex)=""
+		set Q(vertex)=""
+		set len(dist,vertex)=""
+	}
+	kill len(dist(fromPoint),fromPoint)
+	set dist(fromPoint)=0,len(0,fromPoint)=""
+	while $data(Q) {
+		set min=$order(len(""))
+		set u=$order(len(min,""))
+		//zw len
+		kill len(min,u),Q(u)
+		quit:u=toPoint
+		set v=""
+		for  {
+			set v=$order(Graph(u,v)) quit:v=""
+			continue:'$data(Q(v))
+			set alt=dist(u)+1
+			if alt<dist(v) {
+				kill len(dist(v),v)
+				set len(alt,v)=""
+				set dist(v)=alt
+				set prev(v)=u
+			}
+		}
+	}
+	set path=$listbuild(toPoint)
+	set u=toPoint
+	while $length(prev(u))&&(prev(u)'=v) {
+		set path=$listbuild(prev(u))_path
+		set u=prev(u)
+	}
+	quit path
+}
+
+	/*
 	//"U"/"D"/"L"/"R"
 GetNextLocation(Grid,Direction,Keys,Moves,CurrentOption)
 {
@@ -319,7 +618,7 @@ SetOptions(Grid,Keys,Steps)
 GetNextLocationZ(Grid,Direction,Keys,Moves)
 {
 	quit:'$$GetTotalKeysAndMyLocation(.Grid,.LocationX,.LocationY) 0
-	r "Press any key to continue",temp
+	read "Press any key to continue",temp
 	set Min=999999999999999999,SW=0,MinDir=""
 	kill tempMinGrid,tempMinKeys
 	set tempMoves=Moves
@@ -339,6 +638,7 @@ GetNextLocationZ(Grid,Direction,Keys,Moves)
 		set SW=$$MakeMove(.Grid,.Keys,LocationX,LocationY,LocationX+1,LocationY,"R",.TotalMoves,.tempGrid,.tempMoves,.tempKeys)
 		if SW,TotalMoves<Min set Min=TotalMoves,MinDir="R" merge tempMinGrid=tempGrid,tempMinKeys=tempKeys
 	}
+	*/
 	/*if 'SW {
 		if Direction="D" {
 			write !,"UP"
@@ -366,8 +666,9 @@ GetNextLocationZ(Grid,Direction,Keys,Moves)
 		}
 		if 'SW quit 0
 	}*/
+	/*
 	set Moves=tempMoves_MinDir
-	w !,Moves
+	write !,Moves
 	merge Grid=tempMinGrid,Keys=tempMinKeys
 	if '$$GetTotalKeysAndMyLocation(.Grid) write !,"FINISH"
 	quit Min+1
@@ -400,15 +701,168 @@ GetTotalKeysAndMyLocation(RecordsArr,LocationX,LocationY)
 	}
 	quit Total
 }
-	/*
 	*/
-Part2(FileName="",RecordsArr,Materials,Cargo="") PUBLIC	;
+	/*
+You arrive at the vault only to discover that there is not one vault, but four - each with its own entrance.
+
+On your map, find the area in the middle that looks like this:
+
+...
+.@.
+...
+Update your map to instead use the correct data:
+
+@#@
+###
+@#@
+This change will split your map into four separate sections, each with its own entrance:
+
+#######       #######
+#a.#Cd#       #a.#Cd#
+##...##       ##@#@##
+##.@.##  -->  #######
+##...##       ##@#@##
+#cB#Ab#       #cB#Ab#
+#######       #######
+Because some of the keys are for doors in other vaults, it would take much too long to collect all of the keys by yourself. Instead, you deploy four remote-controlled robots. Each starts at one of the entrances (@).
+
+Your goal is still to collect all of the keys in the fewest steps, but now, each robot has its own position and can move independently. You can only remotely control a single robot at a time. Collecting a key instantly unlocks any corresponding doors, regardless of the vault in which the key or door is found.
+
+For example, in the map above, the top-left robot first collects key a, unlocking door A in the bottom-right vault:
+
+#######
+#@.#Cd#
+##.#@##
+#######
+##@#@##
+#cB#.b#
+#######
+Then, the bottom-right robot collects key b, unlocking door B in the bottom-left vault:
+
+#######
+#@.#Cd#
+##.#@##
+#######
+##@#.##
+#c.#.@#
+#######
+Then, the bottom-left robot collects key c:
+
+#######
+#@.#.d#
+##.#@##
+#######
+##.#.##
+#@.#.@#
+#######
+Finally, the top-right robot collects key d:
+
+#######
+#@.#.@#
+##.#.##
+#######
+##.#.##
+#@.#.@#
+#######
+In this example, it only took 8 steps to collect all of the keys.
+
+Sometimes, multiple robots might have keys available, or a robot might have to wait for multiple keys to be collected:
+
+###############
+#d.ABC.#.....a#
+######@#@######
+###############
+######@#@######
+#b.....#.....c#
+###############
+First, the top-right, bottom-left, and bottom-right robots take turns collecting keys a, b, and c, a total of 6 + 6 + 6 = 18 steps. Then, the top-left robot can access key d, spending another 6 steps; collecting all of the keys here takes a minimum of 24 steps.
+
+Here's a more complex example:
+
+#############
+#DcBa.#.GhKl#
+#.###@#@#I###
+#e#d#####j#k#
+###C#@#@###J#
+#fEbA.#.FgHi#
+#############
+Top-left robot collects key a.
+Bottom-left robot collects key b.
+Top-left robot collects key c.
+Bottom-left robot collects key d.
+Top-left robot collects key e.
+Bottom-left robot collects key f.
+Bottom-right robot collects key g.
+Top-right robot collects key h.
+Bottom-right robot collects key i.
+Top-right robot collects key j.
+Bottom-right robot collects key k.
+Top-right robot collects key l.
+In the above example, the fewest steps to collect all of the keys is 32.
+
+Here's an example with more choices:
+
+#############
+#g#f.D#..h#l#
+#F###e#E###.#
+#dCba@#@BcIJ#
+#############
+#nK.L@#@G...#
+#M###N#H###.#
+#o#m..#i#jk.#
+#############
+One solution with the fewest steps is:
+
+Top-left robot collects key e.
+Top-right robot collects key h.
+Bottom-right robot collects key i.
+Top-left robot collects key a.
+Top-left robot collects key b.
+Top-right robot collects key c.
+Top-left robot collects key d.
+Top-left robot collects key f.
+Top-left robot collects key g.
+Bottom-right robot collects key k.
+Bottom-right robot collects key j.
+Top-right robot collects key l.
+Bottom-left robot collects key n.
+Bottom-left robot collects key m.
+Bottom-left robot collects key o.
+This example requires at least 72 steps to collect all keys.
+
+After updating your map and using the remote-controlled robots, what is the fewest steps necessary to collect all of the keys?
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
 {
+	set $zstorage=4194304  //Change process memory to 4G
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+		if '($order(RecordsArr(""))#2)||'($length(RecordsArr(1))#2) {
+			write !,"Cannot compute middle location for file "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do AnalayzeData(.RecordsArr,.Grid,.Keys,.Doors,.StartPoints,1)
+	set MinPath=$$GetMinPath(.Grid,.Keys,.Doors,.StartPoints)
+	quit MinPath
 }
 
 CheckData(RecordsArr) {
 	set ERR=""
-	set AtLocation=""
+	set AtLocation="",LastLength=""
 	set Line="" for  {
 		set Line=$order(RecordsArr(Line)) quit:Line=""
 		if $data(RecordsArr(Line))'=1 {
@@ -417,8 +871,15 @@ CheckData(RecordsArr) {
 			quit
 		}
 		set Data=RecordsArr(Line)
-		if '$length(Data) {
+		set Length=$length(Data)
+		if 'Length {
 			set ERR="Missing data in line "_Line
+			write !,ERR
+			quit
+		}
+		set:'$length(LastLength) LastLength=Length
+		if Length'=LastLength {
+			set ERR="Different lines length in line "_Line_" vs line "_(Line-1)
 			write !,ERR
 			quit
 		}
@@ -446,17 +907,17 @@ DisplayErr(Error) {
 LoadFile(FileName,RecordsArr)	;
 {
 	kill RecordsArr
-	open FileName::2 if '$test {
+	open FileName::.1 if '$test {
 		write !,"Error loading file "_FileName
 		quit 0
 	}
-	set EndOfFileSW=$zutil(68,40,1)
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
 	use FileName
 	for Line=1:1 {
 		read Record quit:$zeof
 		if $length(Record) set RecordsArr(Line)=Record
 	}
 	close FileName
-	if 'EndOfFileSW do $zutil(68,40,0)
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
 	quit 1
 }
