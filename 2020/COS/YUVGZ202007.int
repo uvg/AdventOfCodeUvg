@@ -768,7 +768,14 @@ CheckData(RecordsArr)
 	for  {
 		set Line=$order(RecordsArr(Line)) quit:Line=""
 		set Record=RecordsArr(Line)
-		if Record'?.E {
+		/*
+faded blue bags contain no other bags.
+muted yellow bags contain 2 shiny gold bags, 9 faded blue bags.
+bright white bags contain 1 shiny gold bag.
+striped chartreuse bags contain 2 dotted gray bags, 2 wavy olive bags, 1 muted lavender bag.
+posh salmon bags contain 1 dull black bag, 1 striped indigo bag, 1 muted silver bag, 2 vibrant crimson bags.
+		*/
+		if Record'?1.E1" bags contain "1(1"no other bags.",.(1.N1" "1.E1" "1"bag".1"s"1", ")1.N1" "1.E1" "1"bag".1"s"1".") {
 			set Error="Wrong data format at line "_Line
 			quit
 		}
