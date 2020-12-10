@@ -1055,8 +1055,16 @@ The first step of attacking the weakness in the XMAS data is to find the first n
 	/*
 W $$Part1^YUVGZ202009(FN)
 	*/
-Part1(FileName="",RecordsArr,Length) PUBLIC	;
+Part1(FileName="",&RecordsArr,Length) PUBLIC	;
 {
+	if '$length($get(Length)) {
+		read !,"Enter preamble length: ",Length
+		write !
+	}
+	if Length'?1.N||'$extract(Length) {
+		write !,"Wrong preamble length"
+		quit 0
+	}
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
 			read !,"Enter filename: ",FileName
@@ -1074,7 +1082,7 @@ Part1(FileName="",RecordsArr,Length) PUBLIC	;
 	}
 	quit:'$$CheckData(.RecordsArr) 0
 	;set Length=25
-	set Line="",Start=1
+	set Line="",Start=1,h=$zh
 	for  {
 		do LoadNumbers(.RecordsArr,Start,Length,.Numbers)
 		set Number=RecordsArr(Start+Length)
@@ -1082,6 +1090,7 @@ Part1(FileName="",RecordsArr,Length) PUBLIC	;
 		set Start=Start+1
 	}
 	set Ans=Number
+	w !,"Total time part1: ",$zh-h,!!
 	//
 	//
 	//
@@ -1150,7 +1159,7 @@ What is the encryption weakness in your XMAS-encrypted list of numbers?
 	/*
 W $$Part2^YUVGZ202009(FN)
 	*/
-Part2(FileName="",RecordsArr,Length) PUBLIC	;
+Part2(FileName="",&RecordsArr,Length) PUBLIC	;
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -1168,9 +1177,12 @@ Part2(FileName="",RecordsArr,Length) PUBLIC	;
 		}
 	}
 	quit:'$$CheckData(.RecordsArr) 0
-	set Number=$$Part1(,.RecordsArr,Length)
+	set Number=$$Part1(,.RecordsArr,$get(Length))
+	set h=$zhorolog
 	do FindContigousSet(.RecordsArr,Number,.ContigousSet)
 	set Ans=$order(ContigousSet(""))+$order(ContigousSet(""),-1)
+	w !,"Total time part2: ",$zh-h,!!
+
 	//
 	//
 	//
@@ -1207,7 +1219,7 @@ GetTotalForArray(&RecordsArr,From,To)
 	}
 	quit Total
 }
-CheckData(RecordsArr)
+CheckData(&RecordsArr)
 {
 	set Line="",Error=""
 	for  {
@@ -1224,7 +1236,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,&RecordsArr)	;
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {
