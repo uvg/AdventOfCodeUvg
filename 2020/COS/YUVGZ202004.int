@@ -1098,7 +1098,7 @@ Part1(FileName="",RecordsArr) PUBLIC	;
 	for fld="byr","iyr","eyr","hgt","hcl","ecl","pid" set MustFields(fld)=""
 	set opt("cid")=""
 	do AnalayzeData(.RecordsArr,.Passports)
-	zwrite Passports
+	;zwrite Passports
 	quit $$GetValidPassports(.Passports,.MustFields)
 }
 GetValidPassports(Passports,MustFields)
@@ -1112,6 +1112,7 @@ GetValidPassports(Passports,MustFields)
 		}
 		if OK {
 			set Count=Count+1
+			;s ^mtemp($zn,index)=""
 		}
 	}
 	quit Count
@@ -1228,7 +1229,7 @@ Part2(FileName="",RecordsArr) PUBLIC	;
 	for fld="byr","iyr","eyr","hgt","hcl","ecl","pid" set MustFields(fld)=""
 	set opt("cid")=""
 	do AnalayzeData(.RecordsArr,.Passports)
-	zwrite Passports
+	;zwrite Passports
 	quit $$GetValidPassports2(.Passports,.MustFields)
 }
 GetValidPassports2(Passports,MustFields) {
