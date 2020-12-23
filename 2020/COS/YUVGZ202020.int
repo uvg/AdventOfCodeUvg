@@ -210,7 +210,7 @@ Part1(FileName="",RecordsArr) PUBLIC	;
 	do GetCombs(.Tiles,.TilesComb)
 	do FindAllPossibleCombs(.Tiles,.TilesComb)
 	do GetImage(.TilesComb,.Image)
-	zw Image
+	//zw Image
 	set LastTileLine=$order(Image(""),-1)
 	set LastTile=$order(Image(LastTileLine,""),-1)
 	set Ans=Image(1,1)*Image(LastTileLine,1)*Image(1,LastTile)*Image(LastTileLine,LastTile)
