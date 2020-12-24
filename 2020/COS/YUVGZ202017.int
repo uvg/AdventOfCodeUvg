@@ -1,0 +1,673 @@
+ROUTINE YUVGZ202017 [Type=INT]
+YUVGZ202017	;https://adventofcode.com/2020/day/17;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+##.#####
+#.##..#.
+.##...##
+###.#...
+.#######
+##....##
+###.###.
+.#.#.#..
+	*/
+	/*
+Day 17 part 1:
+As your flight slowly drifts through the sky, the Elves at the Mythical Information Bureau at the North Pole contact you. They'd like some help debugging a malfunctioning experimental energy source aboard one of their super-secret imaging satellites.
+
+The experimental energy source is based on cutting-edge technology: a set of Conway Cubes contained in a pocket dimension! When you hear it's having problems, you can't help but agree to take a look.
+
+The pocket dimension contains an infinite 3-dimensional grid. At every integer 3-dimensional coordinate (x,y,z), there exists a single cube which is either active or inactive.
+
+In the initial state of the pocket dimension, almost all cubes start inactive. The only exception to this is a small flat region of cubes (your puzzle input); the cubes in this region start in the specified active (#) or inactive (.) state.
+
+The energy source then proceeds to boot up by executing six cycles.
+
+Each cube only ever considers its neighbors: any of the 26 other cubes where any of their coordinates differ by at most 1. For example, given the cube at x=1,y=2,z=3, its neighbors include the cube at x=2,y=2,z=2, the cube at x=0,y=2,z=3, and so on.
+
+During a cycle, all cubes simultaneously change their state according to the following rules:
+
+If a cube is active and exactly 2 or 3 of its neighbors are also active, the cube remains active. Otherwise, the cube becomes inactive.
+If a cube is inactive but exactly 3 of its neighbors are active, the cube becomes active. Otherwise, the cube remains inactive.
+The engineers responsible for this experimental energy source would like you to simulate the pocket dimension and determine what the configuration of cubes should be at the end of the six-cycle boot process.
+
+For example, consider the following initial state:
+
+.#.
+..#
+###
+Even though the pocket dimension is 3-dimensional, this initial state represents a small 2-dimensional slice of it. (In particular, this initial state defines a 3x3x1 region of the 3-dimensional space.)
+
+Simulating a few cycles from this initial state produces the following configurations, where the result of each cycle is shown layer-by-layer at each given z coordinate:
+
+Before any cycles:
+
+z=0
+.#.
+..#
+###
+
+
+After 1 cycle:
+
+z=-1
+#..
+..#
+.#.
+
+z=0
+#.#
+.##
+.#.
+
+z=1
+#..
+..#
+.#.
+
+
+After 2 cycles:
+
+z=-2
+.....
+.....
+..#..
+.....
+.....
+
+z=-1
+..#..
+.#..#
+....#
+.#...
+.....
+
+z=0
+##...
+##...
+#....
+....#
+.###.
+
+z=1
+..#..
+.#..#
+....#
+.#...
+.....
+
+z=2
+.....
+.....
+..#..
+.....
+.....
+
+
+After 3 cycles:
+
+z=-2
+.......
+.......
+..##...
+..###..
+.......
+.......
+.......
+
+z=-1
+..#....
+...#...
+#......
+.....##
+.#...#.
+..#.#..
+...#...
+
+z=0
+...#...
+.......
+#......
+.......
+.....##
+.##.#..
+...#...
+
+z=1
+..#....
+...#...
+#......
+.....##
+.#...#.
+..#.#..
+...#...
+
+z=2
+.......
+.......
+..##...
+..###..
+.......
+.......
+.......
+After the full six-cycle boot process completes, 112 cubes are left in the active state.
+
+Starting with your given initial configuration, simulate six cycles. How many cubes are left in the active state after the sixth cycle?
+	*/
+	/*
+W $$Part1^YUVGZ202017(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	merge Layers(0)=RecordsArr
+	w !,"Start: ",!
+	ZW Layers
+	F I=1:1:6 do ComputeNextLayers(.Layers) ;w !!!,"Phase ",I,": ",! ZW Layers
+	w !!
+	set Ans=$$GetActive(.Layers)
+	//
+	//
+	//
+	//
+	quit Ans
+}
+ComputeNextLayers(&Layers)
+{
+	do AddLayer(.Layers)
+	merge NextLayers=Layers
+	set LastX=$length(Layers(0,1))
+	set Layer=""
+	for  {
+		set Layer=$order(Layers(Layer)) quit:Layer=""
+		set Y=""
+		for  {
+			set Y=$order(Layers(Layer,Y)) quit:Y=""
+			set Data=Layers(Layer,Y),NextData=Data
+			for X=1:1:LastX {
+				set ActiveAdj=$$GetActiveAdj(.Layers,X,Y,Layer)
+				if $extract(Data,X)="#" {
+					if ActiveAdj'=2,ActiveAdj'=3 {
+						set $extract(NextData,X)="."
+					}
+					continue
+				}
+				if ActiveAdj=3 {
+					set $extract(NextData,X)="#"
+				}
+			}
+			set NextLayers(Layer,Y)=NextData
+		}
+	}
+	kill Layers
+	merge Layers=NextLayers
+}
+AddLayer(&Layers)
+{
+	set LastLayer=$order(Layers(""),-1),LastY=$order(Layers(LastLayer,""),-1),LastX=$length(Layers(LastLayer,LastY)),StartY=$order(Layers(LastLayer,""))
+	set EmptyData="" set $piece(EmptyData,".",LastX+3)=""
+	for Layer=-LastLayer-1:1:LastLayer+1 {
+		for Y=StartY-1:1:LastY+1 {
+			if '$data(Layers(Layer,Y)) {
+				set Layers(Layer,Y)=EmptyData
+			}
+			else {
+				set Layers(Layer,Y)="."_Layers(Layer,Y)_"."
+			}
+		}
+	}
+}
+GetActiveAdj(&Layers,X,Y,Z)
+{
+	set Total=0
+	for tmpZ=Z-1:1:Z+1 {
+		for tmpY=Y-1:1:Y+1 {
+			;i Y=1,Z=-1 B
+			for tmpX=X-1:1:X+1 {
+				if (tmpX'=X)||(tmpY'=Y)||(tmpZ'=Z),$extract($get(Layers(tmpZ,tmpY)),tmpX)="#" set Total=Total+1
+			}
+		}
+	}
+	quit Total
+}
+GetActive(&Layers)
+{
+	set Total=0
+	set Layer=""
+	for  {
+		set Layer=$order(Layers(Layer)) quit:Layer=""
+		set Y=""
+		for  {
+			set Y=$order(Layers(Layer,Y)) quit:Y=""
+			set Data=Layers(Layer,Y)
+			for X=1:1:$length(Data) {
+				if $extract(Data,X)="#" set Total=Total+1
+			}
+		}
+	}
+	quit Total
+}
+	/*
+Day 17 part 2:
+For some reason, your simulated results don't match what the experimental energy source engineers expected. Apparently, the pocket dimension actually has four spatial dimensions, not three.
+
+The pocket dimension contains an infinite 4-dimensional grid. At every integer 4-dimensional coordinate (x,y,z,w), there exists a single cube (really, a hypercube) which is still either active or inactive.
+
+Each cube only ever considers its neighbors: any of the 80 other cubes where any of their coordinates differ by at most 1. For example, given the cube at x=1,y=2,z=3,w=4, its neighbors include the cube at x=2,y=2,z=3,w=3, the cube at x=0,y=2,z=3,w=4, and so on.
+
+The initial state of the pocket dimension still consists of a small flat region of cubes. Furthermore, the same rules for cycle updating still apply: during each cycle, consider the number of active neighbors of each cube.
+
+For example, consider the same initial state as in the example above. Even though the pocket dimension is 4-dimensional, this initial state represents a small 2-dimensional slice of it. (In particular, this initial state defines a 3x3x1x1 region of the 4-dimensional space.)
+
+Simulating a few cycles from this initial state produces the following configurations, where the result of each cycle is shown layer-by-layer at each given z and w coordinate:
+
+Before any cycles:
+
+z=0, w=0
+.#.
+..#
+###
+
+
+After 1 cycle:
+
+z=-1, w=-1
+#..
+..#
+.#.
+
+z=0, w=-1
+#..
+..#
+.#.
+
+z=1, w=-1
+#..
+..#
+.#.
+
+z=-1, w=0
+#..
+..#
+.#.
+
+z=0, w=0
+#.#
+.##
+.#.
+
+z=1, w=0
+#..
+..#
+.#.
+
+z=-1, w=1
+#..
+..#
+.#.
+
+z=0, w=1
+#..
+..#
+.#.
+
+z=1, w=1
+#..
+..#
+.#.
+
+
+After 2 cycles:
+
+z=-2, w=-2
+.....
+.....
+..#..
+.....
+.....
+
+z=-1, w=-2
+.....
+.....
+.....
+.....
+.....
+
+z=0, w=-2
+###..
+##.##
+#...#
+.#..#
+.###.
+
+z=1, w=-2
+.....
+.....
+.....
+.....
+.....
+
+z=2, w=-2
+.....
+.....
+..#..
+.....
+.....
+
+z=-2, w=-1
+.....
+.....
+.....
+.....
+.....
+
+z=-1, w=-1
+.....
+.....
+.....
+.....
+.....
+
+z=0, w=-1
+.....
+.....
+.....
+.....
+.....
+
+z=1, w=-1
+.....
+.....
+.....
+.....
+.....
+
+z=2, w=-1
+.....
+.....
+.....
+.....
+.....
+
+z=-2, w=0
+###..
+##.##
+#...#
+.#..#
+.###.
+
+z=-1, w=0
+.....
+.....
+.....
+.....
+.....
+
+z=0, w=0
+.....
+.....
+.....
+.....
+.....
+
+z=1, w=0
+.....
+.....
+.....
+.....
+.....
+
+z=2, w=0
+###..
+##.##
+#...#
+.#..#
+.###.
+
+z=-2, w=1
+.....
+.....
+.....
+.....
+.....
+
+z=-1, w=1
+.....
+.....
+.....
+.....
+.....
+
+z=0, w=1
+.....
+.....
+.....
+.....
+.....
+
+z=1, w=1
+.....
+.....
+.....
+.....
+.....
+
+z=2, w=1
+.....
+.....
+.....
+.....
+.....
+
+z=-2, w=2
+.....
+.....
+..#..
+.....
+.....
+
+z=-1, w=2
+.....
+.....
+.....
+.....
+.....
+
+z=0, w=2
+###..
+##.##
+#...#
+.#..#
+.###.
+
+z=1, w=2
+.....
+.....
+.....
+.....
+.....
+
+z=2, w=2
+.....
+.....
+..#..
+.....
+.....
+After the full six-cycle boot process completes, 848 cubes are left in the active state.
+
+Starting with your given initial configuration, simulate six cycles in a 4-dimensional space. How many cubes are left in the active state after the sixth cycle?
+	*/
+	/*
+W $$Part2^YUVGZ202017(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	merge Layers(0,0)=RecordsArr
+	w !,"Start: ",!
+	ZW Layers
+	F I=1:1:6 do ComputeNextLayers2(.Layers) ;w !!!,"Phase ",I,": ",! ZW Layers
+	w !!
+	set Ans=$$GetActive2(.Layers)
+	//
+	//
+	//
+	//
+	quit Ans
+}
+ComputeNextLayers2(&Layers)
+{
+	do AddLayer2(.Layers)
+	merge NextLayers=Layers
+	set LastX=$length(Layers(0,0,1))
+	set W=""
+	for  {
+		set W=$order(Layers(W)) quit:W=""
+		set Z=""
+		for  {
+			set Z=$order(Layers(W,Z)) quit:Z=""
+			set Y=""
+			for  {
+				set Y=$order(Layers(W,Z,Y)) quit:Y=""
+				set Data=Layers(W,Z,Y),NextData=Data
+				for X=1:1:LastX {
+					set ActiveAdj=$$GetActiveAdj2(.Layers,X,Y,Z,W)
+					if $extract(Data,X)="#" {
+						if ActiveAdj'=2,ActiveAdj'=3 {
+							set $extract(NextData,X)="."
+						}
+						continue
+					}
+					if ActiveAdj=3 {
+						set $extract(NextData,X)="#"
+					}
+				}
+				set NextLayers(W,Z,Y)=NextData
+			}
+		}
+	}
+
+	kill Layers
+	merge Layers=NextLayers
+}
+AddLayer2(&Layers)
+{
+	set LastW=$order(Layers(""),-1),LastZ=$order(Layers(LastW,""),-1),LastY=$order(Layers(LastW,LastZ,""),-1),StartY=$order(Layers(LastW,LastZ,""))
+	set LastX=$length(Layers(LastW,LastZ,LastY))
+	set EmptyData="" set $piece(EmptyData,".",LastX+3)=""
+	for W=-LastW-1:1:LastW+1 {
+		for Z=-LastZ-1:1:LastZ+1 {
+			for Y=StartY-1:1:LastY+1 {
+				if '$data(Layers(W,Z,Y)) {
+					set Layers(W,Z,Y)=EmptyData
+				}
+				else {
+					set Layers(W,Z,Y)="."_Layers(W,Z,Y)_"."
+				}
+			}
+		}
+	}
+}
+GetActiveAdj2(&Layers,X,Y,Z,W)
+{
+	set Total=0
+	for tmpW=W-1:1:W+1 {
+		for tmpZ=Z-1:1:Z+1 {
+			for tmpY=Y-1:1:Y+1 {
+				;i Y=1,Z=-1 B
+				for tmpX=X-1:1:X+1 {
+					if (tmpX'=X)||(tmpY'=Y)||(tmpZ'=Z)||(tmpW'=W),$extract($get(Layers(tmpW,tmpZ,tmpY)),tmpX)="#" set Total=Total+1
+				}
+			}
+		}
+	}
+	quit Total
+}
+GetActive2(&Layers)
+{
+	set Total=0
+	set W=""
+	for  {
+		set W=$order(Layers(W)) quit:W=""
+		set Z=""
+		for  {
+			set Z=$order(Layers(W,Z)) quit:Z=""
+			set Y=""
+			for  {
+				set Y=$order(Layers(W,Z,Y)) quit:Y=""
+				set Data=Layers(W,Z,Y)
+				for X=1:1:$length(Data) {
+					if $extract(Data,X)="#" set Total=Total+1
+				}
+			}
+		}
+	}
+	quit Total
+}
+
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if $length($translate(Record,"#.")) {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

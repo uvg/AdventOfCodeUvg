@@ -1,0 +1,742 @@
+ROUTINE YUVGZ202020 [Type=INT]
+YUVGZ202020	;https://adventofcode.com/2020/day/20;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+
+	*/
+	/*
+Day 20 part 1:
+The high-speed train leaves the forest and quickly carries you south. You can even see a desert in the distance! Since you have some spare time, you might as well see if there was anything interesting in the image the Mythical Information Bureau satellite captured.
+
+After decoding the satellite messages, you discover that the data actually contains many small images created by the satellite's camera array. The camera array consists of many cameras; rather than produce a single square image, they produce many smaller square image tiles that need to be reassembled back into a single image.
+
+Each camera in the camera array returns a single monochrome image tile with a random unique ID number. The tiles (your puzzle input) arrived in a random order.
+
+Worse yet, the camera array appears to be malfunctioning: each image tile has been rotated and flipped to a random orientation. Your first task is to reassemble the original image by orienting the tiles so they fit together.
+
+To show how the tiles should be reassembled, each tile's image data includes a border that should line up exactly with its adjacent tiles. All tiles have this border, and the border lines up exactly when the tiles are both oriented correctly. Tiles at the edge of the image also have this border, but the outermost edges won't line up with any other tiles.
+
+For example, suppose you have the following nine tiles:
+
+Tile 2311:
+..##.#..#.
+##..#.....
+#...##..#.
+####.#...#
+##.##.###.
+##...#.###
+.#.#.#..##
+..#....#..
+###...#.#.
+..###..###
+
+Tile 1951:
+#.##...##.
+#.####...#
+.....#..##
+#...######
+.##.#....#
+.###.#####
+###.##.##.
+.###....#.
+..#.#..#.#
+#...##.#..
+
+Tile 1171:
+####...##.
+#..##.#..#
+##.#..#.#.
+.###.####.
+..###.####
+.##....##.
+.#...####.
+#.##.####.
+####..#...
+.....##...
+
+Tile 1427:
+###.##.#..
+.#..#.##..
+.#.##.#..#
+#.#.#.##.#
+....#...##
+...##..##.
+...#.#####
+.#.####.#.
+..#..###.#
+..##.#..#.
+
+Tile 1489:
+##.#.#....
+..##...#..
+.##..##...
+..#...#...
+#####...#.
+#..#.#.#.#
+...#.#.#..
+##.#...##.
+..##.##.##
+###.##.#..
+
+Tile 2473:
+#....####.
+#..#.##...
+#.##..#...
+######.#.#
+.#...#.#.#
+.#########
+.###.#..#.
+########.#
+##...##.#.
+..###.#.#.
+
+Tile 2971:
+..#.#....#
+#...###...
+#.#.###...
+##.##..#..
+.#####..##
+.#..####.#
+#..#.#..#.
+..####.###
+..#.#.###.
+...#.#.#.#
+
+Tile 2729:
+...#.#.#.#
+####.#....
+..#.#.....
+....#..#.#
+.##..##.#.
+.#.####...
+####.#.#..
+##.####...
+##..#.##..
+#.##...##.
+
+Tile 3079:
+#.#.#####.
+.#..######
+..#.......
+######....
+####.#..#.
+.#...#.##.
+#.#####.##
+..#.###...
+..#.......
+..#.###...
+By rotating, flipping, and rearranging them, you can find a square arrangement that causes all adjacent borders to line up:
+
+#...##.#.. ..###..### #.#.#####.
+..#.#..#.# ###...#.#. .#..######
+.###....#. ..#....#.. ..#.......
+###.##.##. .#.#.#..## ######....
+.###.##### ##...#.### ####.#..#.
+.##.#....# ##.##.###. .#...#.##.
+#...###### ####.#...# #.#####.##
+.....#..## #...##..#. ..#.###...
+#.####...# ##..#..... ..#.......
+#.##...##. ..##.#..#. ..#.###...
+
+#.##...##. ..##.#..#. ..#.###...
+##..#.##.. ..#..###.# ##.##....#
+##.####... .#.####.#. ..#.###..#
+####.#.#.. ...#.##### ###.#..###
+.#.####... ...##..##. .######.##
+.##..##.#. ....#...## #.#.#.#...
+....#..#.# #.#.#.##.# #.###.###.
+..#.#..... .#.##.#..# #.###.##..
+####.#.... .#..#.##.. .######...
+...#.#.#.# ###.##.#.. .##...####
+
+...#.#.#.# ###.##.#.. .##...####
+..#.#.###. ..##.##.## #..#.##..#
+..####.### ##.#...##. .#.#..#.##
+#..#.#..#. ...#.#.#.. .####.###.
+.#..####.# #..#.#.#.# ####.###..
+.#####..## #####...#. .##....##.
+##.##..#.. ..#...#... .####...#.
+#.#.###... .##..##... .####.##.#
+#...###... ..##...#.. ...#..####
+..#.#....# ##.#.#.... ...##.....
+For reference, the IDs of the above tiles are:
+
+1951    2311    3079
+2729    1427    2473
+2971    1489    1171
+To check that you've assembled the image correctly, multiply the IDs of the four corner tiles together. If you do this with the assembled tiles from the example above, you get 1951 * 3079 * 2971 * 1171 = 20899048083289.
+
+Assemble the tiles into an image. What do you get if you multiply together the IDs of the four corner tiles?
+	*/
+	/*
+W $$Part1^YUVGZ202020(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Ans=$$AnalayzeData(.RecordsArr,.Tiles)
+	if $length(Ans) {
+		write !,Ans
+		quit ""
+	}
+	//zw RecordsArr,Tiles
+	set Count="",Tile=""
+	for  {
+		set Tile=$order(Tiles(Tile)) quit:Tile=""
+		set Count=Count+1
+	}
+	set Size=Count**.5
+	if Size#1 {
+		write !,"Don't know how to arrange"
+		quit
+	}
+	do GetCombs(.Tiles,.TilesComb)
+	do FindAllPossibleCombs(.Tiles,.TilesComb)
+	do GetImage(.TilesComb,.Image)
+	//zw Image
+	set LastTileLine=$order(Image(""),-1)
+	set LastTile=$order(Image(LastTileLine,""),-1)
+	set Ans=Image(1,1)*Image(LastTileLine,1)*Image(1,LastTile)*Image(LastTileLine,LastTile)
+	//
+	//
+	//
+	//
+	quit Ans
+}
+GetImage(&TilesComb,&Image)
+{
+	set Tile=""
+	for i=1:1:2 {
+		for j=1:1:2 {
+			for  {
+				set Tile=$order(TilesComb(Tile)) quit:Tile=""
+				if $$HowManyAdj(.TilesComb,Tile)=4 {
+					set Image(i,j)=Tile
+					quit
+				}
+			}
+		}
+	}
+	//zw Image
+}
+HowManyAdj(&TilesComb,Tile)
+{
+	set Total=0
+	for i=1:1:8 {
+		set:$data(TilesComb(Tile,i,"Possible")) Total=Total+1
+	}
+	quit Total 
+}
+GetCombs(&Tiles,&TilesComb)
+{
+	set Tile=$order(Tiles("")),LastLine=$order(Tiles(Tile,""),-1)
+	set Tile=""
+	for  {
+		set Tile=$order(Tiles(Tile)) quit:Tile=""
+		set TilesComb(Tile,1)=Tiles(Tile,1)
+		set TilesComb(Tile,2)=$reverse(Tiles(Tile,1))
+		set TilesComb(Tile,3)=Tiles(Tile,LastLine)
+		set TilesComb(Tile,4)=$reverse(Tiles(Tile,LastLine))
+		set LineData=""
+		for Line=1:1:LastLine set LineData=LineData_$extract(Tiles(Tile,Line),1)
+		set TilesComb(Tile,5)=LineData
+		set TilesComb(Tile,6)=$reverse(LineData)
+		set LineData=""
+		for Line=1:1:LastLine set LineData=LineData_$extract(Tiles(Tile,Line),*)
+		set TilesComb(Tile,7)=LineData
+		set TilesComb(Tile,8)=$reverse(LineData)
+		for i=1:1:8 {
+			kill currTile merge currTile=Tiles(Tile)
+			do SetComb(.currTile,Tile,.TilesComb,i)
+		}
+	}
+	//zw TilesComb
+}
+FindAllPossibleCombs(&Tiles,&TilesComb)
+{
+	set Tile=""
+	for  {
+		set Tile=$order(Tiles(Tile)) quit:Tile=""
+		for i=1:1:8 {
+			set Data=TilesComb(Tile,i)
+			do FindPossibleCombs(.TilesComb,Tile,i,Data)
+		}
+	}
+}
+SetComb(&currTile,Tile,&TilesComb,Phase)
+{
+	set From=$order(currTile("")),To=$order(currTile(""),-1)
+	if Phase=1 {
+		for i=From:1:To set TilesComb(Tile,Phase,"Tile",i)=currTile(i)
+	}
+	if Phase=2 {
+		for i=From:1:To set TilesComb(Tile,Phase,"Tile",i)=$reverse(currTile(i))
+	}
+	if Phase=3 {
+		for i=From:1:To set TilesComb(Tile,Phase,"Tile",i)=currTile(To+1-i)
+	}
+	if Phase=4 {
+		for i=From:1:To set TilesComb(Tile,Phase,"Tile",i)=$reverse(currTile(To+1-i))
+	}
+	if Phase=5 {
+		for i=From:1:To set TilesComb(Tile,Phase,"Tile",i)=$$GetColumn(.currTile,i)
+	}
+	if Phase=6 {
+		for i=From:1:To set TilesComb(Tile,Phase,"Tile",i)=$reverse($$GetColumn(.currTile,i))
+	}
+	if Phase=7 {
+		for i=From:1:To set TilesComb(Tile,Phase,"Tile",i)=$$GetColumn(.currTile,To+1-i)
+	}
+	if Phase=8 {
+		for i=From:1:To set TilesComb(Tile,Phase,"Tile",i)=$reverse($$GetColumn(.currTile,To+1-i))
+	}
+}
+GetColumn(&Tile,Column)
+{
+	set Data="",From=$order(Tile("")),To=$order(Tile(""),-1)
+	for i=From:1:To set Data=Data_$extract(Tile(i),Column)
+	quit Data
+}
+FindPossibleCombs(&TilesComb,CheckTile,Phase,CheckData)
+{
+	set Tile=""
+	for  {
+		set Tile=$order(TilesComb(Tile)) quit:Tile=""
+		continue:Tile=CheckTile
+		for i=1:1:8 {
+			set Data=TilesComb(Tile,i)
+			continue:Data'=CheckData
+			set TilesComb(Tile,i,"Possible")=$get(TilesComb(Tile,i,"Possible"))_$listbuild(CheckTile,Phase)
+		}
+	}
+}
+AnalayzeData(&RecordsArr,&Tiles)
+{
+	set Line="",TileId="",TileLine=0
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		continue:'$length(Record)
+		if Record["Tile" {
+			set TileId=+$piece(Record," ",2),TileLine=0
+			continue
+		}
+		i $l(Record)'=10 return "Error in line "_Line
+		set TileLine=TileLine+1
+		i TileLine>10 return "Error in line "_Line
+		set Tiles(TileId,TileLine)=Record
+	}
+	quit ""
+}
+	/*
+Day 20 part 2:
+Now, you're ready to check the image for sea monsters.
+
+The borders of each tile are not part of the actual image; start by removing them.
+
+In the example above, the tiles become:
+
+.#.#..#. ##...#.# #..#####
+###....# .#....#. .#......
+##.##.## #.#.#..# #####...
+###.#### #...#.## ###.#..#
+##.#.... #.##.### #...#.##
+...##### ###.#... .#####.#
+....#..# ...##..# .#.###..
+.####... #..#.... .#......
+
+#..#.##. .#..###. #.##....
+#.####.. #.####.# .#.###..
+###.#.#. ..#.#### ##.#..##
+#.####.. ..##..## ######.#
+##..##.# ...#...# .#.#.#..
+...#..#. .#.#.##. .###.###
+.#.#.... #.##.#.. .###.##.
+###.#... #..#.##. ######..
+
+.#.#.### .##.##.# ..#.##..
+.####.## #.#...## #.#..#.#
+..#.#..# ..#.#.#. ####.###
+#..####. ..#.#.#. ###.###.
+#####..# ####...# ##....##
+#.##..#. .#...#.. ####...#
+.#.###.. ##..##.. ####.##.
+...###.. .##...#. ..#..###
+Remove the gaps to form the actual image:
+
+.#.#..#.##...#.##..#####
+###....#.#....#..#......
+##.##.###.#.#..######...
+###.#####...#.#####.#..#
+##.#....#.##.####...#.##
+...########.#....#####.#
+....#..#...##..#.#.###..
+.####...#..#.....#......
+#..#.##..#..###.#.##....
+#.####..#.####.#.#.###..
+###.#.#...#.######.#..##
+#.####....##..########.#
+##..##.#...#...#.#.#.#..
+...#..#..#.#.##..###.###
+.#.#....#.##.#...###.##.
+###.#...#..#.##.######..
+.#.#.###.##.##.#..#.##..
+.####.###.#...###.#..#.#
+..#.#..#..#.#.#.####.###
+#..####...#.#.#.###.###.
+#####..#####...###....##
+#.##..#..#...#..####...#
+.#.###..##..##..####.##.
+...###...##...#...#..###
+Now, you're ready to search for sea monsters! Because your image is monochrome, a sea monster will look like this:
+
+                  # 
+#    ##    ##    ###
+ #  #  #  #  #  #   
+When looking for this pattern in the image, the spaces can be anything; only the # need to match. Also, you might need to rotate or flip your image before it's oriented correctly to find sea monsters. In the above image, after flipping and rotating it to the appropriate orientation, there are two sea monsters (marked with O):
+
+.####...#####..#...###..
+#####..#..#.#.####..#.#.
+.#.#...#.###...#.##.O#..
+#.O.##.OO#.#.OO.##.OOO##
+..#O.#O#.O##O..O.#O##.##
+...#.#..##.##...#..#..##
+#.##.#..#.#..#..##.#.#..
+.###.##.....#...###.#...
+#.####.#.#....##.#..#.#.
+##...#..#....#..#...####
+..#.##...###..#.#####..#
+....#.##.#.#####....#...
+..##.##.###.....#.##..#.
+#...#...###..####....##.
+.#.##...#.##.#.#.###...#
+#.###.#..####...##..#...
+#.###...#.##...#.##O###.
+.O##.#OO.###OO##..OOO##.
+..O#.O..O..O.#O##O##.###
+#.#..##.########..#..##.
+#.#####..#.#...##..#....
+#....##..#.#########..##
+#...#.....#..##...###.##
+#..###....##.#...##.##.#
+Determine how rough the waters are in the sea monsters' habitat by counting the number of # that are not part of a sea monster. In the above example, the habitat's water roughness is 273.
+
+How many # are not part of a sea monster?
+	*/
+	/*
+W $$Part2^YUVGZ202020(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Ans=$$AnalayzeData(.RecordsArr,.Tiles)
+	if $length(Ans) {
+		write !,Ans
+		quit ""
+	}
+	//zw RecordsArr,Tiles
+	set Count="",Tile=""
+	for  {
+		set Tile=$order(Tiles(Tile)) quit:Tile=""
+		set Count=Count+1
+	}
+	set Size=Count**.5
+	if Size#1 {
+		write !,"Don't know how to arrange"
+		quit
+	}
+	do GetCombs(.Tiles,.TilesComb)
+	do FindAllPossibleCombs(.Tiles,.TilesComb)
+	do GetImage2(.TilesComb,.Image)
+	//w !,"Before: ",!
+	//zW Image
+	do RenderFullImage(.Image,.FullImage)
+	//w !,"After: ",!
+	//zW FullImage
+	for i=1:1:8 {
+		do SetComb(.FullImage,999,.TilesComb,i)
+	}
+	merge FullImagePos=TilesComb(999)
+	do LoadSeaMonster(.Monster)
+	do LocateSeaMonsters(.FullImagePos,.Monster,.FullImageWithMonsters)
+	//zw FullImagePos,Monster
+	//zw FullImageWithMonsters
+	set Ans=$$ImageRoughness(.FullImageWithMonsters)
+	//
+	//
+	//
+	//
+	quit Ans
+}
+ImageRoughness(&FullImageWithMonsters)
+{
+	set Total=0
+	set Y=""
+	for  {
+		set Y=$order(FullImageWithMonsters(Y)) quit:Y=""
+		set Data=$translate(FullImageWithMonsters(Y),".O")
+		set Total=Total+$length(Data)
+	}
+	quit Total
+}
+LocateSeaMonsters(&FullImagePos,&Monster,&FullImageWithMonsters)
+{
+	set Pos=""
+	set MonsterHeight=$order(Monster(""),-1),MonsterWidth=$length(Monster(1))
+	set ImageHeight=$order(FullImagePos(1,"Tile",""),-1),ImageWidth=$length(FullImagePos(1,"Tile",1))
+	for  {
+		set Pos=$order(FullImagePos(Pos)) quit:Pos=""
+		kill CurrFullImage merge CurrFullImage=FullImagePos(Pos,"Tile")
+		//zwrite CurrFullImage
+		set Found=0
+		for i=1:1:(ImageHeight-MonsterHeight+1) {
+			for j=1:1:(ImageWidth-MonsterWidth+1) {
+				set SW=1
+				for k=1:1:MonsterWidth {
+					for l=1:1:MonsterHeight {
+						if $extract(Monster(l),k)="#",$extract(CurrFullImage(i+l-1),j+k-1)'="#" {
+							set SW=0
+							quit
+						}
+					}
+					quit:'SW
+				}
+				if SW {
+					//W Pos,";",i,";",j,!
+					set Found=1
+					for k=1:1:MonsterWidth {
+						for l=1:1:MonsterHeight {
+							set:$extract(Monster(l),k)="#" $extract(CurrFullImage(i+l-1),j+k-1)="O"
+						}
+					}
+					//ZW CurrFullImage
+				}
+			}
+		}
+		if Found {
+			merge FullImageWithMonsters=CurrFullImage
+			//zwrite CurrFullImage
+			return
+		}
+	}
+}
+LoadSeaMonster(&Monster)
+{
+	set Monster(1)="                  # "
+	set Monster(2)="#    ##    ##    ###"
+	set Monster(3)=" #  #  #  #  #  #   "
+}
+GetImage2(&TilesComb,&Image)
+{
+	set Count="",Tile="",FirstTile=""
+	for  {
+		set Tile=$order(TilesComb(Tile)) quit:Tile=""
+		set Count=Count+1
+		if '$length(FirstTile),$$HowManyAdj(.TilesComb,Tile)=4 {
+			set FirstTile=Tile,FirstPhase=""
+			for i=1:2:7 {
+				continue:'$length($get(TilesComb(Tile,i,"Possible")))
+				set FirstPhase=i
+				quit
+			}
+		}
+	}
+	set Size=Count**.5
+	set X=0,Y=0
+	do SetImageData(.Image,Y,X,FirstTile,.TilesComb,FirstPhase)
+	for  {
+		quit:$$IsRenderingFinished(.TilesComb)
+		set checkTile=""
+		for  {
+			set checkTile=$order(TilesComb(checkTile)) quit:checkTile=""
+			continue:'$length($get(TilesComb(checkTile)))
+			//w !!!!!,checkTile h 1
+			continue:$get(TilesComb(checkTile,"END"))
+			set Y=$list(TilesComb(checkTile),1),X=$list(TilesComb(checkTile),2),currPhase=$list(TilesComb(checkTile),3)
+			for i=1:2:7 {
+				set NextTileData=$get(TilesComb(checkTile,i,"Possible"))
+				continue:'$length(NextTileData)
+				set NextTile=$list(NextTileData,1) //,Phase=$list(NextTileData,2)
+				continue:$length($get(TilesComb(NextTile)))
+				//w !,NextTile,"@",checkTile,!
+				kill currTile merge currTile=Image(Y,X,"Data")
+				//zw currTile
+				set NextX=X
+				for NextY=Y-1,Y+1 {
+					continue:$zabs(NextY)>Size
+					continue:$data(Image(NextY,NextX))
+					if NextY<Y {
+						//w !,"Up: ",NextY,",",NextX
+						//Going up => Compare current tile's first row to next tile's last row
+						do CompareRow(.Image,.TilesComb,.currTile,NextY,NextX,NextTile,1)
+					}
+					else {
+						//w !,"Down: ",NextY,",",NextX
+						//Going down => Compare current tile's last row to next tile's first row
+						do CompareRow(.Image,.TilesComb,.currTile,NextY,NextX,NextTile,10)
+					}
+				}
+				set NextY=Y
+				for NextX=X-1,X+1 {
+					continue:$zabs(NextX)>Size
+					continue:$data(Image(Y,NextX))
+					if NextX<X {
+						//w !,"Left: ",NextY,",",NextX
+						//Going left => Compare current tile's left (first) column to next tile's right (last) column
+						do CompareColumn(.Image,.TilesComb,.currTile,NextY,NextX,NextTile,1)
+					}
+					else {
+						//w !,"Right: ",NextY,",",NextX
+						//Going right => Compare current tile's right (last) column to next tile's left (first) column
+						do CompareColumn(.Image,.TilesComb,.currTile,NextY,NextX,NextTile,10)
+					}
+				}
+			}
+			set TilesComb(checkTile,"END")=1
+			//ZW Image
+		}
+	}
+}
+RenderFullImage(&Image,&FullImage)
+{
+	set Y=""
+	for  {
+		set Y=$order(Image(Y)) quit:Y=""
+		set OffY=Y*8
+		set X=""
+		for  {
+			set X=$order(Image(Y,X)) quit:X=""
+			for Row=2:1:9 {
+				set Data=$extract(Image(Y,X,"Data",Row),2,*-1)
+				set NextY=OffY+Row-2
+				set tmpFullImage(NextY)=$get(tmpFullImage(NextY))_Data
+				//w !,NextY,",",X,"=",Data
+			}
+		}
+	}
+	//
+	//Reindexing full image
+	set Count=0,Y=""
+	for  {
+		set Y=$order(tmpFullImage(Y)) quit:Y=""
+		set Count=Count+1
+		set FullImage(Count)=tmpFullImage(Y)
+	}
+}
+FindPhaseByRow(&TilesComb,Tile,Data,Row)
+{
+	set Found=0
+	for j=1:1:8 {
+		continue:TilesComb(Tile,j,"Tile",Row)'=Data
+		return j
+	}
+	quit 0
+}
+
+CompareRow(&Image,&TilesComb,&currTile,NextY,NextX,NextTile,Column)
+{
+	set Data=currTile(Column)
+	set Found=$$FindPhaseByRow(.TilesComb,NextTile,Data,11-Column)
+	if Found {
+		do SetImageData(.Image,NextY,NextX,NextTile,.TilesComb,Found)
+	}
+}
+CompareColumn(&Image,&TilesComb,&currTile,NextY,NextX,NextTile,Column)
+{
+	set Data=$$GetColumn(.currTile,Column)
+	set Found=$$FindPhaseByColumn(.TilesComb,NextTile,Data,11-Column)
+	if Found {
+		do SetImageData(.Image,NextY,NextX,NextTile,.TilesComb,Found)
+	}
+}
+FindPhaseByColumn(&TilesComb,Tile,Data,Column)
+{
+	set Found=0
+	for j=1:1:8 {
+		kill currTile merge currTile=TilesComb(Tile,j,"Tile")
+		continue:$$GetColumn(.currTile,Column)'=Data
+		return j
+	}
+	quit 0
+}
+IsRenderingFinished(&TilesComb)
+{
+	set Tile=""
+	for  {
+		set Tile=$order(TilesComb(Tile)) quit:Tile=""
+		return:'$get(TilesComb(Tile,"END")) 0
+	}
+	quit 1
+}
+SetImageData(&Image,Y,X,currTile,&TilesComb,Phase)
+{
+	set Image(Y,X,"Tile")=currTile
+	merge Image(Y,X,"Data")=TilesComb(currTile,Phase,"Tile")
+	set TilesComb(currTile)=$listbuild(Y,X,Phase)
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if $length(Record),Record'?1"Tile "1.N1":",$length(Record)'=10||$length($translate(Record,"#.")) {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

@@ -1,0 +1,354 @@
+ROUTINE YUVGZ202001 [Type=INT]
+YUVGZ202001	;https://adventofcode.com/2020/day/1;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+1899
+1358
+1824
+1541
+1801
+1950
+1441
+1848
+1259
+1715
+1222
+1097
+1127
+1531
+1330
+1841
+1662
+1075
+1631
+1844
+1209
+1940
+2006
+1085
+1615
+1132
+1345
+1736
+1885
+1919
+1995
+1893
+1464
+1701
+1373
+1390
+1717
+1238
+1707
+1088
+1566
+1971
+1804
+1630
+1920
+1445
+1948
+1123
+1917
+1944
+1448
+1965
+1118
+1986
+1498
+1847
+1730
+1418
+1771
+1352
+1207
+1276
+1716
+1502
+1922
+1473
+1528
+1038
+1228
+1983
+1746
+1695
+1698
+1910
+1283
+1145
+1967
+1304
+1651
+1898
+1450
+1042
+1051
+1619
+1505
+1643
+1136
+1517
+1907
+1354
+1960
+1733
+1769
+1942
+43
+1743
+1981
+1711
+1141
+1169
+1239
+1032
+1148
+1045
+1768
+1173
+1389
+2007
+1614
+1028
+1729
+1083
+1165
+1461
+1850
+1913
+1958
+1121
+1613
+1341
+1055
+1510
+1054
+1064
+1875
+1429
+1799
+1570
+1293
+1702
+1313
+1576
+1050
+1340
+1117
+1342
+1914
+1773
+1281
+1176
+1371
+1520
+1131
+1438
+1741
+1583
+1840
+1412
+1792
+1656
+1628
+1089
+1124
+1291
+1476
+1367
+1467
+1529
+1925
+1555
+1518
+1496
+1745
+1533
+1557
+1861
+1091
+1364
+1894
+1760
+1622
+1149
+1776
+1547
+1329
+1988
+1697
+989
+1604
+1296
+319
+1459
+1860
+1916
+1838
+527
+1370
+1881
+1213
+2003
+1223
+1095
+1560
+1784
+1157
+1573
+1023
+1758
+1857
+1723
+	*/
+	/*
+Day 1 part 1:
+After saving Christmas five years in a row, you've decided to take a vacation at a nice resort on a tropical island. Surely, Christmas will go on without you.
+
+The tropical island has its own currency and is entirely cash-only. The gold coins used there have a little picture of a starfish; the locals just call them stars. None of the currency exchanges seem to have heard of them, but somehow, you'll need to find fifty of these coins by the time you arrive so you can pay the deposit on your room.
+
+To save your vacation, you need to get all fifty stars by December 25th.
+
+Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
+
+Before you leave, the Elves in accounting just need you to fix your expense report (your puzzle input); apparently, something isn't quite adding up.
+
+Specifically, they need you to find the two entries that sum to 2020 and then multiply those two numbers together.
+
+For example, suppose your expense report contained the following:
+
+1721
+979
+366
+299
+675
+1456
+In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying them together produces 1721 * 299 = 514579, so the correct answer is 514579.
+
+Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
+	*/
+	/*
+W $$Part1^YUVGZ202001(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	;ZW RecordsArr
+	;W !!!
+	set Line1=""
+	for  {
+		set Line1=$order(RecordsArr(Line1)) quit:Line1=""
+		set Num1=RecordsArr(Line1)
+		set Line2=Line1
+		for  {
+			set Line2=$order(RecordsArr(Line2)) quit:Line2=""
+			set Num2=RecordsArr(Line2)
+			if Num1+Num2=2020 {
+				return Num1*Num2
+			}
+		}
+	}
+	quit 0
+}
+	/*
+Day 1 part 2:
+The Elves in accounting are thankful for your help; one of them even offers you a starfish coin they had left over from a past vacation. They offer you a second one if you can find three numbers in your expense report that meet the same criteria.
+
+Using the above example again, the three entries that sum to 2020 are 979, 366, and 675. Multiplying them together produces the answer, 241861950.
+
+In your expense report, what is the product of the three entries that sum to 2020?
+	*/
+	/*
+W $$Part2^YUVGZ202001(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Line1=""
+	for  {
+		set Line1=$order(RecordsArr(Line1)) quit:Line1=""
+		set Num1=RecordsArr(Line1)
+		set Line2=Line1
+		for  {
+			set Line2=$order(RecordsArr(Line2)) quit:Line2=""
+			set Num2=RecordsArr(Line2)
+			set Line3=Line2
+			for  {
+				set Line3=$order(RecordsArr(Line3)) quit:Line3=""
+				set Num3=RecordsArr(Line3)
+				if Num1+Num2+Num3=2020 {	
+					return Num1*Num2*Num3
+				}
+			}
+		}
+	}
+	quit 0
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		if $length(Record) set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}
