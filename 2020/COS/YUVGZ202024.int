@@ -680,7 +680,7 @@ Part2(FileName="",RecordsArr) PUBLIC	;
 	//write !,"Before:",!
 	//zwrite Tiles
 	//write !!,"After:",!
-	for i=1:1:100 do FilpTiles(.Tiles) w i,! // /*zwrite Tiles*/ write !,i,"=",$$HowManyBlackTiles(.Tiles),!
+	for i=1:1:100 do FilpTiles(.Tiles) //w i,! // /*zwrite Tiles*/ write !,i,"=",$$HowManyBlackTiles(.Tiles),!
 	//w !!!
 	//zwrite Tiles
 	set Ans=$$HowManyBlackTiles(.Tiles)
