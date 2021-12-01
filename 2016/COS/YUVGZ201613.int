@@ -1,0 +1,239 @@
+ROUTINE YUVGZ201613 [Type=INT]
+YUVGZ201613	;https://adventofcode.com/2016/day/13;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+1350
+	*/
+	/*
+Year 2016, Day 13 part 1:
+--- Day 13: A Maze of Twisty Little Cubicles ---
+You arrive at the first floor of this new building to discover a much less welcoming environment than the shiny atrium of the last one. Instead, you are in a maze of twisty little cubicles, all alike.
+
+Every location in this area is addressed by a pair of non-negative integers (x,y). Each such coordinate is either a wall or an open space. You can't move diagonally. The cube maze starts at 0,0 and seems to extend infinitely toward positive x and y; negative values are invalid, as they represent a location outside the building. You are in a small waiting area at 1,1.
+
+While it seems chaotic, a nearby morale-boosting poster explains, the layout is actually quite logical. You can determine whether a given x,y coordinate will be a wall or an open space using a simple system:
+
+Find x*x + 3*x + 2*x*y + y + y*y.
+Add the office designer's favorite number (your puzzle input).
+Find the binary representation of that sum; count the number of bits that are 1.
+If the number of bits that are 1 is even, it's an open space.
+If the number of bits that are 1 is odd, it's a wall.
+For example, if the office designer's favorite number were 10, drawing walls as # and open spaces as ., the corner of the building containing 0,0 would look like this:
+
+  0123456789
+0 .#.####.##
+1 ..#..#...#
+2 #....##...
+3 ###.#.###.
+4 .##..#..#.
+5 ..##....#.
+6 #...##.###
+Now, suppose you wanted to reach 7,4. The shortest route you could take is marked as O:
+
+  0123456789
+0 .#.####.##
+1 .O#..#...#
+2 #OOO.##...
+3 ###O#.###.
+4 .##OO#OO#.
+5 ..##OOO.#.
+6 #...##.###
+Thus, reaching 7,4 would take a minimum of 11 steps (starting from your current location, 1,1).
+
+What is the fewest number of steps required for you to reach 31,39?
+	*/
+	/*
+W $$Part1^YUVGZ201613(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do SetGrid(RecordsArr(1),.Grid)
+	zw Grid
+	set test=1
+	if test {
+		do FindShortestPath(.Grid,2,1,8,4,0,.visited,"") //Test
+		zw visited
+		set ANS=visited(8,4)
+		do PaintPath(.Grid,visited(8,4,"path"))
+	}
+	else {
+		do FindShortestPath(.Grid,2,1,32,39,0,.visited,"")
+		zw visited(32,39)
+		set ANS=visited(32,39)
+		do PaintPath(.Grid,visited(32,39,"path"))
+	}
+	//
+	//
+	//
+	quit ANS
+}
+PaintPath(&Grid,path)
+{
+	for i=1:1:$listlength(path) {
+		set pos=$list(path,i)
+		set $extract(Grid($list(pos,2)),$list(pos,1))="O"
+		hang .1
+		write !!
+		do DisplayGrid(.Grid)
+	}
+}
+DisplayGrid(&Grid)
+{
+	set y=""
+	for  {
+		set y=$order(Grid(y)) quit:y=""
+		write !,Grid(y)
+	}
+}
+SetGrid(Number,&Grid)
+{
+	for y=0:1:50 {
+		set data=""
+		for x=0:1:50 {
+			set f=x*x+(3*x)+(2*x*y)+y+(y*y)+Number
+			set bits=0 for I=$bitcount($factor(f)):-1:1 set bits=bits+$bit($factor(f),I)
+			set type="." set:bits#2 type="#"
+			set data=data_type
+		}
+		set Grid(y)=data
+	}	
+}
+FindShortestPath(&Grid,fromX,fromY,toX,toY,steps,&visited,path,maxsteps=0)
+{
+	if maxsteps,steps>maxsteps quit 9999
+	if fromX=toX,fromY=toY {
+		if '$data(visited(fromX,fromY))||(visited(fromX,fromY)>steps) {
+			set visited(fromX,fromY)=steps
+			set visited(fromX,fromY,"path")=path
+		}
+		quit visited(fromX,fromY)
+	}
+	set type=$extract($get(Grid(fromY)),fromX)
+	if type="#"||'$length(type) quit 9999
+	if $data(visited(fromX,fromY)) {
+		if visited(fromX,fromY)>steps {
+			set visited(fromX,fromY)=steps
+			set visited(fromX,fromY,"path")=path
+		}
+		else {
+			quit visited(fromX,fromY)
+		}
+	}
+	set visited(fromX,fromY)=steps
+	set visited(fromX,fromY,"path")=path
+	//w !,fromX,";",fromY,";",steps
+	set path1=$$FindShortestPath(.Grid,fromX+1,fromY,toX,toY,steps+1,.visited,path_$lb($lb(fromX+1,fromY)),maxsteps)
+	set path2=$$FindShortestPath(.Grid,fromX-1,fromY,toX,toY,steps+1,.visited,path_$lb($lb(fromX-1,fromY)),maxsteps)
+	set path3=$$FindShortestPath(.Grid,fromX,fromY+1,toX,toY,steps+1,.visited,path_$lb($lb(fromX,fromY+1)),maxsteps)
+	set path4=$$FindShortestPath(.Grid,fromX,fromY-1,toX,toY,steps+1,.visited,path_$lb($lb(fromX,fromY-1)),maxsteps)
+	set min=path1
+	set:path2<min min=path2
+	set:path3<min min=path3
+	set:path4<min min=path4
+	quit min
+}
+	
+	/*
+Year 2016, Day 13 part 2:
+How many locations (distinct x,y coordinates, including your starting location) can you reach in at most 50 steps?
+	*/
+	/*
+W $$Part2^YUVGZ201613(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do SetGrid(RecordsArr(1),.Grid)
+	zw Grid
+	do FindShortestPath(.Grid,2,1,"","",0,.visited,"",50)
+	set total=0,x=""
+	for  {
+		set x=$order(visited(x)) quit:x=""
+		set y=""
+		for  {
+			set y=$order(visited(x,y)) quit:y=""
+			set total=total+1
+			set $extract(Grid(y),x)="o"
+		}
+	}
+	w !!!
+	zw Grid
+	set ANS=total
+	//zw visited
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+		set Error="Only one line of data allowed"
+		write !,Error
+		quit 0
+	}
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

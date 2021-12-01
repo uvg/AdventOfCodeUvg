@@ -1,0 +1,431 @@
+ROUTINE YUVGZ201818 [Type=INT]
+YUVGZ201818	;https://adventofcode.com/2018/day/18;
+	//Intersystems developer community id: 130669-ab1f69bf
+	//
+	//
+	quit
+	/*
+Input data:
+||#.#..|||......#........#.|.......#....#||...##|.
+|#|....#|##|###.|...#.|.|..|...|....|..#|...|..||.
+||.#..#|##....#.....|..##.#....|#....|.#...##||..#
+....|....|.#.........|....|#|#..|..|..|#....#|.|#.
+|.|.|..||..#.|....||.|||..||||#.|.#||..........|.|
+...#..|..###|#....#|.|.#..|...#....|..#.#.....#|..
+#|.#..#|......#.|....|..||..#..|..||.....##..#|.#.
+....||#.....|.##..........##.||##..||#..|.|...##..
+.#.|..|.#.....#...........#..#..#.|..##.|..#......
+#...|#.|.#....#...|#...|.....#.|##...|.|.||...|.##
+.|...||....|##..#..|....|#||...|#.|.||...||....|..
+....#.......|.##...#|.#.##.|......#||..|#.........
+.||#....|||.|##...||...|#...#|...|..|...#....#|..|
+.#....||....|||...|.....|....#.###.....|#.....|..|
+#|.#.....|#..........#....|#...#.....|...|.||..#..
+....##......#.##|##|......##.#.....||..|.#.....|##
+##......##......|.|.#..#|...|.#.#|.|||..|.#.|..#..
+.|.|....||.|#...#||.#..|#...#...|###..|||..|....#.
+..#|#..##....#.||...#.|||...|.#....#||...#...|#...
+...#..#.........##.|.|#|.|.##..#...##..#|....|....
+....#|..|.#.|...|..#..|#|..#..........#..|.#...#..
+.#.##|..###|...#|||#....##..||#...##..|.....|.||||
+...||.|#|....#.##|.#..|....#.#|#|....||..|#|.....|
+......||.|.#....##...#...#.|...|..#.###.|..#|.....
+..##.|.|.|..##|#.....#.#||........||##.#.......|#.
+#|..#.||.||#.||||.....#..|..|#.|##.....##.#.|.....
+..##|.#.......#.##..|..|....|.|##.|#||#|.||||.#.#.
+|.||..|......##..|..#..#.|....##.||.#.....||.#....
+#.|.||.#..|...|...|..|.|.#...|.#.|..|...###|##.|.#
+#........|....###.......#...#.##.#|.|...#||#.#.##.
+.|.....#.|#..##.||.|....#....|..||.#|#|#..#...#.#.
+......##||...|#|..|#.......#.#..|#......|.#|...|.|
+....#|.##|#.#..#.|.|....#....|....|#|||.#|#..|.#.#
+|...#....#|||#..||.|||.#.#|..#.....#......|.##|...
+..|..#.|.|..#.|.#|..|......#|.||#.##..#.#.|.||....
+.|#....|.#.#...|||.|.|#|.#..|......|...###|..|.|||
+.|##.|#|.....#|.....#||#.|.|..||.##..#.#|#..|||...
+..|#..||..#.##...#.||#..|...|#..#..|..|.#||#......
+.##|#|#.|..|........#|..#.|.|..##.#...##|.#...#..|
+|#..#||.#|.....||.#.....#.|..##...|#....##..##|##.
+#.#|...#...|...|...|.#..#|..#.#......|.##|......|#
+|...|||....#.|...|#....##|.....|...|.....|....#..|
+.#...#|#.|.##|##..#..#.##...##..||..|....|..###.#.
+.#....|......|...#.|..|#.|....#.##|...##....#|.||.
+|#.##...|.|#...|###.|..|...#..#.|.|......|.|...##.
+..|.#|.||.##.#.........|.#...#|....|...#|.|###....
+.#.||...|.#||.#|..#|..#......#|#.||..|||.||....|.|
+.|.#.#.|.......|.#....###....##.|.|.|...#.#.#..##.
+.....||||................#..#|..|#|...|.#.|.#.|.#.
+.|.||....#..|.##....#..#|.#.|.|##|#..##....|#.....
+	*/
+	/*
+Year 2018, Day 18 part 1:
+--- Day 18: Settlers of The North Pole ---
+On the outskirts of the North Pole base construction project, many Elves are collecting lumber.
+
+The lumber collection area is 50 acres by 50 acres; each acre can be either open ground (.), trees (|), or a lumberyard (#). You take a scan of the area (your puzzle input).
+
+Strange magic is at work here: each minute, the landscape looks entirely different. In exactly one minute, an open acre can fill with trees, a wooded acre can be converted to a lumberyard, or a lumberyard can be cleared to open ground (the lumber having been sent to other projects).
+
+The change to each acre is based entirely on the contents of that acre as well as the number of open, wooded, or lumberyard acres adjacent to it at the start of each minute. Here, "adjacent" means any of the eight acres surrounding that acre. (Acres on the edges of the lumber collection area might have fewer than eight adjacent acres; the missing acres aren't counted.)
+
+In particular:
+
+An open acre will become filled with trees if three or more adjacent acres contained trees. Otherwise, nothing happens.
+An acre filled with trees will become a lumberyard if three or more adjacent acres were lumberyards. Otherwise, nothing happens.
+An acre containing a lumberyard will remain a lumberyard if it was adjacent to at least one other lumberyard and at least one acre containing trees. Otherwise, it becomes open.
+These changes happen across all acres simultaneously, each of them using the state of all acres at the beginning of the minute and changing to their new form by the end of that same minute. Changes that happen during the minute don't affect each other.
+
+For example, suppose the lumber collection area is instead only 10 by 10 acres with this initial configuration:
+
+Initial state:
+.#.#...|#.
+.....#|##|
+.|..|...#.
+..|#.....#
+#.#|||#|#|
+...#.||...
+.|....|...
+||...#|.#|
+|.||||..|.
+...#.|..|.
+
+After 1 minute:
+.......##.
+......|###
+.|..|...#.
+..|#||...#
+..##||.|#|
+...#||||..
+||...|||..
+|||||.||.|
+||||||||||
+....||..|.
+
+After 2 minutes:
+.......#..
+......|#..
+.|.|||....
+..##|||..#
+..###|||#|
+...#|||||.
+|||||||||.
+||||||||||
+||||||||||
+.|||||||||
+
+After 3 minutes:
+.......#..
+....|||#..
+.|.||||...
+..###|||.#
+...##|||#|
+.||##|||||
+||||||||||
+||||||||||
+||||||||||
+||||||||||
+
+After 4 minutes:
+.....|.#..
+...||||#..
+.|.#||||..
+..###||||#
+...###||#|
+|||##|||||
+||||||||||
+||||||||||
+||||||||||
+||||||||||
+
+After 5 minutes:
+....|||#..
+...||||#..
+.|.##||||.
+..####|||#
+.|.###||#|
+|||###||||
+||||||||||
+||||||||||
+||||||||||
+||||||||||
+
+After 6 minutes:
+...||||#..
+...||||#..
+.|.###|||.
+..#.##|||#
+|||#.##|#|
+|||###||||
+||||#|||||
+||||||||||
+||||||||||
+||||||||||
+
+After 7 minutes:
+...||||#..
+..||#|##..
+.|.####||.
+||#..##||#
+||##.##|#|
+|||####|||
+|||###||||
+||||||||||
+||||||||||
+||||||||||
+
+After 8 minutes:
+..||||##..
+..|#####..
+|||#####|.
+||#...##|#
+||##..###|
+||##.###||
+|||####|||
+||||#|||||
+||||||||||
+||||||||||
+
+After 9 minutes:
+..||###...
+.||#####..
+||##...##.
+||#....###
+|##....##|
+||##..###|
+||######||
+|||###||||
+||||||||||
+||||||||||
+
+After 10 minutes:
+.||##.....
+||###.....
+||##......
+|##.....##
+|##.....##
+|##....##|
+||##.####|
+||#####|||
+||||#|||||
+||||||||||
+After 10 minutes, there are 37 wooded acres and 31 lumberyards. Multiplying the number of wooded acres by the number of lumberyards gives the total resource value after ten minutes: 37 * 31 = 1147.
+
+What will the total resource value of the lumber collection area be after 10 minutes?
+	*/
+	/*
+W $$Part1^YUVGZ201818(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	merge Grid=RecordsArr
+	write !,0,!
+	zwrite Grid
+	for i=1:1:10 {
+		do ChangeGrid(.Grid)
+		write !,i,!
+		zwrite Grid
+	}
+	set (TotalTrees,TotalLumberyards)=0
+	set Length=$length(Grid(1))
+	set Y=""
+	for  {
+		set Y=$order(Grid(Y)) quit:Y=""
+		set str=Grid(Y)
+		for X=1:1:Length {
+			set ltr=$extract(str,X)
+			set:ltr="|" TotalTrees=TotalTrees+1
+			set:ltr="#" TotalLumberyards=TotalLumberyards+1
+		}
+	}	
+	set ANS=$listbuild(TotalTrees,TotalLumberyards,TotalTrees*TotalLumberyards)
+	//
+	//
+	//
+	quit ANS
+}
+ChangeGrid(&Grid)
+{
+	set Length=$length(Grid(1)),SW=0
+	set Y=""
+	for  {
+		set Y=$order(Grid(Y)) quit:Y=""
+		set str=Grid(Y)
+		for X=1:1:Length {
+			set type=$extract(str,X)
+			if type=".",$$FindAdjacent(.Grid,X,Y,"|")>=3 {
+				set $extract(str,X)="|"
+			}
+			elseif type="|",$$FindAdjacent(.Grid,X,Y,"#")>=3 {
+				set $extract(str,X)="#"
+			}
+			elseif type="#",($$FindAdjacent(.Grid,X,Y,"#")<1)||($$FindAdjacent(.Grid,X,Y,"|")<1) {
+				set $extract(str,X)="."
+			}
+		}
+		set:str'=Grid(Y) SW=1
+		set tempGrid(Y)=str
+	}
+	kill Grid
+	merge Grid=tempGrid
+	quit SW
+}
+FindAdjacent(&Grid,X,Y,Type)
+{
+	set Total=0
+	for tempY=Y-1:1:Y+1 {
+		for tempX=X-1:1:X+1 {
+			if X=tempX,Y=tempY continue
+			set:$extract($get(Grid(tempY)),tempX)=Type Total=Total+1
+		}
+	}
+	quit Total
+}
+	/*
+Year 2018, Day 18 part 2:
+This important natural resource will need to last for at least thousands of years. Are the Elves collecting this lumber sustainably?
+
+What will the total resource value of the lumber collection area be after 1000000000 minutes?
+	*/
+	/*
+W $$Part2^YUVGZ201818(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	merge Grid=RecordsArr
+	merge OldGrids($increment(OldGrids))=Grid
+	set MaxMinute=1000000000
+	//write !,0,! zwrite Grid
+	for i=1:1:MaxMinute {
+		quit:'$$ChangeGrid(.Grid)
+		set OldGrid=$$IsGridInOldGrids(.Grid,.OldGrids)
+		merge OldGrids($increment(OldGrids))=Grid
+		quit:OldGrid
+		//write !,i,! zwrite Grid
+	}
+	//zwrite OldGrids
+	//write !!,OldGrid,!
+	if OldGrid {
+		//write !,OldGrid,!,$order(OldGrids(""),-1)
+		set Diff=$order(OldGrids(""),-1)-OldGrid
+		//write !,Diff
+		set LastGrid=(MaxMinute-$order(OldGrids(""),-1)+1)#Diff+OldGrid
+		//write !,LastGrid,!
+		kill Grid merge Grid=OldGrids(LastGrid)
+		/*for i=OldGrid:1:$order(OldGrids(""),-1) {
+			kill tempGrid merge tempGrid=OldGrids(i)
+			write i,"=" s x=$$GetTreesAndLomberyards(.tempGrid) zw x
+		}*/
+	}
+	set ANS=$$GetTreesAndLomberyards(.Grid)
+	//
+	//
+	//
+	quit ANS
+}
+GetTreesAndLomberyards(&Grid)
+{
+	set (TotalTrees,TotalLumberyards)=0
+	set Length=$length(Grid(1))
+	set Y=""
+	for  {
+		set Y=$order(Grid(Y)) quit:Y=""
+		set str=Grid(Y)
+		for X=1:1:Length {
+			set ltr=$extract(str,X)
+			set:ltr="|" TotalTrees=TotalTrees+1
+			set:ltr="#" TotalLumberyards=TotalLumberyards+1
+		}
+	}
+	quit $listbuild(TotalTrees,TotalLumberyards,TotalTrees*TotalLumberyards)
+}
+IsGridInOldGrids(&Grid,&OldGrids)
+{
+	set OldGrid="",SW=0
+	for  {
+		set OldGrid=$order(OldGrids(OldGrid)) quit:OldGrid=""
+		set Y="",SW=1
+		for  {
+			set Y=$order(OldGrids(OldGrid,Y)) quit:Y=""
+			if OldGrids(OldGrid,Y)'=Grid(Y) {
+				set SW=0
+				quit
+			}
+		}
+		quit:SW
+	}
+	quit:'SW 0
+	quit OldGrid
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	set Length=$length($get(RecordsArr(1)))
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if $length(Record)'=Length {
+			set Error="Wrong data format at line "_Line
+			quit			
+		}
+		if $length($translate(Record,".|#")) {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	set io=$io
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	use io
+	quit 1
+}

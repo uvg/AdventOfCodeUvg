@@ -1,0 +1,335 @@
+ROUTINE YUVGZ201819 [Type=INT]
+YUVGZ201819	;https://adventofcode.com/2018/day/19;
+	//Intersystems developer community id: 130669-ab1f69bf
+	//
+	//
+	quit
+	/*
+Input data:
+
+	*/
+	/*
+Year 2018, Day 19 part 1:
+--- Day 19: Go With The Flow ---
+With the Elves well on their way constructing the North Pole base, you turn your attention back to understanding the inner workings of programming the device.
+
+You can't help but notice that the device's opcodes don't contain any flow control like jump instructions. The device's manual goes on to explain:
+
+"In programs where flow control is required, the instruction pointer can be bound to a register so that it can be manipulated directly. This way, setr/seti can function as absolute jumps, addr/addi can function as relative jumps, and other opcodes can cause truly fascinating effects."
+
+This mechanism is achieved through a declaration like #ip 1, which would modify register 1 so that accesses to it let the program indirectly access the instruction pointer itself. To compensate for this kind of binding, there are now six registers (numbered 0 through 5); the five not bound to the instruction pointer behave as normal. Otherwise, the same rules apply as the last time you worked with this device.
+
+When the instruction pointer is bound to a register, its value is written to that register just before each instruction is executed, and the value of that register is written back to the instruction pointer immediately after each instruction finishes execution. Afterward, move to the next instruction by adding one to the instruction pointer, even if the value in the instruction pointer was just updated by an instruction. (Because of this, instructions must effectively set the instruction pointer to the instruction before the one they want executed next.)
+
+The instruction pointer is 0 during the first instruction, 1 during the second, and so on. If the instruction pointer ever causes the device to attempt to load an instruction outside the instructions defined in the program, the program instead immediately halts. The instruction pointer starts at 0.
+
+It turns out that this new information is already proving useful: the CPU in the device is not very powerful, and a background process is occupying most of its time. You dump the background process' declarations and instructions to a file (your puzzle input), making sure to use the names of the opcodes rather than the numbers.
+
+For example, suppose you have the following program:
+
+#ip 0
+seti 5 0 1
+seti 6 0 2
+addi 0 1 0
+addr 1 2 3
+setr 1 0 0
+seti 8 0 4
+seti 9 0 5
+When executed, the following instructions are executed. Each line contains the value of the instruction pointer at the time the instruction started, the values of the six registers before executing the instructions (in square brackets), the instruction itself, and the values of the six registers after executing the instruction (also in square brackets).
+
+ip=0 [0, 0, 0, 0, 0, 0] seti 5 0 1 [0, 5, 0, 0, 0, 0]
+ip=1 [1, 5, 0, 0, 0, 0] seti 6 0 2 [1, 5, 6, 0, 0, 0]
+ip=2 [2, 5, 6, 0, 0, 0] addi 0 1 0 [3, 5, 6, 0, 0, 0]
+ip=4 [4, 5, 6, 0, 0, 0] setr 1 0 0 [5, 5, 6, 0, 0, 0]
+ip=6 [6, 5, 6, 0, 0, 0] seti 9 0 5 [6, 5, 6, 0, 0, 9]
+In detail, when running this program, the following events occur:
+
+The first line (#ip 0) indicates that the instruction pointer should be bound to register 0 in this program. This is not an instruction, and so the value of the instruction pointer does not change during the processing of this line.
+The instruction pointer contains 0, and so the first instruction is executed (seti 5 0 1). It updates register 0 to the current instruction pointer value (0), sets register 1 to 5, sets the instruction pointer to the value of register 0 (which has no effect, as the instruction did not modify register 0), and then adds one to the instruction pointer.
+The instruction pointer contains 1, and so the second instruction, seti 6 0 2, is executed. This is very similar to the instruction before it: 6 is stored in register 2, and the instruction pointer is left with the value 2.
+The instruction pointer is 2, which points at the instruction addi 0 1 0. This is like a relative jump: the value of the instruction pointer, 2, is loaded into register 0. Then, addi finds the result of adding the value in register 0 and the value 1, storing the result, 3, back in register 0. Register 0 is then copied back to the instruction pointer, which will cause it to end up 1 larger than it would have otherwise and skip the next instruction (addr 1 2 3) entirely. Finally, 1 is added to the instruction pointer.
+The instruction pointer is 4, so the instruction setr 1 0 0 is run. This is like an absolute jump: it copies the value contained in register 1, 5, into register 0, which causes it to end up in the instruction pointer. The instruction pointer is then incremented, leaving it at 6.
+The instruction pointer is 6, so the instruction seti 9 0 5 stores 9 into register 5. The instruction pointer is incremented, causing it to point outside the program, and so the program ends.
+What value is left in register 0 when the background process halts?
+	*/
+	/*
+W $$Part1^YUVGZ201819(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+	new (FileName,RecordsArr)
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do LoadOperations(.OperationsArr)
+	set Instruction="",ipr=$piece(RecordsArr(1)," ",2),ip=0
+	for i=0:1:5 set r(i)=0
+	for  {
+		set r(ipr)=ip
+		set Data=RecordsArr(ip+2)
+		set Op=OperationsArr($piece(Data," ",1)),A=$piece(Data," ",2),B=$piece(Data," ",3),C=$piece(Data," ",4)
+		xecute Op
+		set ip=r(ipr),ip=ip+1
+		quit:'$data(RecordsArr(ip+2))
+	}
+	zw r,ip
+	set ANS=r(0)
+	//
+	//
+	//
+	quit ANS
+
+LoadOperations(&OperationsArr)
+{
+	set OperationsArr("addr")="S r(C)=r(A)+r(B)"
+	set OperationsArr("addi")="S r(C)=r(A)+B"
+	set OperationsArr("mulr")="S r(C)=r(A)*r(B)"
+	set OperationsArr("muli")="S r(C)=r(A)*B"
+	set OperationsArr("banr")="S r(C)=$$AND(r(A),r(B))"
+	set OperationsArr("bani")="S r(C)=$$AND(r(A),B)"
+	set OperationsArr("borr")="S r(C)=$$OR(r(A),r(B))"
+	set OperationsArr("bori")="S r(C)=$$OR(r(A),B)"
+	set OperationsArr("setr")="S r(C)=r(A)"
+	set OperationsArr("seti")="S r(C)=A"
+	set OperationsArr("gtir")="S r(C)=A>r(B)"
+	set OperationsArr("gtri")="S r(C)=r(A)>B"
+	set OperationsArr("gtrr")="S r(C)=r(A)>r(B)"
+	set OperationsArr("eqir")="S r(C)=A=r(B)"
+	set OperationsArr("eqri")="S r(C)=r(A)=B"
+	set OperationsArr("eqrr")="S r(C)=r(A)=r(B)"
+}
+AND(A,B) PUBLIC
+{
+	set val1=$factor(A),val2=$factor(B)
+	quit $$FactorToDec($bitlogic(val1&val2))
+}
+OR(A,B) PUBLIC
+{
+	set val1=$factor(A),val2=$factor(B)
+	quit $$FactorToDec($bitlogic(val1|val2))
+}
+FactorToDec(Factor)
+{
+	set ans=0,mul=1
+	for i=1:1:$bitcount(Factor) {
+		set:$bit(Factor,i) ans=ans+mul
+		set mul=mul*2
+	}
+	quit ans	
+}
+	/*
+Year 2018, Day 19 part 2:
+A new background process immediately spins up in its place. It appears identical, but on closer inspection, you notice that this time, register 0 started with the value 1.
+
+What value is left in register 0 when this new background process halts?
+	*/
+	/*
+W $$Part2^YUVGZ201819(FN)
+	*/
+	/*
+Part2(FileName="",RecordsArr) PUBLIC	;
+	new (FileName,RecordsArr)
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do LoadOperations(.OperationsArr)
+	set Instruction="",ipr=$piece(RecordsArr(1)," ",2),ip=0
+	for i=1:1:5 set r(i)=0
+	set r(0)=1
+	for  {
+		set r(ipr)=ip
+		set Data=RecordsArr(ip+2)
+		set Op=OperationsArr($piece(Data," ",1)),A=$piece(Data," ",2),B=$piece(Data," ",3),C=$piece(Data," ",4)
+		xecute Op
+		set ip=r(ipr),ip=ip+1
+		quit:'$data(RecordsArr(ip+2))
+	}
+	zw r,ip
+	/*
+#ip 3
+0	addi 3 16 3	r(3)=r(3)+16	==>	ip=ip+17						==> ip=17	jmp 17 (Call Initialization)
+1	seti 1 6 5	r(5)=1															r(5)=1
+2	seti 1 8 2	r(2)=1															r(2)=1
+3	mulr 5 2 1	r(1)=r(5)*r(2)													r(1)=r(2)*r(5)
+4	eqrr 1 4 1	r(1)=r(1)=r(4)													r(1)=r(1)=r(4)
+5	addr 1 3 3	r(3)=r(1)+r(3)	==>	ip=ip+$s(r(5)*r(2)=r(4):2,1:1)	==> ip=6/7	je 7
+6	addi 3 1 3	r(3)=r(3)+1		==>	ip=8										jmp 8
+7	addr 5 0 0	r(0)=r(5)+r(0)													r(0)+=r(5)
+8	addi 2 1 2	r(2)=r(2)+1														r(2)++
+9	gtrr 2 4 1	r(1)=r(2)>r(4)													r(1)=r(2)>r(4)
+10	addr 3 1 3	r(3)=r(3)+r(1)	==>	ip=ip+$s(r(2)>r(4):2,1:1)	==> ip=11/12	je 12
+11	seti 2 3 3	r(3)=2			==>	ip=3										jmp3
+12	addi 5 1 5	r(5)=r(5)+1														r(5)++
+13	gtrr 5 4 1	r(1)=r(5)>r(4)													r(1)=r(5)>r(4)
+14	addr 1 3 3	r(3)=r(1)+r(3)	==>	ip=ip+$s(r(5)>r(4):2,1:1)	==> ip=15/16	je 16
+15	seti 1 8 3	r(3)=1			==>	ip=2										jmp 2
+16	mulr 3 3 3	r(3)=r(3)*r(3)	==>	ip=ip*ip+1					==> ip=257		quit
+
+
+
+Initialization:???
+17	addi 4 2 4	r(4)=r(4)+2														r(4)=2
+18	mulr 4 4 4	r(4)=r(4)*r(4)													r(4)=4
+19	mulr 3 4 4	r(4)=r(3)*r(4)													r(4)=19*4=76
+20	muli 4 11 4	r(4)=r(4)*11													r(4)=76*11=836
+21	addi 1 6 1	r(1)=r(1)+6														r(1)=6
+22	mulr 1 3 1	r(1)=r(1)*r(3)													r(1)=6*22=132
+23	addi 1 10 1	r(1)=r(1)+10													r(1)=132+10=142
+24	addr 4 1 4	r(4)=r(4)+r(1)													r(4)=836+142=978
+25	addr 3 0 3	r(3)=r(3)+r(0)	==>	ip=ip+r(0)+1								jmp 27
+26	seti 0 0 3	r(3)=0			==>	ip=1										ignore for now
+27	setr 3 9 1	r(1)=r(3)														r(1)=27
+28	mulr 1 3 1	r(1)=r(1)*r(3)													r(1)=27*28=756
+29	addr 3 1 1	r(1)=r(3)+r(1)													r(1)=756+29=785
+30	mulr 3 1 1	r(1)=r(3)*r(1)													r(1)=785*30=23550
+31	muli 1 14 1	r(1)=r(1)*14													r(1)=23550*14=329700
+32	mulr 1 3 1	r(1)=r(1)*r(3)													r(1)=329700*32=10550400
+33	addr 4 1 4	r(4)=r(4)+r(1)													r(4)=978+10550400=10551378
+34	seti 0 4 0	r(0)=0															r(0)=0
+35	seti 0 0 3	r(3)=0			==>	ip=1										jmp 1
+
+Initialization:
+r(0)=0
+r(1)=10550400
+r(4)=10551378
+
+-----------------
+do Init(.r)
+set r(5)=1
+for  {
+	set r(2)=1
+	set:r(2)*r(5)=r(4) r(0)=r(0)+r(5)
+	set r(2)=r(2)+1
+	if r(2)>r(4) {
+		set r(5)=r(5)+1
+		quit:r(5)>r(4)	
+	}
+}
+
+Init(&Regs)
+{
+	set Regs(0)=0
+	set Regs(1)=10550400
+	set Regs(4)=10551378
+}
+-----------------
+
+set r(4)=10551378,r(5)=1,r(0)=0
+while r(5)'>r(4) {
+	set:'(r(4)#r(5)) r(0)=r(0)+r(5)
+	set r(5)=r(5)+1
+}
+-----------------
+r(0)=sum of 10551378 dividers
+	*/
+	/*
+	//Reverse enginiring the code (what i did above) and you'll get that r(0) is the sum of the dividers of 10551378
+	//In my input the program start by jumping to instruction 17 that initialize the r(4) to 10551378 and continued the program
+	//So the following code is much much much much faster then runing the instructions of the device (the remarked code above)
+	//O(n^.5) instead of O(n^2)
+	set ANS=r(0)
+	//
+	//
+	//
+	quit ANS
+	*/
+	//
+	//W $$Part2^YUVGZ201819()
+Part2() PUBLIC
+{
+	//O(n) solution much faster than o(n^2)
+	/*
+	set r(4)=10551378,r(5)=1,r(0)=0
+	while r(5)'>r(4) {
+		set:'(r(4)#r(5)) r(0)=r(0)+r(5)
+		set r(5)=r(5)+1
+	}
+	*/
+	//
+	//O(sqrt(n)) solution much much much faster than o(n^2)
+	set r(4)=10551378,r(5)=1,r(0)=0,sqrt=r(4)**.5
+	while r(5)'>sqrt {
+		set:'(r(4)#r(5)) r(0)=r(0)+r(5)+(r(4)/r(5))
+		set r(5)=r(5)+1
+	}
+	quit r(0)
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error="",ip=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if $length(Record," ")'=2,$length(Record," ")'=4 {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		if $length(Record," ")=2,Record'?1"#ip "1N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		if $length(Record," ")=4,Record'?4L1" "1.N1" "1.N1" "1N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		set OpCode=$piece(Record," ",1)
+		if ",#ip,addr,addi,mulr,muli,banr,bani,borr,bori,setr,seti,gtir,gtri,gtrr,eqir,eqri,eqrr,"'[(","_OpCode_",") {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		if OpCode="#ip",ip'="" {
+			set Error="Multiple ip's at lines "_Line_","_ip
+			quit
+		}
+		set:OpCode="#ip" ip=Line
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	set io=$io
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	use io
+	quit 1
+}

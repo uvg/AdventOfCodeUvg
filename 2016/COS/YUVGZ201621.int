@@ -1,0 +1,358 @@
+ROUTINE YUVGZ201621 [Type=INT]
+YUVGZ201621	;https://adventofcode.com/2016/day/21;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+rotate right 4 steps
+swap letter b with letter e
+swap position 1 with position 3
+reverse positions 0 through 4
+rotate left 5 steps
+swap position 6 with position 5
+move position 3 to position 2
+move position 6 to position 5
+reverse positions 1 through 4
+rotate based on position of letter e
+reverse positions 3 through 7
+reverse positions 4 through 7
+rotate left 1 step
+reverse positions 2 through 6
+swap position 7 with position 5
+swap letter e with letter c
+swap letter f with letter d
+swap letter a with letter e
+swap position 2 with position 7
+swap position 1 with position 7
+swap position 6 with position 3
+swap letter g with letter h
+reverse positions 2 through 5
+rotate based on position of letter f
+rotate left 1 step
+rotate right 2 steps
+reverse positions 2 through 7
+reverse positions 5 through 6
+rotate left 6 steps
+move position 2 to position 6
+rotate based on position of letter a
+rotate based on position of letter a
+swap letter f with letter a
+rotate right 5 steps
+reverse positions 0 through 4
+swap letter d with letter c
+swap position 4 with position 7
+swap letter f with letter h
+swap letter h with letter a
+rotate left 0 steps
+rotate based on position of letter e
+swap position 5 with position 4
+swap letter e with letter h
+swap letter h with letter d
+rotate right 2 steps
+rotate right 3 steps
+swap position 1 with position 7
+swap letter b with letter e
+swap letter b with letter e
+rotate based on position of letter e
+rotate based on position of letter h
+swap letter a with letter h
+move position 7 to position 2
+rotate left 2 steps
+move position 3 to position 2
+swap position 4 with position 6
+rotate right 7 steps
+reverse positions 1 through 4
+move position 7 to position 0
+move position 2 to position 0
+reverse positions 4 through 6
+rotate left 3 steps
+rotate left 7 steps
+move position 2 to position 3
+rotate left 6 steps
+swap letter a with letter h
+rotate based on position of letter f
+swap letter f with letter c
+swap position 3 with position 0
+reverse positions 1 through 3
+swap letter h with letter a
+swap letter b with letter a
+reverse positions 2 through 3
+rotate left 5 steps
+swap position 7 with position 5
+rotate based on position of letter g
+rotate based on position of letter h
+rotate right 6 steps
+swap letter a with letter e
+swap letter b with letter g
+move position 4 to position 6
+move position 6 to position 5
+rotate based on position of letter e
+reverse positions 2 through 6
+swap letter c with letter f
+swap letter h with letter g
+move position 7 to position 2
+reverse positions 1 through 7
+reverse positions 1 through 2
+rotate right 0 steps
+move position 5 to position 6
+swap letter f with letter a
+move position 3 to position 1
+move position 2 to position 4
+reverse positions 1 through 2
+swap letter g with letter c
+rotate based on position of letter f
+rotate left 7 steps
+rotate based on position of letter e
+swap position 6 with position 1
+	*/
+	/*
+Year 2016, Day 21 part 1:
+--- Day 21: Scrambled Letters and Hash ---
+The computer system you're breaking into uses a weird scrambling function to store its passwords. It shouldn't be much trouble to create your own scrambled password so you can add it to the system; you just have to implement the scrambler.
+
+The scrambling function is a series of operations (the exact list is provided in your puzzle input). Starting with the password to be scrambled, apply each operation in succession to the string. The individual operations behave as follows:
+
+swap position X with position Y means that the letters at indexes X and Y (counting from 0) should be swapped.
+swap letter X with letter Y means that the letters X and Y should be swapped (regardless of where they appear in the string).
+rotate left/right X steps means that the whole string should be rotated; for example, one right rotation would turn abcd into dabc.
+rotate based on position of letter X means that the whole string should be rotated to the right based on the index of letter X (counting from 0) as determined before this instruction does any rotations. Once the index is determined, rotate the string to the right one time, plus a number of times equal to that index, plus one additional time if the index was at least 4.
+reverse positions X through Y means that the span of letters at indexes X through Y (including the letters at X and Y) should be reversed in order.
+move position X to position Y means that the letter which is at index X should be removed from the string, then inserted such that it ends up at index Y.
+For example, suppose you start with abcde and perform the following operations:
+
+swap position 4 with position 0 swaps the first and last letters, producing the input for the next step, ebcda.
+swap letter d with letter b swaps the positions of d and b: edcba.
+reverse positions 0 through 4 causes the entire string to be reversed, producing abcde.
+rotate left 1 step shifts all letters left one position, causing the first letter to wrap to the end of the string: bcdea.
+move position 1 to position 4 removes the letter at position 1 (c), then inserts it at position 4 (the end of the string): bdeac.
+move position 3 to position 0 removes the letter at position 3 (a), then inserts it at position 0 (the front of the string): abdec.
+rotate based on position of letter b finds the index of letter b (1), then rotates the string right once plus a number of times equal to that index (2): ecabd.
+rotate based on position of letter d finds the index of letter d (4), then rotates the string right once, plus a number of times equal to that index, plus an additional time because the index was at least 4, for a total of 6 right rotations: decab.
+After these steps, the resulting scrambled password is decab.
+
+Now, you just need to generate a new scrambled password and you can access the system. Given the list of scrambling operations in your puzzle input, what is the result of scrambling abcdefgh?
+	*/
+	/*
+W $$Part1^YUVGZ201621(FN)
+	*/
+Part1(FileName="",RecordsArr,ExtString="") PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set string=ExtString
+	set:'$length(string) string="abcdefgh" //="abcde"
+	set Line=""
+	for  {
+		//w !,string
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Data=RecordsArr(Line)
+		set op=$piece(Data," ",1)
+		if op="swap" set string=$$Swap(string,Data) continue
+		if op="rotate" set string=$$Rotate(string,Data) continue
+		if op="reverse" set string=$$Reverse(string,Data) continue
+		if op="move" set string=$$Move(string,Data) continue
+	}
+	//w !,string
+	set ANS=string
+	//
+	//
+	//
+	quit ANS
+}
+Swap(String,Data)
+{
+	if $piece(Data," ",2)="position" {
+		set x=$piece(Data," ",3)+1,y=$piece(Data," ",6)+1
+		set ltr=$extract(String,x)
+		set $extract(String,x)=$extract(String,y)
+		set $extract(String,y)=ltr
+	}
+	else {
+		set x=$piece(Data," ",3),y=$piece(Data," ",6)
+		set String=$translate(String,x_y,y_x)
+	}
+	quit String
+}
+Rotate(String,Data)
+{
+	set RotType=$piece(Data," ",2)
+	if (RotType="left")||(RotType="right") {
+		set x=$piece(Data," ",3)#$length(String)
+		if RotType="left" {
+			set String=$extract(String,x+1,*)_$extract(String,1,x)
+		}
+		else {
+			set String=$extract(String,*-x+1,*)_$extract(String,1,*-x)
+		}
+	}
+	else {
+		set ltr=$piece(Data," ",7)
+		set ltrIndex=$find(String,ltr)-2
+		if ltrIndex>=0 {
+			set x=ltrIndex+1+(ltrIndex>=4)#$length(String)
+			set String=$extract(String,*-x+1,*)_$extract(String,1,*-x)
+		}
+	}
+	quit String
+}
+Reverse(String,Data)
+{
+	set x=$piece(Data," ",3)+1,y=$piece(Data," ",5)+1
+	set temp=$reverse($extract(String,x,y))
+	set $extract(String,x,y)=temp
+	quit String
+}
+Move(String,Data)
+{
+	set x=$piece(Data," ",3)+1,y=$piece(Data," ",6)+1
+	set ltr=$extract(String,x),$extract(String,x)=""
+	set String=$extract(String,1,y-1)_ltr_$extract(String,y,*)
+	quit String
+}
+	/*
+Year 2016, Day 21 part 2:
+You scrambled the password correctly, but you discover that you can't actually modify the password file on the system. You'll need to un-scramble one of the existing passwords by reversing the scrambling process.
+
+What is the un-scrambled version of the scrambled password fbgdceah?
+	*/
+	/*
+W $$Part2^YUVGZ201621(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set ANS=""
+	set ToString="fbgdceah"
+	//Creating random passwords to check with the scrambled password
+	for  {
+		set str=""
+		for i=1:1:8 {
+			for  {
+				set ltr=$char($random(8)+97)
+				quit:str'[ltr
+			}
+			set str=str_ltr
+		}
+		set ans=$$Part1(,.RecordsArr,str)
+		if ans=ToString {
+			set ANS=str
+			quit
+		}
+	}
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		set Oper=$piece(Record," ",1)
+		if ",swap,rotate,reverse,move,"'[(","_Oper_",") {
+			set Error="Unknown operation at line "_Line
+			quit
+		}
+		if Oper="swap" {
+			set subOp=$piece(Record," ",2)
+			if subOp'="position",subOp'="letter" {
+				set Error="Unknown swap operation at line "_Line
+				quit
+			}
+			//swap position x with position y where x>y is allowed!!
+			if subOp="position",Record'?1"swap position "1.N1" with position "1.N {
+				set Error="Unknown swap operation at line "_Line
+				quit
+			}
+			if subOp="letter",Record'?1"swap letter "1L1" with letter "1L {
+				set Error="Unknown swap operation at line "_Line
+				quit
+			}
+			if subOp="letter",$piece(Record," ",3)=$piece(Record," ",6) {
+				set Error="Unknown swap operation at line "_Line
+				quit
+			}
+		}
+		if Oper="rotate" {
+			set subOp=$piece(Record," ",2)
+			if subOp'="left",subOp'="right",subOp'="based" {
+				set Error="Unknown rotate operation at line "_Line
+				quit
+			}
+			if subOp'="based",Record'?1"rotate "1(1"left ",1"right ")1.N1" step".1"s" {
+				set Error="Unknown rotate operation at line "_Line
+				quit
+			}
+			if subOp="based",Record'?1"rotate based on position of letter "1L {
+				set Error="Unknown rotate operation at line "_Line
+				quit
+			}
+		}
+		if Oper="reverse",Record'?1"reverse positions "1.N1" through "1.N {
+			set Error="Unknown reverse operation at line "_Line
+			quit
+		}
+		if Oper="reverse",$piece(Record," ",3)>$piece(Record," ",5) {
+			set Error="Unknown reverse operation at line "_Line
+			quit
+		}
+		//move position x to position y where x>y is allowed!!
+		if Oper="move",Record'?1"move position "1.N1" to position "1.N {
+			set Error="Unknown move operation at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

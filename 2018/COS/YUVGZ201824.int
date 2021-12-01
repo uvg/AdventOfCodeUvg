@@ -1,0 +1,679 @@
+ROUTINE YUVGZ201824 [Type=INT]
+YUVGZ201824	;https://adventofcode.com/2018/day/24;
+	//Intersystems developer community id: 130669-ab1f69bf
+	//
+	//
+	quit
+	/*
+Input data:
+Immune System:
+790 units each with 3941 hit points with an attack that does 48 bludgeoning damage at initiative 5
+624 units each with 2987 hit points with an attack that does 46 bludgeoning damage at initiative 16
+5724 units each with 9633 hit points (immune to bludgeoning, slashing, fire) with an attack that does 16 slashing damage at initiative 9
+1033 units each with 10664 hit points with an attack that does 89 slashing damage at initiative 1
+6691 units each with 9773 hit points (weak to slashing) with an attack that does 13 bludgeoning damage at initiative 12
+325 units each with 11916 hit points (weak to bludgeoning) with an attack that does 276 slashing damage at initiative 8
+1517 units each with 6424 hit points with an attack that does 35 bludgeoning damage at initiative 13
+1368 units each with 9039 hit points (immune to bludgeoning) with an attack that does 53 slashing damage at initiative 4
+3712 units each with 5377 hit points (immune to cold, radiation; weak to fire) with an attack that does 14 slashing damage at initiative 14
+3165 units each with 8703 hit points (weak to slashing, bludgeoning) with an attack that does 26 radiation damage at initiative 11
+
+Infection:
+1113 units each with 44169 hit points (immune to bludgeoning; weak to radiation) with an attack that does 57 fire damage at initiative 7
+3949 units each with 20615 hit points (weak to radiation, cold) with an attack that does 9 bludgeoning damage at initiative 6
+602 units each with 35167 hit points (immune to bludgeoning, cold; weak to fire) with an attack that does 93 radiation damage at initiative 20
+1209 units each with 34572 hit points with an attack that does 55 bludgeoning damage at initiative 3
+902 units each with 12983 hit points (immune to fire) with an attack that does 28 fire damage at initiative 19
+1132 units each with 51353 hit points with an attack that does 66 radiation damage at initiative 15
+7966 units each with 49894 hit points (immune to bludgeoning) with an attack that does 9 cold damage at initiative 10
+3471 units each with 18326 hit points (weak to radiation) with an attack that does 8 fire damage at initiative 18
+110 units each with 38473 hit points (weak to bludgeoning; immune to fire) with an attack that does 640 slashing damage at initiative 2
+713 units each with 42679 hit points (weak to slashing) with an attack that does 102 bludgeoning damage at initiative 17
+	*/
+	/*
+Year 2018, Day 24 part 1:
+--- Day 24: Immune System Simulator 20XX ---
+After a weird buzzing noise, you appear back at the man's cottage. He seems relieved to see his friend, but quickly notices that the little reindeer caught some kind of cold while out exploring.
+
+The portly man explains that this reindeer's immune system isn't similar to regular reindeer immune systems:
+
+The immune system and the infection each have an army made up of several groups; each group consists of one or more identical units. The armies repeatedly fight until only one army has units remaining.
+
+Units within a group all have the same hit points (amount of damage a unit can take before it is destroyed), attack damage (the amount of damage each unit deals), an attack type, an initiative (higher initiative units attack first and win ties), and sometimes weaknesses or immunities. Here is an example group:
+
+18 units each with 729 hit points (weak to fire; immune to cold, slashing)
+ with an attack that does 8 radiation damage at initiative 10
+Each group also has an effective power: the number of units in that group multiplied by their attack damage. The above group has an effective power of 18 * 8 = 144. Groups never have zero or negative units; instead, the group is removed from combat.
+
+Each fight consists of two phases: target selection and attacking.
+
+During the target selection phase, each group attempts to choose one target. In decreasing order of effective power, groups choose their targets; in a tie, the group with the higher initiative chooses first. The attacking group chooses to target the group in the enemy army to which it would deal the most damage (after accounting for weaknesses and immunities, but not accounting for whether the defending group has enough units to actually receive all of that damage).
+
+If an attacking group is considering two defending groups to which it would deal equal damage, it chooses to target the defending group with the largest effective power; if there is still a tie, it chooses the defending group with the highest initiative. If it cannot deal any defending groups damage, it does not choose a target. Defending groups can only be chosen as a target by one attacking group.
+
+At the end of the target selection phase, each group has selected zero or one groups to attack, and each group is being attacked by zero or one groups.
+
+During the attacking phase, each group deals damage to the target it selected, if any. Groups attack in decreasing order of initiative, regardless of whether they are part of the infection or the immune system. (If a group contains no units, it cannot attack.)
+
+The damage an attacking group deals to a defending group depends on the attacking group's attack type and the defending group's immunities and weaknesses. By default, an attacking group would deal damage equal to its effective power to the defending group. However, if the defending group is immune to the attacking group's attack type, the defending group instead takes no damage; if the defending group is weak to the attacking group's attack type, the defending group instead takes double damage.
+
+The defending group only loses whole units from damage; damage is always dealt in such a way that it kills the most units possible, and any remaining damage to a unit that does not immediately kill it is ignored. For example, if a defending group contains 10 units with 10 hit points each and receives 75 damage, it loses exactly 7 units and is left with 3 units at full health.
+
+After the fight is over, if both armies still contain units, a new fight begins; combat only ends once one army has lost all of its units.
+
+For example, consider the following armies:
+
+Immune System:
+17 units each with 5390 hit points (weak to radiation, bludgeoning) with
+ an attack that does 4507 fire damage at initiative 2
+989 units each with 1274 hit points (immune to fire; weak to bludgeoning,
+ slashing) with an attack that does 25 slashing damage at initiative 3
+
+Infection:
+801 units each with 4706 hit points (weak to radiation) with an attack
+ that does 116 bludgeoning damage at initiative 1
+4485 units each with 2961 hit points (immune to radiation; weak to fire,
+ cold) with an attack that does 12 slashing damage at initiative 4
+If these armies were to enter combat, the following fights, including details during the target selection and attacking phases, would take place:
+
+Immune System:
+Group 1 contains 17 units
+Group 2 contains 989 units
+Infection:
+Group 1 contains 801 units
+Group 2 contains 4485 units
+
+Infection group 1 would deal defending group 1 185832 damage
+Infection group 1 would deal defending group 2 185832 damage
+Infection group 2 would deal defending group 2 107640 damage
+Immune System group 1 would deal defending group 1 76619 damage
+Immune System group 1 would deal defending group 2 153238 damage
+Immune System group 2 would deal defending group 1 24725 damage
+
+Infection group 2 attacks defending group 2, killing 84 units
+Immune System group 2 attacks defending group 1, killing 4 units
+Immune System group 1 attacks defending group 2, killing 51 units
+Infection group 1 attacks defending group 1, killing 17 units
+Immune System:
+Group 2 contains 905 units
+Infection:
+Group 1 contains 797 units
+Group 2 contains 4434 units
+
+Infection group 1 would deal defending group 2 184904 damage
+Immune System group 2 would deal defending group 1 22625 damage
+Immune System group 2 would deal defending group 2 22625 damage
+
+Immune System group 2 attacks defending group 1, killing 4 units
+Infection group 1 attacks defending group 2, killing 144 units
+Immune System:
+Group 2 contains 761 units
+Infection:
+Group 1 contains 793 units
+Group 2 contains 4434 units
+
+Infection group 1 would deal defending group 2 183976 damage
+Immune System group 2 would deal defending group 1 19025 damage
+Immune System group 2 would deal defending group 2 19025 damage
+
+Immune System group 2 attacks defending group 1, killing 4 units
+Infection group 1 attacks defending group 2, killing 143 units
+Immune System:
+Group 2 contains 618 units
+Infection:
+Group 1 contains 789 units
+Group 2 contains 4434 units
+
+Infection group 1 would deal defending group 2 183048 damage
+Immune System group 2 would deal defending group 1 15450 damage
+Immune System group 2 would deal defending group 2 15450 damage
+
+Immune System group 2 attacks defending group 1, killing 3 units
+Infection group 1 attacks defending group 2, killing 143 units
+Immune System:
+Group 2 contains 475 units
+Infection:
+Group 1 contains 786 units
+Group 2 contains 4434 units
+
+Infection group 1 would deal defending group 2 182352 damage
+Immune System group 2 would deal defending group 1 11875 damage
+Immune System group 2 would deal defending group 2 11875 damage
+
+Immune System group 2 attacks defending group 1, killing 2 units
+Infection group 1 attacks defending group 2, killing 142 units
+Immune System:
+Group 2 contains 333 units
+Infection:
+Group 1 contains 784 units
+Group 2 contains 4434 units
+
+Infection group 1 would deal defending group 2 181888 damage
+Immune System group 2 would deal defending group 1 8325 damage
+Immune System group 2 would deal defending group 2 8325 damage
+
+Immune System group 2 attacks defending group 1, killing 1 unit
+Infection group 1 attacks defending group 2, killing 142 units
+Immune System:
+Group 2 contains 191 units
+Infection:
+Group 1 contains 783 units
+Group 2 contains 4434 units
+
+Infection group 1 would deal defending group 2 181656 damage
+Immune System group 2 would deal defending group 1 4775 damage
+Immune System group 2 would deal defending group 2 4775 damage
+
+Immune System group 2 attacks defending group 1, killing 1 unit
+Infection group 1 attacks defending group 2, killing 142 units
+Immune System:
+Group 2 contains 49 units
+Infection:
+Group 1 contains 782 units
+Group 2 contains 4434 units
+
+Infection group 1 would deal defending group 2 181424 damage
+Immune System group 2 would deal defending group 1 1225 damage
+Immune System group 2 would deal defending group 2 1225 damage
+
+Immune System group 2 attacks defending group 1, killing 0 units
+Infection group 1 attacks defending group 2, killing 49 units
+Immune System:
+No groups remain.
+Infection:
+Group 1 contains 782 units
+Group 2 contains 4434 units
+In the example above, the winning army ends up with 782 + 4434 = 5216 units.
+
+You scan the reindeer's condition (your puzzle input); the white-bearded man looks nervous. As it stands now, how many units would the winning army have?
+	*/
+	/*
+W $$Part1^YUVGZ201824(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do AnalayzeData(.RecordsArr,.ArmiesArr)
+	//zwrite RecordsArr,ArmiesArr
+	//
+	//ArmiesArr(Type,Group)=Data
+	//Type  = 0 - Immune system, 1 - Infection
+	//Group = Group no. in the army
+	//Data  = No. of units, hit points, attack damage, attack type, initiative no., weaknesses, immunities
+	for  {
+		do PrintState(.ArmiesArr)
+		do FindTargets(.ArmiesArr,.TargetsArr)
+		do AttackTargets(.ArmiesArr,.TargetsArr)
+		quit:($data(ArmiesArr(0))<10)||($data(ArmiesArr(1))<10)
+	}
+	do PrintState(.ArmiesArr)
+	set Total=0,Type=""
+	for  {
+		set Type=$order(ArmiesArr(Type)) quit:Type=""
+		set Group=""
+		for  {
+			set Group=$order(ArmiesArr(Type,Group)) quit:Group=""
+			set Total=Total+$list(ArmiesArr(Type,Group),1)
+		}
+	}
+	set ANS=Total
+	//
+	//
+	//
+	quit ANS
+}
+PrintState(&ArmiesArr)
+{
+	write !
+	if $data(ArmiesArr(0))<10 write !,"Immune System:",!,"No groups remain."
+	set Type=""
+	for  {
+		set Type=$order(ArmiesArr(Type)) quit:Type=""
+		write:Type=0 !,"Immune System:"
+		write:Type=1 !,"Infection:"
+		set Group=""
+		for  {
+			set Group=$order(ArmiesArr(Type,Group)) quit:Group=""
+			write !,"Group ",Group," contains ",$list(ArmiesArr(Type,Group),1)," units"
+		}
+	}
+	if $data(ArmiesArr(1))<10 write !,"Infection:",!,"No groups remain."
+}
+FindTargets(&ArmiesArr,&TargetsArr)
+{
+	kill TargetsArr
+	set Type=""
+	for  {
+		set Type=$order(ArmiesArr(Type)) quit:Type=""
+		set Group=""
+		for  {
+			set Group=$order(ArmiesArr(Type,Group)) quit:Group=""
+			set Data=ArmiesArr(Type,Group)
+			set EffectivePower=$list(Data,1)*$list(Data,3)
+			set EPArr(Type,EffectivePower,$list(Data,5))=Group
+		}
+	}
+	set Type=""
+	//w !
+	for  {
+		set Type=$order(EPArr(Type)) quit:Type=""
+		set TypeStr=$select(Type=0:"Immune System group ",1:"Infection group ")
+		set EffectivePower=""
+		for  {
+			set EffectivePower=$order(EPArr(Type,EffectivePower),-1) quit:EffectivePower=""
+			set Initiative=""
+			for  {
+				set Initiative=$order(EPArr(Type,EffectivePower,Initiative),-1) quit:Initiative=""
+				set Group=EPArr(Type,EffectivePower,Initiative)
+				set Data=ArmiesArr(Type,Group),AttackType=$list(Data,4)
+				kill EGroups
+				set EGroup=""
+				for  {
+					set EGroup=$order(ArmiesArr('Type,EGroup)) quit:EGroup=""
+					continue:$data(Chosen('Type,EGroup))
+					set Data=ArmiesArr('Type,EGroup),Weaknesses=$list(Data,6),Immunities=$list(Data,7),EnemyEffectivePower=$list(Data,1)*$list(Data,3)
+					if $length(Immunities),$listfind(Immunities,AttackType) continue //Enemy immuned to this kind of attack
+					set EffectivePowerOnEnemy=EffectivePower
+					if $length(Weaknesses),$listfind(Weaknesses,AttackType) set EffectivePowerOnEnemy=EffectivePowerOnEnemy*2
+					set EGroups(EffectivePowerOnEnemy,EnemyEffectivePower,$list(Data,5))=EGroup
+					//write !,TypeStr,Group," would deal defending group ",EGroup," ",EffectivePowerOnEnemy," damage"
+				}
+				if $data(EGroups) {
+					set EffectivePowerOnEnemy=$order(EGroups(""),-1)
+					set EnemyEffectivePower=$order(EGroups(EffectivePowerOnEnemy,""),-1)
+					set EnemyInitiative=$order(EGroups(EffectivePowerOnEnemy,EnemyEffectivePower,""),-1)
+					set EGroup=EGroups(EffectivePowerOnEnemy,EnemyEffectivePower,EnemyInitiative)
+					set Chosen('Type,EGroup)=Group
+					set TargetsArr(Type,Group)=EGroup
+				}
+			}
+		}
+	}
+}
+AttackTargets(&ArmiesArr,&TargetsArr)
+{
+	//Attacking phase:
+	//Each group deals damage to the target it selected, if any. 
+	//Groups attack in decreasing order of initiative, regardless of whether they are part of the infection or the immune system.
+	//If a group contains no units, it cannot attack.
+	//Attacking group would deal damage equal to its effective power to the defending group.
+	//If the defending group is immune to the attacking group's attack type, the defending group instead takes no damage.
+	//If the defending group is weak to the attacking group's attack type, the defending group instead takes double damage.
+	//The defending group only loses whole units from damage, and any remaining damage to a unit that does not immediately kill it is ignored.
+	//
+	//
+	//ArmiesArr(Type,Group)=Data
+	//Type  = 0 - Immune system, 1 - Infection
+	//Group = Group no. in the army
+	//             1            2            3              4               5           6           7
+	//Data  = No. of units, hit points, attack damage, attack type, initiative no., weaknesses, immunities
+	//write !
+	set Type="",SW=0
+	for  {
+		set Type=$order(ArmiesArr(Type)) quit:Type=""
+		set Group=""
+		for  {
+			set Group=$order(ArmiesArr(Type,Group)) quit:Group=""
+			set InitiativeArr($list(ArmiesArr(Type,Group),5))=$listbuild(Type,Group)
+		}
+	}
+	set Initiative=""
+	for  {
+		set Initiative=$order(InitiativeArr(Initiative),-1) quit:Initiative=""
+		set Data=InitiativeArr(Initiative),Type=$list(Data,1),Group=$list(Data,2)
+		set Data=$get(ArmiesArr(Type,Group))
+		continue:'$length(Data)  //Current group is dead
+		set EnemyGroup=$get(TargetsArr(Type,Group))
+		continue:'$length(EnemyGroup)  //Current group don't have a target to attack
+		set EffectivePower=$list(Data,1)*$list(Data,3),AttackType=$list(Data,4)
+		set Data=$get(ArmiesArr('Type,EnemyGroup))
+		continue:'$length(Data)  //Enemy group is dead
+		set Weaknesses=$list(Data,6),EnemyUnits=$list(Data,1)
+		if $length(Weaknesses),$listfind(Weaknesses,AttackType) set EffectivePower=EffectivePower*2
+		set DeadUnits=EffectivePower\$list(Data,2)
+		if DeadUnits,DeadUnits>=EnemyUnits {
+			set DeadUnits=EnemyUnits
+			kill ArmiesArr('Type,EnemyGroup)
+		}
+		if DeadUnits,DeadUnits<EnemyUnits {
+			set $list(ArmiesArr('Type,EnemyGroup),1)=EnemyUnits-DeadUnits
+		}
+		set:DeadUnits SW=1
+		set TypeStr=$select(Type=0:"Immune System group ",1:"Infection group ")
+		//write !,TypeStr,Group," attacks defending group ",EnemyGroup,", killing ",DeadUnits," unit",$select(DeadUnits>1:"s",1:"")
+	}
+	//write !! zwrite InitiativeArr,TargetsArr,ArmiesArr
+	//k ArmiesArr(1)
+	quit SW
+}		
+AnalayzeData(&RecordsArr,&ArmiesArr)
+{
+	set Line="",Type=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		continue:'$length(Record)
+		if Record="Immune System:" {
+			set Type=0
+			continue
+		}
+		if Record="Infection:" {
+			set Type=1
+			continue
+		}
+		set Group=$increment(ArmiesArr(Type))
+		set Units=+$piece(Record," ",1),HP=+$piece(Record," ",5)
+		set AttackInitiative=$piece(Record," with an attack that does ",2)
+		set AttackDamage=+$piece(AttackInitiative," ",1),AttackType=$piece(AttackInitiative," ",2),Initiative=+$piece(AttackInitiative," ",*)
+		set WeakImmune=$piece($piece(Record,"(",2),")",1),(WeakData,ImmuneData)=""
+		if $length(WeakImmune) {
+			set Weak=$piece($piece(WeakImmune,"weak to ",2),";",1)
+			set Immune=$piece($piece(WeakImmune,"immune to ",2),";",1)
+			if $length(Weak) {
+				for pc=1:1:$length(Weak,", ") {
+					set WeakType=$piece(Weak,", ",pc)
+					set WeakData=WeakData_$listbuild(WeakType)
+				}
+			}
+			if $length(Immune) {
+				for pc=1:1:$length(Immune,", ") {
+					set ImmuneType=$piece(Immune,", ",pc)
+					set ImmuneData=ImmuneData_$listbuild(ImmuneType)
+				}
+			}
+		}
+		set Data=$listbuild(Units,HP,AttackDamage,AttackType,Initiative,WeakData,ImmuneData)
+		set ArmiesArr(Type,Group)=Data
+	}
+}
+	/*
+Year 2018, Day 24 part 2:
+Things aren't looking good for the reindeer. The man asks whether more milk and cookies would help you think.
+
+If only you could give the reindeer's immune system a boost, you might be able to change the outcome of the combat.
+
+A boost is an integer increase in immune system units' attack damage. For example, if you were to boost the above example's immune system's units by 1570, the armies would instead look like this:
+
+Immune System:
+17 units each with 5390 hit points (weak to radiation, bludgeoning) with
+ an attack that does 6077 fire damage at initiative 2
+989 units each with 1274 hit points (immune to fire; weak to bludgeoning,
+ slashing) with an attack that does 1595 slashing damage at initiative 3
+
+Infection:
+801 units each with 4706 hit points (weak to radiation) with an attack
+ that does 116 bludgeoning damage at initiative 1
+4485 units each with 2961 hit points (immune to radiation; weak to fire,
+ cold) with an attack that does 12 slashing damage at initiative 4
+With this boost, the combat proceeds differently:
+
+Immune System:
+Group 2 contains 989 units
+Group 1 contains 17 units
+Infection:
+Group 1 contains 801 units
+Group 2 contains 4485 units
+
+Infection group 1 would deal defending group 2 185832 damage
+Infection group 1 would deal defending group 1 185832 damage
+Infection group 2 would deal defending group 1 53820 damage
+Immune System group 2 would deal defending group 1 1577455 damage
+Immune System group 2 would deal defending group 2 1577455 damage
+Immune System group 1 would deal defending group 2 206618 damage
+
+Infection group 2 attacks defending group 1, killing 9 units
+Immune System group 2 attacks defending group 1, killing 335 units
+Immune System group 1 attacks defending group 2, killing 32 units
+Infection group 1 attacks defending group 2, killing 84 units
+Immune System:
+Group 2 contains 905 units
+Group 1 contains 8 units
+Infection:
+Group 1 contains 466 units
+Group 2 contains 4453 units
+
+Infection group 1 would deal defending group 2 108112 damage
+Infection group 1 would deal defending group 1 108112 damage
+Infection group 2 would deal defending group 1 53436 damage
+Immune System group 2 would deal defending group 1 1443475 damage
+Immune System group 2 would deal defending group 2 1443475 damage
+Immune System group 1 would deal defending group 2 97232 damage
+
+Infection group 2 attacks defending group 1, killing 8 units
+Immune System group 2 attacks defending group 1, killing 306 units
+Infection group 1 attacks defending group 2, killing 29 units
+Immune System:
+Group 2 contains 876 units
+Infection:
+Group 2 contains 4453 units
+Group 1 contains 160 units
+
+Infection group 2 would deal defending group 2 106872 damage
+Immune System group 2 would deal defending group 2 1397220 damage
+Immune System group 2 would deal defending group 1 1397220 damage
+
+Infection group 2 attacks defending group 2, killing 83 units
+Immune System group 2 attacks defending group 2, killing 427 units
+After a few fights...
+
+Immune System:
+Group 2 contains 64 units
+Infection:
+Group 2 contains 214 units
+Group 1 contains 19 units
+
+Infection group 2 would deal defending group 2 5136 damage
+Immune System group 2 would deal defending group 2 102080 damage
+Immune System group 2 would deal defending group 1 102080 damage
+
+Infection group 2 attacks defending group 2, killing 4 units
+Immune System group 2 attacks defending group 2, killing 32 units
+Immune System:
+Group 2 contains 60 units
+Infection:
+Group 1 contains 19 units
+Group 2 contains 182 units
+
+Infection group 1 would deal defending group 2 4408 damage
+Immune System group 2 would deal defending group 1 95700 damage
+Immune System group 2 would deal defending group 2 95700 damage
+
+Immune System group 2 attacks defending group 1, killing 19 units
+Immune System:
+Group 2 contains 60 units
+Infection:
+Group 2 contains 182 units
+
+Infection group 2 would deal defending group 2 4368 damage
+Immune System group 2 would deal defending group 2 95700 damage
+
+Infection group 2 attacks defending group 2, killing 3 units
+Immune System group 2 attacks defending group 2, killing 30 units
+After a few more fights...
+
+Immune System:
+Group 2 contains 51 units
+Infection:
+Group 2 contains 40 units
+
+Infection group 2 would deal defending group 2 960 damage
+Immune System group 2 would deal defending group 2 81345 damage
+
+Infection group 2 attacks defending group 2, killing 0 units
+Immune System group 2 attacks defending group 2, killing 27 units
+Immune System:
+Group 2 contains 51 units
+Infection:
+Group 2 contains 13 units
+
+Infection group 2 would deal defending group 2 312 damage
+Immune System group 2 would deal defending group 2 81345 damage
+
+Infection group 2 attacks defending group 2, killing 0 units
+Immune System group 2 attacks defending group 2, killing 13 units
+Immune System:
+Group 2 contains 51 units
+Infection:
+No groups remain.
+This boost would allow the immune system's armies to win! It would be left with 51 units.
+
+You don't even know how you could boost the reindeer's immune system or what effect it might have, so you need to be cautious and find the smallest boost that would allow the immune system to win.
+
+How many units does the immune system have left after getting the smallest boost it needs to win?
+	*/
+	/*
+W $$Part2^YUVGZ201824(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do AnalayzeData(.RecordsArr,.ArmiesArr)
+	//zwrite RecordsArr,ArmiesArr
+	//
+	//ArmiesArr(Type,Group)=Data
+	//Type  = 0 - Immune system, 1 - Infection
+	//Group = Group no. in the army
+	//Data  = No. of units, hit points, attack damage, attack type, initiative no., weaknesses, immunities
+	merge OrigArmiesArr=ArmiesArr
+	set Group=""
+	for Boost=1:1 {
+		write !,"Boost=",Boost
+		kill ArmiesArr merge ArmiesArr=OrigArmiesArr
+		for  {
+			set Group=$order(ArmiesArr(0,Group)) quit:Group=""
+			set $list(ArmiesArr(0,Group),3)=$list(ArmiesArr(0,Group),3)+Boost
+		}
+		for  {
+			//do PrintState(.ArmiesArr)
+			do FindTargets(.ArmiesArr,.TargetsArr)
+			quit:'$$AttackTargets(.ArmiesArr,.TargetsArr)
+			quit:($data(ArmiesArr(0))<10)||($data(ArmiesArr(1))<10)
+		}
+		//do PrintState(.ArmiesArr)
+		quit:$data(ArmiesArr(1))<10
+	}
+	set Total=0,Type=""
+	for  {
+		set Type=$order(ArmiesArr(Type)) quit:Type=""
+		set Group=""
+		for  {
+			set Group=$order(ArmiesArr(Type,Group)) quit:Group=""
+			set Total=Total+$list(ArmiesArr(Type,Group),1)
+		}
+	}
+	set ANS=Total
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		continue:'$length(Record)
+		continue:Record="Immune System:"
+		continue:Record="Infection:"
+		if Record'?1.N1" units each with "1.N1" hit points ".E1"with an attack that does "1.N1" "1(1"bludgeoning",1"slashing",1"radiation",1"fire",1"cold")1" damage at initiative "1.N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		if Record'["(",Record'[")" continue
+		if Record["(",Record'[")" {
+			set Error="Wrong data format at line "_Line
+			quit			
+		}
+		if Record'["(",Record[")" {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		set Data=$piece($piece(Record,"(",2),")",1)
+		if Data["immune to ",Data["weak to ",Data'["; weak to ",Data'["; immune to " {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		if Data["; ",(Data'["immune to ")||(Data'["weak to ") {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		set Immune=$piece($piece(Data,"immune to ",2),"; ",1),Weak=$piece($piece(Data,"weak to ",2),"; ",1)
+		if ($length(Immune)&&(Immune'?1.L.(1", "1.L)))||($length(Weak)&&(Weak'?1.L.(1", "1.L))) {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		if $length(Immune) {
+			for I=1:1:$length(Immune,", ") {
+				if ",bludgeoning,slashing,fire,cold,radiation,"'[(","_$piece(Immune,", ",I)_",") {
+					set Error="Wrong data format at line "_Line
+					quit
+				}
+			}
+			quit:$length(Error)
+		}
+		if $length(Weak) {
+			for I=1:1:$length(Weak,", ") {
+				if ",bludgeoning,slashing,fire,cold,radiation,"'[(","_$piece(Weak,", ",I)_",") {
+					set Error="Wrong data format at line "_Line
+					quit
+				}
+			}
+			quit:$length(Error)
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	set io=$io
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	use io
+	quit 1
+}

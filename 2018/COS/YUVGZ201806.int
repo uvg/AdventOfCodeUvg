@@ -1,0 +1,330 @@
+ROUTINE YUVGZ201806 [Type=INT]
+YUVGZ201806	;https://adventofcode.com/2018/day/6;
+	//Intersystems developer community id: 130669-ab1f69bf
+	//
+	//Day 6: Chronal Coordinates
+	quit
+	/*
+Input data:
+262, 196
+110, 109
+58, 188
+226, 339
+304, 83
+136, 356
+257, 50
+315, 148
+47, 315
+73, 130
+136, 91
+341, 169
+334, 346
+285, 248
+76, 233
+334, 64
+106, 326
+48, 207
+64, 65
+189, 183
+300, 247
+352, 279
+338, 287
+77, 277
+220, 152
+77, 295
+49, 81
+236, 294
+321, 192
+43, 234
+180, 69
+130, 122
+166, 225
+301, 290
+49, 176
+62, 156
+346, 55
+150, 138
+214, 245
+272, 241
+50, 283
+104, 70
+215, 184
+339, 318
+175, 123
+250, 100
+134, 227
+96, 197
+312, 174
+133, 237
+	*/
+	/*
+Year 2018, Day 6 part 1:
+The device on your wrist beeps several times, and once again you feel like you're falling.
+
+"Situation critical," the device announces. "Destination indeterminate. Chronal interference detected. Please specify new target coordinates."
+
+The device then produces a list of coordinates (your puzzle input). Are they places it thinks are safe or dangerous? It recommends you check manual page 729. The Elves did not give you a manual.
+
+If they're dangerous, maybe you can minimize the danger by finding the coordinate that gives the largest distance from the other points.
+
+Using only the Manhattan distance, determine the area around each coordinate by counting the number of integer X,Y locations that are closest to that coordinate (and aren't tied in distance to any other coordinate).
+
+Your goal is to find the size of the largest area that isn't infinite. For example, consider the following list of coordinates:
+
+1, 1
+1, 6
+8, 3
+3, 4
+5, 5
+8, 9
+If we name these coordinates A through F, we can draw them on a grid, putting 0,0 at the top left:
+
+..........
+.A........
+..........
+........C.
+...D......
+.....E....
+.B........
+..........
+..........
+........F.
+This view is partial - the actual grid extends infinitely in all directions. Using the Manhattan distance, each location's closest coordinate can be determined, shown here in lowercase:
+
+aaaaa.cccc
+aAaaa.cccc
+aaaddecccc
+aadddeccCc
+..dDdeeccc
+bb.deEeecc
+bBb.eeee..
+bbb.eeefff
+bbb.eeffff
+bbb.ffffFf
+Locations shown as . are equally far from two or more coordinates, and so they don't count as being closest to any.
+
+In this example, the areas of coordinates A, B, C, and F are infinite - while not shown here, their areas extend forever outside the visible grid. However, the areas of coordinates D and E are finite: D is closest to 9 locations, and E is closest to 17 (both including the coordinate's location itself). Therefore, in this example, the size of the largest area is 17.
+
+What is the size of the largest area that isn't infinite?
+	*/
+	/*
+W $$Part1^YUVGZ201806(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do SetPoints(.RecordsArr,.Points)
+	do InitGrid(.Points,.Grid)
+	do SetGridAndGetTotal(.Points,.Grid,.TotalNotInfinity)
+	set Point="",Max=0
+	for  {
+		set Point=$order(TotalNotInfinity(Point)) quit:Point=""
+		set:TotalNotInfinity(Point)>Max Max=TotalNotInfinity(Point)
+	}
+	//zw Grid
+	set ANS=Max
+	//
+	//
+	//
+	quit ANS
+}
+SetPoints(&RecordsArr,&Points)
+{
+	set Line=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		set Points(Line)=$listbuild(+$piece(Record,", ",1),+$piece(Record,", ",2))
+	}
+}
+InitGrid(&Points,&Grid)
+{
+	set Point=""
+	for  {
+		set Point=$order(Points(Point)) quit:Point=""
+		set Data=Points(Point)
+		set Grid($list(Data,1),$list(Data,2),0,Point)=""
+	}
+}
+SetGridAndGetTotal(&Points,&Grid,&TotalNotInfinity,&Total)
+{
+	//w !,$s
+	set:$zstorage<1310720 $zstorage=1310720
+	set MinX=$order(Grid("")),MaxX=$order(Grid(""),-1)
+	set MinY=9999999999999999,MaxY=0
+	set X=""
+	for  {
+		set X=$order(Grid(X)) quit:X=""
+		set:$order(Grid(X,""))<MinY MinY=$order(Grid(X,""))
+		set:$order(Grid(X,""),-1)>MaxY MaxY=$order(Grid(X,""),-1)
+	}
+	//write !,MinX,"-",MaxX,"x",MinY,"-",MaxY,!
+	for X=MinX-1:1:MaxX+1 {
+		for Y=MinY-1:1:MaxY+1 {
+			set Point=""
+			for  {
+				set Point=$order(Points(Point)) quit:Point=""
+				set Distance=$zabs($list(Points(Point),1)-X)+$zabs($list(Points(Point),2)-Y)
+				set Grid(X,Y,Distance,Point)=""
+			}
+		}
+	}
+	for X=MinX-1:1:MaxX+1 {
+		for Y=MinY-1:1:MaxY+1 {
+			if (X<MinX)||(X>MaxX)||(Y<MinY)||(Y>MaxY) {
+				set Distance=$order(Grid(X,Y,""))
+				//zw Grid(X,Y,Distance)
+				set Point=$order(Grid(X,Y,Distance,""))
+				set:$order(Grid(X,Y,Distance,""),-1)=Point InfinityPoints(Point)=""
+			}
+		}
+	}
+	for X=MinX:1:MaxX {
+		for Y=MinY:1:MaxY {
+			set Distance=$order(Grid(X,Y,""))
+			set Point=$order(Grid(X,Y,Distance,""))
+			if $order(Grid(X,Y,Distance,""),-1)=Point,'$data(InfinityPoints(Point)) set TotalNotInfinity(Point)=$get(TotalNotInfinity(Point))+1
+			set Distance=""
+			for  {
+				set Distance=$order(Grid(X,Y,Distance)) q:Distance=""
+				set Point=""
+				for  {
+					set Point=$order(Grid(X,Y,Distance,Point)) quit:Point=""
+					set Total(X,Y)=$get(Total(X,Y))+Distance
+				}
+			}
+		}
+	}
+	//zw Grid,Total
+
+}
+	/*
+Year 2018, Day 6 part 2:
+On the other hand, if the coordinates are safe, maybe the best you can do is try to find a region near as many coordinates as possible.
+
+For example, suppose you want the sum of the Manhattan distance to all of the coordinates to be less than 32. For each location, add up the distances to all of the given coordinates; if the total of those distances is less than 32, that location is within the desired region. Using the same coordinates as above, the resulting region looks like this:
+
+..........
+.A........
+..........
+...###..C.
+..#D###...
+..###E#...
+.B.###....
+..........
+..........
+........F.
+In particular, consider the highlighted location 4,3 located at the top middle of the region. Its calculation is as follows, where abs() is the absolute value function:
+
+Distance to coordinate A: abs(4-1) + abs(3-1) =  5
+Distance to coordinate B: abs(4-1) + abs(3-6) =  6
+Distance to coordinate C: abs(4-8) + abs(3-3) =  4
+Distance to coordinate D: abs(4-3) + abs(3-4) =  2
+Distance to coordinate E: abs(4-5) + abs(3-5) =  3
+Distance to coordinate F: abs(4-8) + abs(3-9) = 10
+Total distance: 5 + 6 + 4 + 2 + 3 + 10 = 30
+Because the total distance to all coordinates (30) is less than 32, the location is within the region.
+
+This region, which also includes coordinates D and E, has a total size of 16.
+
+Your actual region will need to be much larger than this example, though, instead including all locations with a total distance of less than 10000.
+
+What is the size of the region containing all locations which have a total distance to all given coordinates of less than 10000?
+	*/
+	/*
+W $$Part2^YUVGZ201806(FN)
+	*/
+Part2(FileName="",RecordsArr,Limit) PUBLIC	;
+{
+	if '$length($get(Limit)) {
+		read !,"Enter limit: ",Limit
+		write !
+	}
+	if $get(Limit)'?1.n||'$extract(Limit) {
+		write !,"Wrong limit"
+		quit 0
+	}
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do SetPoints(.RecordsArr,.Points)
+	do InitGrid(.Points,.Grid)
+	do SetGridAndGetTotal(.Points,.Grid,,.Total)
+	//zwrite Total
+	set X="",Total=0
+	for  {
+		set X=$order(Total(X)) quit:X=""
+		set Y=""
+		for  {
+			set Y=$order(Total(X,Y)) quit:Y=""
+			if Total(X,Y)<Limit set Total=Total+1
+		}
+	}
+	set ANS=Total
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.N1", "1.N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

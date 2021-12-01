@@ -1,0 +1,835 @@
+ROUTINE YUVGZ201815 [Type=INT]
+YUVGZ201815	;https://adventofcode.com/2018/day/15;
+	//Intersystems developer community id: 130669-ab1f69bf
+	//
+	//
+	quit
+	/*
+Input data:
+################################
+#####...#.....#####..G...#######
+######..##.#..#####...#..#######
+####...G.G.....####......#######
+####.G..........##.......#######
+#####..##.###G..#......G.#######
+########.G##....#........#######
+########..###............#######
+########.#####...G........######
+########.G................######
+#######........G.....E....######
+########GE.................#####
+########....G.#####.E.....######
+##########..G#######....E.######
+#########G..#########....#######
+########....#########...########
+#######G....#########...#..#####
+####........#########......#####
+####........#########.G....#####
+##......G....#######....#.#.####
+#..E..........#####..........###
+#.#.........G.............E.#..#
+####.........########..E.#....E#
+##........E##########...######.#
+##.##.....###########.##########
+#..#...E.#######################
+##G.G....#######################
+##.....#########################
+##.....#########################
+##...###########################
+####.###########################
+################################
+	*/
+	/*
+Year 2018, Day 15 part 1:
+--- Day 15: Beverage Bandits ---
+Having perfected their hot chocolate, the Elves have a new problem: the Goblins that live in these caves will do anything to steal it. Looks like they're here for a fight.
+
+You scan the area, generating a map of the walls (#), open cavern (.), and starting position of every Goblin (G) and Elf (E) (your puzzle input).
+
+Combat proceeds in rounds; in each round, each unit that is still alive takes a turn, resolving all of its actions before the next unit's turn begins. On each unit's turn, it tries to move into range of an enemy (if it isn't already) and then attack (if it is in range).
+
+All units are very disciplined and always follow very strict combat rules. Units never move or attack diagonally, as doing so would be dishonorable. When multiple choices are equally valid, ties are broken in reading order: top-to-bottom, then left-to-right. For instance, the order in which units take their turns within a round is the reading order of their starting positions in that round, regardless of the type of unit or whether other units have moved after the round started. For example:
+
+                 would take their
+These units:   turns in this order:
+  #######           #######
+  #.G.E.#           #.1.2.#
+  #E.G.E#           #3.4.5#
+  #.G.E.#           #.6.7.#
+  #######           #######
+Each unit begins its turn by identifying all possible targets (enemy units). If no targets remain, combat ends.
+
+Then, the unit identifies all of the open squares (.) that are in range of each target; these are the squares which are adjacent (immediately up, down, left, or right) to any target and which aren't already occupied by a wall or another unit. Alternatively, the unit might already be in range of a target. If the unit is not already in range of a target, and there are no open squares which are in range of a target, the unit ends its turn.
+
+If the unit is already in range of a target, it does not move, but continues its turn with an attack. Otherwise, since it is not in range of a target, it moves.
+
+To move, the unit first considers the squares that are in range and determines which of those squares it could reach in the fewest steps. A step is a single movement to any adjacent (immediately up, down, left, or right) open (.) square. Units cannot move into walls or other units. The unit does this while considering the current positions of units and does not do any prediction about where units will be later. If the unit cannot reach (find an open path to) any of the squares that are in range, it ends its turn. If multiple squares are in range and tied for being reachable in the fewest steps, the square which is first in reading order is chosen. For example:
+
+Targets:      In range:     Reachable:    Nearest:      Chosen:
+#######       #######       #######       #######       #######
+#E..G.#       #E.?G?#       #E.@G.#       #E.!G.#       #E.+G.#
+#...#.#  -->  #.?.#?#  -->  #.@.#.#  -->  #.!.#.#  -->  #...#.#
+#.G.#G#       #?G?#G#       #@G@#G#       #!G.#G#       #.G.#G#
+#######       #######       #######       #######       #######
+In the above scenario, the Elf has three targets (the three Goblins):
+
+Each of the Goblins has open, adjacent squares which are in range (marked with a ? on the map).
+Of those squares, four are reachable (marked @); the other two (on the right) would require moving through a wall or unit to reach.
+Three of these reachable squares are nearest, requiring the fewest steps (only 2) to reach (marked !).
+Of those, the square which is first in reading order is chosen (+).
+The unit then takes a single step toward the chosen square along the shortest path to that square. If multiple steps would put the unit equally closer to its destination, the unit chooses the step which is first in reading order. (This requires knowing when there is more than one shortest path so that you can consider the first step of each such path.) For example:
+
+In range:     Nearest:      Chosen:       Distance:     Step:
+#######       #######       #######       #######       #######
+#.E...#       #.E...#       #.E...#       #4E212#       #..E..#
+#...?.#  -->  #...!.#  -->  #...+.#  -->  #32101#  -->  #.....#
+#..?G?#       #..!G.#       #...G.#       #432G2#       #...G.#
+#######       #######       #######       #######       #######
+The Elf sees three squares in range of a target (?), two of which are nearest (!), and so the first in reading order is chosen (+). Under "Distance", each open square is marked with its distance from the destination square; the two squares to which the Elf could move on this turn (down and to the right) are both equally good moves and would leave the Elf 2 steps from being in range of the Goblin. Because the step which is first in reading order is chosen, the Elf moves right one square.
+
+Here's a larger example of movement:
+
+Initially:
+#########
+#G..G..G#
+#.......#
+#.......#
+#G..E..G#
+#.......#
+#.......#
+#G..G..G#
+#########
+
+After 1 round:
+#########
+#.G...G.#
+#...G...#
+#...E..G#
+#.G.....#
+#.......#
+#G..G..G#
+#.......#
+#########
+
+After 2 rounds:
+#########
+#..G.G..#
+#...G...#
+#.G.E.G.#
+#.......#
+#G..G..G#
+#.......#
+#.......#
+#########
+
+After 3 rounds:
+#########
+#.......#
+#..GGG..#
+#..GEG..#
+#G..G...#
+#......G#
+#.......#
+#.......#
+#########
+Once the Goblins and Elf reach the positions above, they all are either in range of a target or cannot find any square in range of a target, and so none of the units can move until a unit dies.
+
+After moving (or if the unit began its turn in range of a target), the unit attacks.
+
+To attack, the unit first determines all of the targets that are in range of it by being immediately adjacent to it. If there are no such targets, the unit ends its turn. Otherwise, the adjacent target with the fewest hit points is selected; in a tie, the adjacent target with the fewest hit points which is first in reading order is selected.
+
+The unit deals damage equal to its attack power to the selected target, reducing its hit points by that amount. If this reduces its hit points to 0 or fewer, the selected target dies: its square becomes . and it takes no further turns.
+
+Each unit, either Goblin or Elf, has 3 attack power and starts with 200 hit points.
+
+For example, suppose the only Elf is about to attack:
+
+       HP:            HP:
+G....  9       G....  9  
+..G..  4       ..G..  4  
+..EG.  2  -->  ..E..     
+..G..  2       ..G..  2  
+...G.  1       ...G.  1  
+The "HP" column shows the hit points of the Goblin to the left in the corresponding row. The Elf is in range of three targets: the Goblin above it (with 4 hit points), the Goblin to its right (with 2 hit points), and the Goblin below it (also with 2 hit points). Because three targets are in range, the ones with the lowest hit points are selected: the two Goblins with 2 hit points each (one to the right of the Elf and one below the Elf). Of those, the Goblin first in reading order (the one to the right of the Elf) is selected. The selected Goblin's hit points (2) are reduced by the Elf's attack power (3), reducing its hit points to -1, killing it.
+
+After attacking, the unit's turn ends. Regardless of how the unit's turn ends, the next unit in the round takes its turn. If all units have taken turns in this round, the round ends, and a new round begins.
+
+The Elves look quite outnumbered. You need to determine the outcome of the battle: the number of full rounds that were completed (not counting the round in which combat ends) multiplied by the sum of the hit points of all remaining units at the moment combat ends. (Combat only ends when a unit finds no targets during its turn.)
+
+Below is an entire sample combat. Next to each map, each row's units' hit points are listed from left to right.
+
+Initially:
+#######   
+#.G...#   G(200)
+#...EG#   E(200), G(200)
+#.#.#G#   G(200)
+#..G#E#   G(200), E(200)
+#.....#   
+#######   
+
+After 1 round:
+#######   
+#..G..#   G(200)
+#...EG#   E(197), G(197)
+#.#G#G#   G(200), G(197)
+#...#E#   E(197)
+#.....#   
+#######   
+
+After 2 rounds:
+#######   
+#...G.#   G(200)
+#..GEG#   G(200), E(188), G(194)
+#.#.#G#   G(194)
+#...#E#   E(194)
+#.....#   
+#######   
+
+Combat ensues; eventually, the top Elf dies:
+
+After 23 rounds:
+#######   
+#...G.#   G(200)
+#..G.G#   G(200), G(131)
+#.#.#G#   G(131)
+#...#E#   E(131)
+#.....#   
+#######   
+
+After 24 rounds:
+#######   
+#..G..#   G(200)
+#...G.#   G(131)
+#.#G#G#   G(200), G(128)
+#...#E#   E(128)
+#.....#   
+#######   
+
+After 25 rounds:
+#######   
+#.G...#   G(200)
+#..G..#   G(131)
+#.#.#G#   G(125)
+#..G#E#   G(200), E(125)
+#.....#   
+#######   
+
+After 26 rounds:
+#######   
+#G....#   G(200)
+#.G...#   G(131)
+#.#.#G#   G(122)
+#...#E#   E(122)
+#..G..#   G(200)
+#######   
+
+After 27 rounds:
+#######   
+#G....#   G(200)
+#.G...#   G(131)
+#.#.#G#   G(119)
+#...#E#   E(119)
+#...G.#   G(200)
+#######   
+
+After 28 rounds:
+#######   
+#G....#   G(200)
+#.G...#   G(131)
+#.#.#G#   G(116)
+#...#E#   E(113)
+#....G#   G(200)
+#######   
+
+More combat ensues; eventually, the bottom Elf dies:
+
+After 47 rounds:
+#######   
+#G....#   G(200)
+#.G...#   G(131)
+#.#.#G#   G(59)
+#...#.#   
+#....G#   G(200)
+#######   
+Before the 48th round can finish, the top-left Goblin finds that there are no targets remaining, and so combat ends. So, the number of full rounds that were completed is 47, and the sum of the hit points of all remaining units is 200+131+59+200 = 590. From these, the outcome of the battle is 47 * 590 = 27730.
+
+Here are a few example summarized combats:
+
+#######       #######
+#G..#E#       #...#E#   E(200)
+#E#E.E#       #E#...#   E(197)
+#G.##.#  -->  #.E##.#   E(185)
+#...#E#       #E..#E#   E(200), E(200)
+#...E.#       #.....#
+#######       #######
+
+Combat ends after 37 full rounds
+Elves win with 982 total hit points left
+Outcome: 37 * 982 = 36334
+#######       #######   
+#E..EG#       #.E.E.#   E(164), E(197)
+#.#G.E#       #.#E..#   E(200)
+#E.##E#  -->  #E.##.#   E(98)
+#G..#.#       #.E.#.#   E(200)
+#..E#.#       #...#.#   
+#######       #######   
+
+Combat ends after 46 full rounds
+Elves win with 859 total hit points left
+Outcome: 46 * 859 = 39514
+#######       #######   
+#E.G#.#       #G.G#.#   G(200), G(98)
+#.#G..#       #.#G..#   G(200)
+#G.#.G#  -->  #..#..#   
+#G..#.#       #...#G#   G(95)
+#...E.#       #...G.#   G(200)
+#######       #######   
+
+Combat ends after 35 full rounds
+Goblins win with 793 total hit points left
+Outcome: 35 * 793 = 27755
+#######       #######   
+#.E...#       #.....#   
+#.#..G#       #.#G..#   G(200)
+#.###.#  -->  #.###.#   
+#E#G#G#       #.#.#.#   
+#...#G#       #G.G#G#   G(98), G(38), G(200)
+#######       #######   
+
+Combat ends after 54 full rounds
+Goblins win with 536 total hit points left
+Outcome: 54 * 536 = 28944
+#########       #########   
+#G......#       #.G.....#   G(137)
+#.E.#...#       #G.G#...#   G(200), G(200)
+#..##..G#       #.G##...#   G(200)
+#...##..#  -->  #...##..#   
+#...#...#       #.G.#...#   G(200)
+#.G...G.#       #.......#   
+#.....G.#       #.......#   
+#########       #########   
+
+Combat ends after 20 full rounds
+Goblins win with 937 total hit points left
+Outcome: 20 * 937 = 18740
+What is the outcome of the combat described in your puzzle input?
+	*/
+	/*
+W $$Part1^YUVGZ201815(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	merge Grid=RecordsArr
+	do GetElfsAndGoblins(.Grid,.EntitiesArr)
+	write !!!,"Before:",!
+	zwrite Grid,EntitiesArr
+	for Round=1:1 {
+		set EndGame=$$Combat(.Grid,.EntitiesArr)
+		write !!,"After round ",Round,":",!
+		//zwrite Grid,EntitiesArr
+		if EndGame {
+			set:EndGame=2 Round=Round-1
+			quit
+		}
+	}
+	write !!!! zwrite Grid,EntitiesArr
+	set Type="",Total=0
+	for  {
+		set Type=$order(EntitiesArr(0,Type)) quit:Type=""
+		set Id=""
+		for  {
+			set Id=$order(EntitiesArr(0,Type,Id)) quit:Id=""
+			set hp=$list(EntitiesArr(0,Type,Id),1)
+			set:hp>0 Total=Total+hp
+		}
+	}
+	
+	set ANS=Total*Round
+	//
+	//
+	//
+	quit ANS
+}
+Combat(&Grid,&EntitiesArr,EndOnDeadElf=0)
+{
+	do ClearPlayed(.EntitiesArr)
+	set Y=""
+	for  {
+		set Y=$order(EntitiesArr(1,Y)) quit:Y=""
+		if '$data(EntitiesArr(0,0))||'$data(EntitiesArr(0,1)) return 2  //Middle end game flag
+		set X=""
+		for  {
+			set X=$order(EntitiesArr(1,Y,X)) quit:X=""
+			if '$data(EntitiesArr(0,0))||'$data(EntitiesArr(0,1)) return 2  //Middle end game flag
+			set Data=EntitiesArr(1,Y,X)
+			set Type=$list(Data,1),Id=$list(Data,2)
+			set Data=$get(EntitiesArr(0,Type,Id))
+			if '$length(Data) {
+				//Entity died
+				kill EntitiesArr(1,Y,X)
+				continue
+			}
+			continue:$list(Data,5)  //Allready played in this round
+			//write !,Y,",",X,! zwrite Grid,EntitiesArr
+			set ans=$$MakeAttack(.Grid,.EntitiesArr,Y,X,Type,$list(Data,2),Id,.IsDeadElf)
+			if EndOnDeadElf,IsDeadElf return 3  //Elf just died and finish game if elf die
+			continue:ans
+			set $list(Data,2)=0,EntitiesArr(0,Type,Id)=Data //Clear attack in case there was one
+			//Now Try to move and if moved try to find something to attack and attack if there is something
+			//write !,"Entity ",Id," couldn't find something to attack, so try to move now"
+			do Move(.Grid,.EntitiesArr,X,Y,Type,Id,.IsDeadElf)
+			if EndOnDeadElf,IsDeadElf return 3  //Elf just died and finish game if elf die
+		}
+	}
+	if '$data(EntitiesArr(0,0))||'$data(EntitiesArr(0,1)) quit 1  //End game flag
+	quit 0
+}
+ClearPlayed(&EntitiesArr)
+{
+	for Type=0,1 {
+		set Id=""
+		for  {
+			set Id=$order(EntitiesArr(0,Type,Id)) quit:Id=""
+			set $list(EntitiesArr(0,Type,Id),5)=0
+		}
+	}
+}
+Move(&Grid,&EntitiesArr,X,Y,Type,EntityId,&IsDeadElf)
+{
+	set IsDeadElf=0
+	set EnemyType='Type
+	set EnemyId="",minPathLength=9999999,minPath=""
+	set tempY=""
+	for  {
+		set tempY=$order(EntitiesArr(1,tempY)) quit:tempY=""
+		set tempX=""
+		for  {
+			set tempX=$order(EntitiesArr(1,tempY,tempX)) quit:tempX=""
+			set Data=EntitiesArr(1,tempY,tempX)
+			continue:$list(Data,1)'=EnemyType
+			set EnemyId=$list(Data,2)
+			set Path=$$GetPath(.Grid,X,Y,tempX,tempY)
+			set ans=$$ChooseBestPath(Path,$listbuild(minPathLength,minPath))
+			set minPathLength=$list(ans,1),minPath=$list(ans,2)
+			/*
+			set lastPosCurrPathZ=$list(Path,2)
+			continue:'$length(lastPosCurrPathZ)
+			if $list(Path,1)<=minPathLength {
+				if $list(Path,1)<minPathLength {
+					set minPathLength=$list(Path,1),minPath=lastPosCurrPathZ
+				}
+				else {
+					set lastPosCurrPath=$list(lastPosCurrPathZ,$listlength(lastPosCurrPathZ))
+					set lastPosMinPath=$list(minPath,$listlength(minPath))
+					set lastPosCurrX=$list(lastPosCurrPath,1),lastPosCurrY=$list(lastPosCurrPath,2)
+					set lastPosMinX=$list(lastPosMinPath,1),lastPosMinY=$list(lastPosMinPath,2)
+					//write !! zwrite minPath,Path,lastPosCurrPath,lastPosMinPath
+					if lastPosCurrY<lastPosMinY {
+						set minPath=lastPosCurrPathZ
+					}
+					elseif (lastPosCurrY=lastPosMinY)&&(lastPosCurrX<lastPosMinX) {
+						set minPath=lastPosCurrPathZ
+					}
+				}
+			}*/
+		}
+	}
+	set entityData=EntitiesArr(0,Type,EntityId),$list(entityData,5)=1,EntitiesArr(0,Type,EntityId)=entityData
+	quit:minPathLength=9999999
+	//
+	//Make a move
+	set nextMove=$list(minPath,1)
+	set nextX=$list(nextMove,1),nextY=$list(nextMove,2)
+	set myData=EntitiesArr(1,Y,X)
+	set EntitiesArr(1,nextY,nextX)=myData
+	kill EntitiesArr(1,Y,X)
+	set $list(entityData,2)=0,$list(entityData,3)=nextY,$list(entityData,4)=nextX
+	set EntitiesArr(0,Type,EntityId)=entityData
+	//
+	//Update grid
+	set $extract(Grid(Y),X)="."
+	set $extract(Grid(nextY),nextX)=$select('Type:"E",1:"G")
+	//
+	//Check for an attack
+	do MakeAttack(.Grid,.EntitiesArr,nextY,nextX,Type,0,EntityId,.IsDeadElf)
+}
+GetPath(&Grid,FromX,FromY,ToX,ToY)
+{
+	set minPathLength=9999999,minPath=""
+	if $extract($get(Grid(ToY-1)),ToX)="." {
+		set Path=$$GetMinPath(.Grid,FromX,FromY,ToX,ToY-1,0,"")
+		//write !!,"UP ",FromX,$char(9),FromY,$char(9),ToX,$char(9),ToY-1,! zwrite Path
+		set:$list(Path,1)<minPathLength minPathLength=$list(Path,1),minPath=$list(Path,2)
+		//set ans=$$ChooseBestPath(Path,$listbuild(minPathLength,minPath))
+		//set minPathLength=$list(ans,1),minPath=$list(ans,2)
+	}
+	if $extract($get(Grid(ToY)),ToX-1)="." {
+		set Path=$$GetMinPath(.Grid,FromX,FromY,ToX-1,ToY,0,"")
+		//write !!,"LEFT ",FromX,$char(9),FromY,$char(9),ToX-1,$char(9),ToY,! zwrite Path
+		set:$list(Path,1)<minPathLength minPathLength=$list(Path,1),minPath=$list(Path,2)
+		//set ans=$$ChooseBestPath(Path,$listbuild(minPathLength,minPath))
+		//set minPathLength=$list(ans,1),minPath=$list(ans,2)
+	}
+	if $extract($get(Grid(ToY)),ToX+1)="." {
+		set Path=$$GetMinPath(.Grid,FromX,FromY,ToX+1,ToY,0,"")
+		//write !!,"RIGHT ",FromX,$char(9),FromY,$char(9),ToX+1,$char(9),ToY,! zwrite Path
+		set:$list(Path,1)<minPathLength minPathLength=$list(Path,1),minPath=$list(Path,2)
+		//set ans=$$ChooseBestPath(Path,$listbuild(minPathLength,minPath))
+		//set minPathLength=$list(ans,1),minPath=$list(ans,2)
+	}
+	if $extract($get(Grid(ToY+1)),ToX)="." {
+		set Path=$$GetMinPath(.Grid,FromX,FromY,ToX,ToY+1,0,"")
+		//write !!,"DOWN ",FromX,$char(9),FromY,$char(9),ToX,$char(9),ToY+1,! zwrite Path
+		set:$list(Path,1)<minPathLength minPathLength=$list(Path,1),minPath=$list(Path,2)
+		//set ans=$$ChooseBestPath(Path,$listbuild(minPathLength,minPath))
+		//set minPathLength=$list(ans,1),minPath=$list(ans,2)
+	}
+	quit $listbuild(minPathLength,minPath)
+}
+ChooseBestPath(Path1,Path2)
+{
+	set len1=$list(Path1,1),len2=$list(Path2,1)
+	if len1<len2 quit Path1
+	if len2<len1 quit Path2
+	set allPath1=$list(Path1,2),allPath2=$list(Path2,2)
+	quit:'$length(allPath2) Path1
+	quit:'$length(allPath1) Path2
+	//
+	//Same length and have an actual path so check poisition of last position in path
+	set lastPos1=$list(allPath1,*),lastPos2=$list(allPath2,*)
+	set lastPos1X=$list(lastPos1,1),lastPos1Y=$list(lastPos1,2),lastPos2X=$list(lastPos2,1),lastPos2Y=$list(lastPos2,2)
+	quit:lastPos1Y<lastPos2Y Path1
+	quit:lastPos2Y<lastPos1Y Path2
+	quit:lastPos1X<lastPos2X Path1
+	quit Path2
+}
+GetMinPath(&Grid,FromX,FromY,ToX,ToY,Steps,Path,Visited)
+{
+	//write !!,FromX,$char(9),FromY,$char(9),ToX,$char(9),ToY,$char(9),Steps,! zwrite Path,Visited
+	if $data(Visited(FromY,FromX)),Steps'<Visited(FromY,FromX) quit $listbuild(9999999,Path)
+	set Visited(FromY,FromX)=Steps
+	/*
+	if $data(Visited(FromY,FromX)),Steps>$list(Visited(FromY,FromX),1) quit $listbuild(9999999,Path)
+	if $data(Visited(FromY,FromX)),Steps=$list(Visited(FromY,FromX),1) {
+		quit:'$length(Path) $listbuild(9999999,Path)
+		set lastVisitedPath=$list(Visited(FromY,FromX),2)
+		if $length(lastVisitedPath) {
+			set lastPosVisitedPath=$list(lastVisitedPath,*),lastPosPath=$list(Path,*)
+			quit:$list(lastPosVisitedPath,2)<$list(lastPosPath,2) $listbuild(9999999,Path)
+			if $list(lastPosVisitedPath,2)=$list(lastPosPath,2),$list(lastPosVisitedPath,1)=$list(lastPosPath,1) {
+				quit $listbuild(9999999,Path)
+			}
+		}
+	}
+	set Visited(FromY,FromX)=$listbuild(Steps,Path)
+	*/
+	if FromX=ToX,FromY=ToY quit $listbuild(Steps,Path)
+	set minPathLength=9999999,minPath=""
+	if $extract($get(Grid(FromY-1)),FromX)="." {
+		set tempPath=$$GetMinPath(.Grid,FromX,FromY-1,ToX,ToY,Steps+1,Path_$listbuild($listbuild(FromX,FromY-1)),.Visited)
+		if $list(tempPath,1)<minPathLength set minPathLength=$list(tempPath,1),minPath=$list(tempPath,2)
+		//set ans=$$ChooseBestPath(tempPath,$listbuild(minPathLength,minPath))
+		//set minPathLength=$list(ans,1),minPath=$list(ans,2)
+	}
+	if $extract($get(Grid(FromY)),FromX-1)="." {
+		set tempPath=$$GetMinPath(.Grid,FromX-1,FromY,ToX,ToY,Steps+1,Path_$listbuild($listbuild(FromX-1,FromY)),.Visited)
+		if $list(tempPath,1)<minPathLength set minPathLength=$list(tempPath,1),minPath=$list(tempPath,2)
+		//set ans=$$ChooseBestPath(tempPath,$listbuild(minPathLength,minPath))
+		//set minPathLength=$list(ans,1),minPath=$list(ans,2)
+	}
+	if $extract($get(Grid(FromY)),FromX+1)="." {
+		set tempPath=$$GetMinPath(.Grid,FromX+1,FromY,ToX,ToY,Steps+1,Path_$listbuild($listbuild(FromX+1,FromY)),.Visited)
+		if $list(tempPath,1)<minPathLength set minPathLength=$list(tempPath,1),minPath=$list(tempPath,2)
+		//set ans=$$ChooseBestPath(tempPath,$listbuild(minPathLength,minPath))
+		//set minPathLength=$list(ans,1),minPath=$list(ans,2)
+	}
+	if $extract($get(Grid(FromY+1)),FromX)="." {
+		set tempPath=$$GetMinPath(.Grid,FromX,FromY+1,ToX,ToY,Steps+1,Path_$listbuild($listbuild(FromX,FromY+1)),.Visited)
+		if $list(tempPath,1)<minPathLength set minPathLength=$list(tempPath,1),minPath=$list(tempPath,2)
+		//set ans=$$ChooseBestPath(tempPath,$listbuild(minPathLength,minPath))
+		//set minPathLength=$list(ans,1),minPath=$list(ans,2)
+	}
+	quit $listbuild(minPathLength,minPath)
+}
+MakeAttack(&Grid,&EntitiesArr,Y,X,Type,Attack,Id,&IsDeadElf)
+{
+	set IsDeadElf=0
+	//if Attack,'$data(EntitiesArr(0,'Type,Attack)) set Attack=0 //If attacking something that died then stop attacking it.
+	//set:'Attack Attack=$$FindAttack(.EntitiesArr,Y,X,Type) //If not attacking then find if attack is possible.
+	set Attack=$$FindAttack(.EntitiesArr,Y,X,Type) //If not attacking then find if attack is possible.
+	quit:'Attack 0
+	set Data=EntitiesArr(0,Type,Id)
+	set enemyData=EntitiesArr(0,'Type,Attack)
+	set hp=$list(enemyData,1)-$list(Data,6)
+	if hp<=0 { //Enemy just died, update entities and grid
+		set enemyY=$list(enemyData,3),enemyX=$list(enemyData,4)
+		kill EntitiesArr(0,'Type,Attack)
+		kill EntitiesArr(1,enemyY,enemyX)
+		set $extract(Grid(enemyY),enemyX)="."
+		set Attack=0 //Clear attack
+		set:Type=1 IsDeadElf=1 //Just killed an elf
+	}
+	set:Attack $list(EntitiesArr(0,'Type,Attack),1)=hp //Update enemy hp
+	set $list(Data,2)=Attack,$list(Data,5)=1 //And entity's chosen/clear enemy + played flag
+	set EntitiesArr(0,Type,Id)=Data
+	quit 1
+}
+FindAttack(&EntitiesArr,Y,X,Type)
+{
+	set minHp=9999999999,minEnemyId=0
+	set EnemyId=$$IsOk(.EntitiesArr,Y-1,X,'Type)
+	if EnemyId,$list(EntitiesArr(0,'Type,EnemyId),1)<minHp set minHp=$list(EntitiesArr(0,'Type,EnemyId),1),minEnemyId=EnemyId
+	set EnemyId=$$IsOk(.EntitiesArr,Y,X-1,'Type)
+	if EnemyId,$list(EntitiesArr(0,'Type,EnemyId),1)<minHp set minHp=$list(EntitiesArr(0,'Type,EnemyId),1),minEnemyId=EnemyId
+	set EnemyId=$$IsOk(.EntitiesArr,Y,X+1,'Type)
+	if EnemyId,$list(EntitiesArr(0,'Type,EnemyId),1)<minHp set minHp=$list(EntitiesArr(0,'Type,EnemyId),1),minEnemyId=EnemyId
+	set EnemyId=$$IsOk(.EntitiesArr,Y+1,X,'Type)
+	if EnemyId,$list(EntitiesArr(0,'Type,EnemyId),1)<minHp set minHp=$list(EntitiesArr(0,'Type,EnemyId),1),minEnemyId=EnemyId
+	quit minEnemyId
+}
+IsOk(&EntitiesArr,Y,X,Type)
+{
+	set Data=$get(EntitiesArr(1,Y,X))
+	quit:'$length(Data) 0
+	quit:$list(Data,1)'=Type 0
+	set EntityId=$list(Data,2)
+	quit:'$data(EntitiesArr(0,Type,EntityId)) 0
+	quit EntityId
+}
+GetElfsAndGoblins(&Grid,&EntitiesArr)
+{
+	kill EntitiesArr
+	set EntityId=0
+	set Y=""
+	for  {
+		set Y=$order(Grid(Y)) quit:Y=""
+		set Record=Grid(Y)
+		if Record'["E",Record'["G" {
+			continue
+		}
+		for X=1:1:$length(Record) {
+			set Type=""
+			set:$extract(Record,X)="E" Type=0
+			set:$extract(Record,X)="G" Type=1
+			if $length(Type) {
+				//                                             =$listbuild(1  ,2,3,4,5)
+				//                                                 - 1: hp
+				//                                                 - 2: enemy id
+				//                                                 - 3: Y
+				//                                                 - 4: X
+				//                                                 - 5: played
+				//                                                 - 6: attack power
+				set EntityId=$increment(EntityId)
+				set EntitiesArr(0,Type,EntityId)=$listbuild(200,0,Y,X,0,3)
+				set EntitiesArr(1,Y,X)=$listbuild(Type,EntityId)
+			}
+		}
+	}
+}
+	/*
+Year 2018, Day 15 part 2:
+According to your calculations, the Elves are going to lose badly. Surely, you won't mess up the timeline too much if you give them just a little advanced technology, right?
+
+You need to make sure the Elves not only win, but also suffer no losses: even the death of a single Elf is unacceptable.
+
+However, you can't go too far: larger changes will be more likely to permanently alter spacetime.
+
+So, you need to find the outcome of the battle in which the Elves have the lowest integer attack power (at least 4) that allows them to win without a single death. The Goblins always have an attack power of 3.
+
+In the first summarized example above, the lowest attack power the Elves need to win without losses is 15:
+
+#######       #######
+#.G...#       #..E..#   E(158)
+#...EG#       #...E.#   E(14)
+#.#.#G#  -->  #.#.#.#
+#..G#E#       #...#.#
+#.....#       #.....#
+#######       #######
+
+Combat ends after 29 full rounds
+Elves win with 172 total hit points left
+Outcome: 29 * 172 = 4988
+In the second example above, the Elves need only 4 attack power:
+
+#######       #######
+#E..EG#       #.E.E.#   E(200), E(23)
+#.#G.E#       #.#E..#   E(200)
+#E.##E#  -->  #E.##E#   E(125), E(200)
+#G..#.#       #.E.#.#   E(200)
+#..E#.#       #...#.#
+#######       #######
+
+Combat ends after 33 full rounds
+Elves win with 948 total hit points left
+Outcome: 33 * 948 = 31284
+In the third example above, the Elves need 15 attack power:
+
+#######       #######
+#E.G#.#       #.E.#.#   E(8)
+#.#G..#       #.#E..#   E(86)
+#G.#.G#  -->  #..#..#
+#G..#.#       #...#.#
+#...E.#       #.....#
+#######       #######
+
+Combat ends after 37 full rounds
+Elves win with 94 total hit points left
+Outcome: 37 * 94 = 3478
+In the fourth example above, the Elves need 12 attack power:
+
+#######       #######
+#.E...#       #...E.#   E(14)
+#.#..G#       #.#..E#   E(152)
+#.###.#  -->  #.###.#
+#E#G#G#       #.#.#.#
+#...#G#       #...#.#
+#######       #######
+
+Combat ends after 39 full rounds
+Elves win with 166 total hit points left
+Outcome: 39 * 166 = 6474
+In the last example above, the lone Elf needs 34 attack power:
+
+#########       #########   
+#G......#       #.......#   
+#.E.#...#       #.E.#...#   E(38)
+#..##..G#       #..##...#   
+#...##..#  -->  #...##..#   
+#...#...#       #...#...#   
+#.G...G.#       #.......#   
+#.....G.#       #.......#   
+#########       #########   
+
+Combat ends after 30 full rounds
+Elves win with 38 total hit points left
+Outcome: 30 * 38 = 1140
+After increasing the Elves' attack power until it is just barely enough for them to win without any Elves dying, what is the outcome of the combat described in your puzzle input?
+	*/
+	/*
+W $$Part2^YUVGZ201815(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	merge Grid=RecordsArr
+	do GetElfsAndGoblins(.Grid,.EntitiesArr)
+	write !!!,"Before:",!
+	zwrite Grid,EntitiesArr
+	merge orgGrid=Grid,orgEntitiesArr=EntitiesArr
+	for AttackPower=4:1 {
+		write !!,"Attack power=",AttackPower,":"
+		kill Grid,EntitiesArr
+		merge Grid=orgGrid,EntitiesArr=orgEntitiesArr
+		do SetAttackPower(.EntitiesArr,AttackPower)
+		for Round=1:1 {
+			write !,"Starting round ",Round," with attack power=",AttackPower
+			set EndGame=$$Combat(.Grid,.EntitiesArr,1)
+			//write !!,"After round ",Round,":",!
+			//zwrite Grid,EntitiesArr
+			if EndGame {
+				set:EndGame=2 Round=Round-1
+				quit
+			}
+		}
+		continue:EndGame=3
+		set Id="",SW=1
+		for  {
+			set Id=$order(orgEntitiesArr(0,0,Id)) quit:Id=""
+			if '$data(EntitiesArr(0,0,Id)) {
+				set SW=0
+				quit
+			}
+		}
+		quit:SW
+	}
+	write !!!! zwrite Grid,EntitiesArr
+	set Type="",Total=0
+	for  {
+		set Type=$order(EntitiesArr(0,Type)) quit:Type=""
+		set Id=""
+		for  {
+			set Id=$order(EntitiesArr(0,Type,Id)) quit:Id=""
+			set hp=$list(EntitiesArr(0,Type,Id),1)
+			set:hp>0 Total=Total+hp
+		}
+	}
+	
+	set ANS=Total*Round
+	//
+	//
+	//
+	quit ANS
+}
+SetAttackPower(&EntitiesArr,AttackPower)
+{
+	set Id=""
+	for  {
+		set Id=$order(EntitiesArr(0,0,Id)) quit:Id=""
+		set $list(EntitiesArr(0,0,Id),6)=AttackPower
+	}
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if $length($translate(Record,"#.GE")) {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

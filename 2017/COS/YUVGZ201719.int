@@ -1,0 +1,211 @@
+ROUTINE YUVGZ201719 [Type=INT]
+YUVGZ201719	;https://adventofcode.com/2017/day/19;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+
+	*/
+	/*
+Year 2017, Day 19 part 1:
+--- Day 19: A Series of Tubes ---
+Somehow, a network packet got lost and ended up here. It's trying to follow a routing diagram (your puzzle input), but it's confused about where to go.
+
+Its starting point is just off the top of the diagram. Lines (drawn with |, -, and +) show the path it needs to take, starting by going down onto the only line connected to the top of the diagram. It needs to follow this path until it reaches the end (located somewhere within the diagram) and stop there.
+
+Sometimes, the lines cross over each other; in these cases, it needs to continue going the same direction, and only turn left or right when there's no other option. In addition, someone has left letters on the line; these also don't change its direction, but it can use them to keep track of where it's been. For example:
+
+     |          
+     |  +--+    
+     A  |  C    
+ F---|----E|--+ 
+     |  |  |  D 
+     +B-+  +--+ 
+
+Given this diagram, the packet needs to take the following path:
+
+Starting at the only line touching the top of the diagram, it must go down, pass through A, and continue onward to the first +.
+Travel right, up, and right, passing through B in the process.
+Continue down (collecting C), right, and up (collecting D).
+Finally, go all the way left through E and stopping at F.
+Following the path to the end, the letters it sees on its path are ABCDEF.
+
+The little packet looks up at you, hoping you can help it find the way. What letters will it see (in the order it would see them) if it follows the path? (The routing diagram is very wide; make sure you view it without line wrapping.)
+	*/
+	/*
+W $$Part1^YUVGZ201719(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	for x=1:1:$length(RecordsArr(1)) quit:$extract(RecordsArr(1),x)'=" "
+	set y=1,dy=1,dx=0,string=""
+	for  {
+		set tempy=y+dy,tempx=x+dx
+		set ltr=$extract($get(RecordsArr(tempy)),tempx)
+		if $length($translate(ltr," ")) {
+			set:ltr?1A string=string_ltr
+			set y=tempy,x=tempx
+			continue
+		}
+		if dy {
+			if $length($translate($extract($get(RecordsArr(y)),x+1)," ")) {
+				set dy=0,dx=1
+				continue
+			}
+			if $length($translate($extract($get(RecordsArr(y)),x-1)," ")) {
+				set dy=0,dx=-1
+				continue
+			}
+			quit
+		}
+		if $length($translate($extract($get(RecordsArr(y+1)),x)," ")) {
+			set dy=1,dx=0
+			continue
+		}
+		if $length($translate($extract($get(RecordsArr(y-1)),x)," ")) {
+			set dy=-1,dx=0
+			continue
+		}
+		quit
+	}
+	set ANS=string
+	//
+	//
+	//
+	quit ANS
+}
+	/*
+Year 2017, Day 19 part 2:
+he packet is curious how many steps it needs to go.
+
+For example, using the same routing diagram from the example above...
+
+     |          
+     |  +--+    
+     A  |  C    
+ F---|--|-E---+ 
+     |  |  |  D 
+     +B-+  +--+ 
+
+...the packet would go:
+
+6 steps down (including the first line at the top of the diagram).
+3 steps right.
+4 steps up.
+3 steps right.
+4 steps down.
+3 steps right.
+2 steps up.
+13 steps left (including the F it stops on).
+This would result in a total of 38 steps.
+
+How many steps does the packet need to go?
+	*/
+	/*
+W $$Part2^YUVGZ201719(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	for x=1:1:$length(RecordsArr(1)) quit:$extract(RecordsArr(1),x)'=" "
+	set y=1,dy=1,dx=0,steps=1
+	for  {
+		set tempy=y+dy,tempx=x+dx
+		set ltr=$extract($get(RecordsArr(tempy)),tempx)
+		if $length($translate(ltr," ")) {
+			set steps=steps+1
+			set y=tempy,x=tempx
+			continue
+		}
+		if dy {
+			if $length($translate($extract($get(RecordsArr(y)),x+1)," ")) {
+				set dy=0,dx=1
+				continue
+			}
+			if $length($translate($extract($get(RecordsArr(y)),x-1)," ")) {
+				set dy=0,dx=-1
+				continue
+			}
+			quit
+		}
+		if $length($translate($extract($get(RecordsArr(y+1)),x)," ")) {
+			set dy=1,dx=0
+			continue
+		}
+		if $length($translate($extract($get(RecordsArr(y-1)),x)," ")) {
+			set dy=-1,dx=0
+			continue
+		}
+		quit
+	}
+	set ANS=steps
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if $length($translate(Record," -+|ABCDEFGHIJKLMNOPQRSTUVWXYZ")) {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

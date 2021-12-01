@@ -1,0 +1,369 @@
+ROUTINE YUVGZ201722 [Type=INT]
+YUVGZ201722	;https://adventofcode.com/2017/day/22;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+
+	*/
+	/*
+Year 2017, Day 22 part 1:
+--- Day 22: Sporifica Virus ---
+Diagnostics indicate that the local grid computing cluster has been contaminated with the Sporifica Virus. The grid computing cluster is a seemingly-infinite two-dimensional grid of compute nodes. Each node is either clean or infected by the virus.
+
+To prevent overloading the nodes (which would render them useless to the virus) or detection by system administrators, exactly one virus carrier moves through the network, infecting or cleaning nodes as it moves. The virus carrier is always located on a single node in the network (the current node) and keeps track of the direction it is facing.
+
+To avoid detection, the virus carrier works in bursts; in each burst, it wakes up, does some work, and goes back to sleep. The following steps are all executed in order one time each burst:
+
+If the current node is infected, it turns to its right. Otherwise, it turns to its left. (Turning is done in-place; the current node does not change.)
+If the current node is clean, it becomes infected. Otherwise, it becomes cleaned. (This is done after the node is considered for the purposes of changing direction.)
+The virus carrier moves forward one node in the direction it is facing.
+Diagnostics have also provided a map of the node infection status (your puzzle input). Clean nodes are shown as .; infected nodes are shown as #. This map only shows the center of the grid; there are many more nodes beyond those shown, but none of them are currently infected.
+
+The virus carrier begins in the middle of the map facing up.
+
+For example, suppose you are given a map like this:
+
+..#
+#..
+...
+Then, the middle of the infinite grid looks like this, with the virus carrier's position marked with [ ]:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . # . . .
+. . . #[.]. . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+The virus carrier is on a clean node, so it turns left, infects the node, and moves left:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . # . . .
+. . .[#]# . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+The virus carrier is on an infected node, so it turns right, cleans the node, and moves up:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . .[.]. # . . .
+. . . . # . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+Four times in a row, the virus carrier finds a clean, infects it, turns left, and moves forward, ending in the same place and still facing up:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . #[#]. # . . .
+. . # # # . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+Now on the same node as before, it sees an infection, which causes it to turn right, clean the node, and move forward:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . # .[.]# . . .
+. . # # # . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+After the above actions, a total of 7 bursts of activity had taken place. Of them, 5 bursts of activity caused an infection.
+
+After a total of 70, the grid looks like this, with the virus carrier facing up:
+
+. . . . . # # . .
+. . . . # . . # .
+. . . # . . . . #
+. . # . #[.]. . #
+. . # . # . . # .
+. . . . . # # . .
+. . . . . . . . .
+. . . . . . . . .
+By this time, 41 bursts of activity caused an infection (though most of those nodes have since been cleaned).
+
+After a total of 10000 bursts of activity, 5587 bursts will have caused an infection.
+
+Given your actual map, after 10000 bursts of activity, how many bursts cause a node to become infected? (Do not count nodes that begin infected.)
+	*/
+	/*
+W $$Part1^YUVGZ201722(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Middle=($length(RecordsArr(1))+1)/2
+	set (x,y)=Middle,dx=0,dy=-1,infectionBursts=0
+	do InitGrid(.RecordsArr,.Grid)
+	merge OrgGrid=Grid
+	//do PrintGrid(.Grid,x,y)
+	for i=1:1:10000 {
+		set:'$length($get(Grid(y,x))) Grid(y,x)="."
+		set data=Grid(y,x)
+		if data="#" {
+			set dt=dy,dy=dx,dx=-dt
+		}
+		else {
+			set dt=dy,dy=-dx,dx=dt
+			set infectionBursts=infectionBursts+1
+		}
+		set Grid(y,x)=$select(data="#":".",1:"#")
+		set y=y+dy,x=x+dx
+		//w !,infectionBursts,";",y,";",x,!
+		//do PrintGrid(.Grid,x,y)
+	}
+	set ANS=infectionBursts
+	//
+	//
+	//
+	quit ANS
+}
+PrintGrid(&Grid,posX,posY)
+{
+	//Find min y and x
+	set miny=$order(Grid("")),maxy=$o(Grid(""),-1),minx=$order(Grid(miny,"")),maxx=$order(Grid(miny,""),-1)
+	set y=""
+	for  {
+		set y=$order(Grid(y)) quit:y=""
+		set x=$order(Grid(y,"")) set:x<minx minx=x
+		set x=$order(Grid(y,""),-1) set:x>maxx maxx=x
+	}
+	set:posY<miny miny=posY
+	set:posY>maxy maxy=posY
+	set:posX<minx minx=posX
+	set:posX>maxx maxx=posX
+	
+	//Set empty places on grid as cleaned
+	for y=miny:1:maxy {
+		for x=minx:1:maxx {
+			set:'$length($get(Grid(y,x))) Grid(y,x)="."
+		}
+	}
+	//
+	/*
+	//Display the grid
+	write !!
+	set y=""
+	for  {
+		set y=$order(Grid(y)) quit:y=""
+		write !
+		set x=""
+		for  {
+			set x=$order(Grid(y,x)) quit:x=""
+			if x=posX,y=posY {
+				write "*"
+			}
+			else {
+				write Grid(y,x)
+			}
+		}
+	}
+	*/
+}
+InitGrid(&RecordsArr,&grid)
+{
+	set Line=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		for i=1:1:$length(Record) {
+			set grid(Line,i)=$extract(Record,i)
+		}
+	}
+}
+	/*
+Year 2017, Day 22 part 2:
+As you go to remove the virus from the infected nodes, it evolves to resist your attempt.
+
+Now, before it infects a clean node, it will weaken it to disable your defenses. If it encounters an infected node, it will instead flag the node to be cleaned in the future. So:
+
+Clean nodes become weakened.
+Weakened nodes become infected.
+Infected nodes become flagged.
+Flagged nodes become clean.
+Every node is always in exactly one of the above states.
+
+The virus carrier still functions in a similar way, but now uses the following logic during its bursts of action:
+
+Decide which way to turn based on the current node:
+If it is clean, it turns left.
+If it is weakened, it does not turn, and will continue moving in the same direction.
+If it is infected, it turns right.
+If it is flagged, it reverses direction, and will go back the way it came.
+Modify the state of the current node, as described above.
+The virus carrier moves forward one node in the direction it is facing.
+Start with the same map (still using . for clean and # for infected) and still with the virus carrier starting in the middle and facing up.
+
+Using the same initial state as the previous example, and drawing weakened as W and flagged as F, the middle of the infinite grid looks like this, with the virus carrier's position again marked with [ ]:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . # . . .
+. . . #[.]. . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+This is the same as before, since no initial nodes are weakened or flagged. The virus carrier is on a clean node, so it still turns left, instead weakens the node, and moves left:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . # . . .
+. . .[#]W . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+The virus carrier is on an infected node, so it still turns right, instead flags the node, and moves up:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . .[.]. # . . .
+. . . F W . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+This process repeats three more times, ending on the previously-flagged node and facing right:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . W W . # . . .
+. . W[F]W . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+Finding a flagged node, it reverses direction and cleans the node:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . W W . # . . .
+. .[W]. W . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+The weakened node becomes infected, and it continues in the same direction:
+
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . W W . # . . .
+.[.]# . W . . . .
+. . . . . . . . .
+. . . . . . . . .
+. . . . . . . . .
+Of the first 100 bursts, 26 will result in infection. Unfortunately, another feature of this evolved virus is speed; of the first 10000000 bursts, 2511944 will result in infection.
+
+Given your actual map, after 10000000 bursts of activity, how many bursts cause a node to become infected? (Do not count nodes that begin infected.)
+	*/
+	/*
+W $$Part2^YUVGZ201722(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Middle=($length(RecordsArr(1))+1)/2
+	set (x,y)=Middle,dx=0,dy=-1,infectionBursts=0
+	do InitGrid(.RecordsArr,.Grid)
+	//do PrintGrid(.Grid,x,y)
+	for i=1:1:10000000 {
+		set:'$length($get(Grid(y,x))) Grid(y,x)="."
+		set data=Grid(y,x)
+		if data="#" {
+			set dt=dy,dy=dx,dx=-dt
+		}
+		elseif data="." {
+			set dt=dy,dy=-dx,dx=dt
+		}
+		elseif data="W" {
+			set infectionBursts=infectionBursts+1
+		}
+		else {
+			set dy=-dy,dx=-dx
+		}
+		set Grid(y,x)=$select(data=".":"W",data="W":"#",data="#":"F",1:".")
+		set y=y+dy,x=x+dx
+		//w:'(i#10000) !,i,";",infectionBursts,";",$zh
+		//do PrintGrid(.Grid,x,y)
+	}
+	set ANS=infectionBursts
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if $length($translate(Record,"#.")) {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

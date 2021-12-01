@@ -197,19 +197,62 @@ Part2(FileName="",RecordsArr) PUBLIC	;
 	set Molecule=$$AnalayzeData(.RecordsArr,.SubstituteArr)
 	w !,Molecule,!
 	zw SubstituteArr
-	do GetSubMolecules(Molecule,.SubstituteArr,.MoleculesArr)
-	;zw MoleculesArr
-	set Count=0
-	set i=""
-	for  {
-		set i=$order(MoleculesArr(i)) quit:i=""
-		set j=""
+	merge FromToSubstitutesArr=SubstituteArr("FromTo")
+	set (MinSubSize,MinMolSize)=99999,Count=0
+	set CurrMol=Molecule
+	do ShuffleArr(.FromToSubstitutesArr,.ShuffledSubstitute)
+	while CurrMol'="e" {
+		set tempMolecule=CurrMol
+		set Key=""
 		for  {
-			set j=$order(MoleculesArr(i,j)) quit:j=""
-			set Count=Count+1
+			set Key=$order(ShuffledSubstitute(Key)) quit:Key=""
+			set Data=ShuffledSubstitute(Key)
+			set From=$list(Data,1),To=$list(Data,2)
+			if CurrMol[To {
+				set Count=Count+1
+				set CurrMol=$replace(CurrMol,To,From,,1)
+			}
+		}
+		quit:CurrMol="e"
+		if tempMolecule=CurrMol {
+			set CurrMol=Molecule
+			set Count=0
+			do ShuffleArr(.FromToSubstitutesArr,.ShuffledSubstitute)
+			//zw ShuffledSubstitute
+		}
+		if (Count<MinSubSize)||($length(CurrMol)<MinMolSize) {
+			set:Count<MinSubSize MinSubSize=Count
+			set:$length(CurrMol)<MinMolSize MinMolSize=$length(CurrMol)
+			write !,"Current count=",Count,", MinMolSize=",MinMolSize,!,CurrMol
 		}
 	}
+	w !!
 	quit Count
+}
+ShuffleArr(From,To)	;
+{
+	kill To
+	set FromKey="",Total=0
+	for  {
+		set FromKey=$order(From(FromKey)) quit:FromKey=""
+		set ToKey=""
+		for  {
+			set ToKey=$order(From(FromKey,ToKey)) quit:ToKey=""
+			set Total=Total+1
+		}
+	}
+	for  {
+		set FromKey=$order(From(FromKey)) quit:FromKey=""
+		set ToKey=""
+		for  {
+			set ToKey=$order(From(FromKey,ToKey)) quit:ToKey=""
+			set NewKey=$random(Total)
+			while $data(To(NewKey)) {
+				set NewKey=$random(Total)
+			}
+			set To(NewKey)=$listbuild(FromKey,ToKey)
+		}
+	}
 }
 CheckData(RecordsArr)
 {

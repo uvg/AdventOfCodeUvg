@@ -1,0 +1,178 @@
+ROUTINE YUVGZ201602 [Type=INT]
+YUVGZ201602	;https://adventofcode.com/2016/day/2;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+RDLULDLDDRLLLRLRULDRLDDRRRRURLRLDLULDLDLDRULDDLLDRDRUDLLDDRDULLLULLDULRRLDURULDRUULLLUUDURURRDDLDLDRRDDLRURLLDRRRDULDRULURURURURLLRRLUDULDRULLDURRRLLDURDRRUUURDRLLDRURULRUDULRRRRRDLRLLDRRRDLDUUDDDUDLDRUURRLLUDUDDRRLRRDRUUDUUULDUUDLRDLDLLDLLLLRRURDLDUURRLLDLDLLRLLRULDDRLDLUDLDDLRDRRDLULRLLLRUDDURLDLLULRDUUDRRLDUDUDLUURDURRDDLLDRRRLUDULDULDDLLULDDDRRLLDURURURUUURRURRUUDUUURULDLRULRURDLDRDDULDDULLURDDUDDRDRRULRUURRDDRLLUURDRDDRUDLUUDURRRLLRR
+RDRRLURDDDDLDUDLDRURRLDLLLDDLURLLRULLULUUURLDURURULDLURRLRULDDUULULLLRLLRDRRUUDLUUDDUDDDRDURLUDDRULRULDDDLULRDDURRUURLRRLRULLURRDURRRURLDULULURULRRLRLUURRRUDDLURRDDUUDRDLLDRLRURUDLDLLLLDLRURDLLRDDUDDLDLDRRDLRDRDLRRRRUDUUDDRDLULUDLUURLDUDRRRRRLUUUDRRDLULLRRLRLDDDLLDLLRDDUUUUDDULUDDDUULDDUUDURRDLURLLRUUUUDUDRLDDDURDRLDRLRDRULRRDDDRDRRRLRDULUUULDLDDDUURRURLDLDLLDLUDDLDLRUDRLRLDURUDDURLDRDDLLDDLDRURRULLURULUUUUDLRLUUUDLDRUDURLRULLRLLUUULURLLLDULLUDLLRULRRLURRRRLRDRRLLULLLDURDLLDLUDLDUDURLURDLUURRRLRLLDRLDLDRLRUUUDRLRUDUUUR
+LLLLULRDUUDUUDRDUUURDLLRRLUDDDRLDUUDDURLDUDULDRRRDDLLLRDDUDDLLLRRLURDULRUUDDRRDLRLRUUULDDULDUUUDDLLDDDDDURLDRLDDDDRRDURRDRRRUUDUUDRLRRRUURUDURLRLDURDDDUDDUDDDUUDRUDULDDRDLULRURDUUDLRRDDRRDLRDLRDLULRLLRLRLDLRULDDDDRLDUURLUUDLLRRLLLUUULURUUDULRRRULURUURLDLLRURUUDUDLLUDLDRLLRRUUDDRLUDUDRDDRRDDDURDRUDLLDLUUDRURDLLULLLLUDLRRRUULLRRDDUDDDUDDRDRRULURRUUDLUDLDRLLLLDLUULLULLDDUDLULRDRLDRDLUDUDRRRRLRDLLLDURLULUDDRURRDRUDLLDRURRUUDDDRDUUULDURRULDLLDLDLRDUDURRRRDLDRRLUDURLUDRRLUDDLLDUULLDURRLRDRLURURLUUURRLUDRRLLULUULUDRUDRDLUL
+LRUULRRUDUDDLRRDURRUURDURURLULRDUUDUDLDRRULURUDURURDRLDDLRUURLLRDLURRULRRRUDULRRULDLUULDULLULLDUDLLUUULDLRDRRLUURURLLUUUDDLLURDUDURULRDLDUULDDRULLUUUURDDRUURDDDRUUUDRUULDLLULDLURLRRLRULRLDLDURLRLDLRRRUURLUUDULLLRRURRRLRULLRLUUDULDULRDDRDRRURDDRRLULRDURDDDDDLLRRDLLUUURUULUDLLDDULDUDUUDDRURDDURDDRLURUDRDRRULLLURLUULRLUDUDDUUULDRRRRDLRLDLLDRRDUDUUURLRURDDDRURRUDRUURUUDLRDDDLUDLRUURULRRLDDULRULDRLRLLDRLURRUUDRRRLRDDRLDDLLURLLUDL
+ULURLRDLRUDLLDUDDRUUULULUDDDDDRRDRULUDRRUDLRRRLUDLRUULRDDRRLRUDLUDULRULLUURLLRLLLLDRDUURDUUULLRULUUUDRDRDRUULURDULDLRRULUURURDULULDRRURDLRUDLULULULUDLLUURULDLLLRDUDDRRLULUDDRLLLRURDDLDLRLLLRDLDRRUUULRLRDDDDRUDRUULDDRRULLDRRLDDRRUDRLLDUDRRUDDRDLRUDDRDDDRLLRDUULRDRLDUDRLDDLLDDDUUDDRULLDLLDRDRRUDDUUURLLUURDLULUDRUUUDURURLRRDULLDRDDRLRDULRDRURRUDLDDRRRLUDRLRRRRLLDDLLRLDUDUDDRRRUULDRURDLLDLUULDLDLDUUDDULUDUDRRDRLDRDURDUULDURDRRDRRLLRLDLU
+	*/
+	/*
+Year 2016, Day 2 part 1:
+--- Day 2: Bathroom Security ---
+You arrive at Easter Bunny Headquarters under cover of darkness. However, you left in such a rush that you forgot to use the bathroom! Fancy office buildings like this one usually have keypad locks on their bathrooms, so you search the front desk for the code.
+
+"In order to improve security," the document you find says, "bathroom codes will no longer be written down. Instead, please memorize and follow the procedure below to access the bathrooms."
+
+The document goes on to explain that each button to be pressed can be found by starting on the previous button and moving to adjacent buttons on the keypad: U moves up, D moves down, L moves left, and R moves right. Each line of instructions corresponds to one button, starting at the previous button (or, for the first line, the "5" button); press whatever button you're on at the end of each line. If a move doesn't lead to a button, ignore it.
+
+You can't hold it much longer, so you decide to figure out the code as you walk to the bathroom. You picture a keypad like this:
+
+1 2 3
+4 5 6
+7 8 9
+Suppose your instructions are:
+
+ULL
+RRDDD
+LURDL
+UUUUD
+You start at "5" and move up (to "2"), left (to "1"), and left (you can't, and stay on "1"), so the first button is 1.
+Starting from the previous button ("1"), you move right twice (to "3") and then down three times (stopping at "9" after two moves and ignoring the third), ending up with 9.
+Continuing from "9", you move left, up, right, down, and left, ending with 8.
+Finally, you move up four times (stopping at "2"), then down once, ending with 5.
+So, in this example, the bathroom code is 1985.
+
+Your puzzle input is the instructions from the document you found at the front desk. What is the bathroom code?
+	*/
+	/*
+W $$Part1^YUVGZ201602(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Current=5,Code=""
+	set Line=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Data=RecordsArr(Line)
+		for i=1:1:$length(Data) {
+			set Heading=$extract(Data,i)
+			if Heading="R" set Current=$select(Current=1:2,Current=2:3,Current=4:5,Current=5:6,Current=7:8,Current=8:9,1:Current)
+			if Heading="L" set Current=$select(Current=2:1,Current=3:2,Current=5:4,Current=6:5,Current=8:7,Current=9:8,1:Current)
+			if Heading="U" set Current=$select(Current=7:4,Current=4:1,Current=8:5,Current=5:2,Current=9:6,Current=6:3,1:Current)
+			if Heading="D" set Current=$select(Current=4:7,Current=1:4,Current=5:8,Current=2:5,Current=6:9,Current=3:6,1:Current)
+		}
+		set Code=Code_Current
+	}
+	set ANS=Code
+	//
+	//
+	//
+	quit ANS
+}
+	/*
+Year 2016, Day 2 part 2:
+You finally arrive at the bathroom (it's a several minute walk from the lobby so visitors can behold the many fancy conference rooms and water coolers on this floor) and go to punch in the code. Much to your bladder's dismay, the keypad is not at all like you imagined it. Instead, you are confronted with the result of hundreds of man-hours of bathroom-keypad-design meetings:
+
+    1
+  2 3 4
+5 6 7 8 9
+  A B C
+    D
+You still start at "5" and stop when you're at an edge, but given the same instructions as above, the outcome is very different:
+
+You start at "5" and don't move at all (up and left are both edges), ending at 5.
+Continuing from "5", you move right twice and down three times (through "6", "7", "B", "D", "D"), ending at D.
+Then, from "D", you move five more times (through "D", "B", "C", "C", "B"), ending at B.
+Finally, after five more moves, you end at 3.
+So, given the actual keypad layout, the code would be 5DB3.
+
+Using the same instructions in your puzzle input, what is the correct bathroom code?
+	*/
+	/*
+W $$Part2^YUVGZ201602(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Current=5,Code=""
+	set Line=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Data=RecordsArr(Line)
+		w !!!,Data
+		for i=1:1:$length(Data) {
+			set Heading=$extract(Data,i)
+			if Heading="R" set Current=$select(Current=2:3,Current=3:4,Current=5:6,Current=6:7,Current=7:8,Current=8:9,Current="A":"B",Current="B":"C",1:Current)
+			if Heading="L" set Current=$select(Current=3:2,Current=4:3,Current=6:5,Current=7:6,Current=8:7,Current=9:8,Current="B":"A",Current="C":"B",1:Current)
+			if Heading="U" set Current=$select(Current="A":6,Current=6:2,Current="D":"B",Current="B":7,Current=7:3,Current=3:1,Current="C":8,Current=8:4,1:Current)
+			if Heading="D" set Current=$select(Current=6:"A",Current=2:6,Current="B":"D",Current=7:"B",Current=3:7,Current=1:3,Current=8:"C",Current=4:8,1:Current)
+			W !,Current
+		}
+		set Code=Code_Current
+	}
+	w !!
+	set ANS=Code
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if $length($translate(Record,"RULD")) {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

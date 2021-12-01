@@ -1,0 +1,403 @@
+ROUTINE YUVGZ201608 [Type=INT]
+YUVGZ201608	;https://adventofcode.com/2016/day/8;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+rect 1x1
+rotate row y=0 by 7
+rect 1x1
+rotate row y=0 by 5
+rect 1x1
+rotate row y=0 by 5
+rect 1x1
+rotate row y=0 by 2
+rect 1x1
+rotate row y=0 by 3
+rect 1x1
+rotate row y=0 by 5
+rect 1x1
+rotate row y=0 by 3
+rect 1x1
+rotate row y=0 by 2
+rect 1x1
+rotate row y=0 by 3
+rect 2x1
+rotate row y=0 by 7
+rect 6x1
+rotate row y=0 by 3
+rect 2x1
+rotate row y=0 by 2
+rect 1x2
+rotate row y=1 by 10
+rotate row y=0 by 3
+rotate column x=0 by 1
+rect 2x1
+rotate column x=20 by 1
+rotate column x=15 by 1
+rotate column x=5 by 1
+rotate row y=1 by 5
+rotate row y=0 by 2
+rect 1x2
+rotate row y=0 by 5
+rotate column x=0 by 1
+rect 4x1
+rotate row y=2 by 15
+rotate row y=0 by 5
+rotate column x=0 by 1
+rect 4x1
+rotate row y=2 by 5
+rotate row y=0 by 5
+rotate column x=0 by 1
+rect 4x1
+rotate row y=2 by 10
+rotate row y=0 by 10
+rotate column x=8 by 1
+rotate column x=5 by 1
+rotate column x=0 by 1
+rect 9x1
+rotate column x=27 by 1
+rotate row y=0 by 5
+rotate column x=0 by 1
+rect 4x1
+rotate column x=42 by 1
+rotate column x=40 by 1
+rotate column x=22 by 1
+rotate column x=17 by 1
+rotate column x=12 by 1
+rotate column x=7 by 1
+rotate column x=2 by 1
+rotate row y=3 by 10
+rotate row y=2 by 5
+rotate row y=1 by 3
+rotate row y=0 by 10
+rect 1x4
+rotate column x=37 by 2
+rotate row y=3 by 18
+rotate row y=2 by 30
+rotate row y=1 by 7
+rotate row y=0 by 2
+rotate column x=13 by 3
+rotate column x=12 by 1
+rotate column x=10 by 1
+rotate column x=7 by 1
+rotate column x=6 by 3
+rotate column x=5 by 1
+rotate column x=3 by 3
+rotate column x=2 by 1
+rotate column x=0 by 1
+rect 14x1
+rotate column x=38 by 3
+rotate row y=3 by 12
+rotate row y=2 by 10
+rotate row y=0 by 10
+rotate column x=7 by 1
+rotate column x=5 by 1
+rotate column x=2 by 1
+rotate column x=0 by 1
+rect 9x1
+rotate row y=4 by 20
+rotate row y=3 by 25
+rotate row y=2 by 10
+rotate row y=0 by 15
+rotate column x=12 by 1
+rotate column x=10 by 1
+rotate column x=8 by 3
+rotate column x=7 by 1
+rotate column x=5 by 1
+rotate column x=3 by 3
+rotate column x=2 by 1
+rotate column x=0 by 1
+rect 14x1
+rotate column x=34 by 1
+rotate row y=1 by 45
+rotate column x=47 by 1
+rotate column x=42 by 1
+rotate column x=19 by 1
+rotate column x=9 by 2
+rotate row y=4 by 7
+rotate row y=3 by 20
+rotate row y=0 by 7
+rotate column x=5 by 1
+rotate column x=3 by 1
+rotate column x=2 by 1
+rotate column x=0 by 1
+rect 6x1
+rotate row y=4 by 8
+rotate row y=3 by 5
+rotate row y=1 by 5
+rotate column x=5 by 1
+rotate column x=4 by 1
+rotate column x=3 by 2
+rotate column x=2 by 1
+rotate column x=1 by 3
+rotate column x=0 by 1
+rect 6x1
+rotate column x=36 by 3
+rotate column x=25 by 3
+rotate column x=18 by 3
+rotate column x=11 by 3
+rotate column x=3 by 4
+rotate row y=4 by 5
+rotate row y=3 by 5
+rotate row y=2 by 8
+rotate row y=1 by 8
+rotate row y=0 by 3
+rotate column x=3 by 4
+rotate column x=0 by 4
+rect 4x4
+rotate row y=4 by 10
+rotate row y=3 by 20
+rotate row y=1 by 10
+rotate row y=0 by 10
+rotate column x=8 by 1
+rotate column x=7 by 1
+rotate column x=6 by 1
+rotate column x=5 by 1
+rotate column x=3 by 1
+rotate column x=2 by 1
+rotate column x=1 by 1
+rotate column x=0 by 1
+rect 9x1
+rotate row y=0 by 40
+rotate column x=44 by 1
+rotate column x=35 by 5
+rotate column x=18 by 5
+rotate column x=15 by 3
+rotate column x=10 by 5
+rotate row y=5 by 15
+rotate row y=4 by 10
+rotate row y=3 by 40
+rotate row y=2 by 20
+rotate row y=1 by 45
+rotate row y=0 by 35
+rotate column x=48 by 1
+rotate column x=47 by 5
+rotate column x=46 by 5
+rotate column x=45 by 1
+rotate column x=43 by 1
+rotate column x=40 by 1
+rotate column x=38 by 2
+rotate column x=37 by 3
+rotate column x=36 by 2
+rotate column x=32 by 2
+rotate column x=31 by 2
+rotate column x=28 by 1
+rotate column x=23 by 3
+rotate column x=22 by 3
+rotate column x=21 by 5
+rotate column x=20 by 1
+rotate column x=18 by 1
+rotate column x=17 by 3
+rotate column x=13 by 1
+rotate column x=10 by 1
+rotate column x=8 by 1
+rotate column x=7 by 5
+rotate column x=6 by 5
+rotate column x=5 by 1
+rotate column x=3 by 5
+rotate column x=2 by 5
+rotate column x=1 by 5
+	*/
+	/*
+Year 2016, Day 8 part 1:
+--- Day 8: Two-Factor Authentication ---
+You come across a door implementing what you can only assume is an implementation of two-factor authentication after a long game of requirements telephone.
+
+To get past the door, you first swipe a keycard (no problem; there was one on a nearby desk). Then, it displays a code on a little screen, and you type that code on a keypad. Then, presumably, the door unlocks.
+
+Unfortunately, the screen has been smashed. After a few minutes, you've taken everything apart and figured out how it works. Now you just have to work out what the screen would have displayed.
+
+The magnetic strip on the card you swiped encodes a series of instructions for the screen; these instructions are your puzzle input. The screen is 50 pixels wide and 6 pixels tall, all of which start off, and is capable of three somewhat peculiar operations:
+
+rect AxB turns on all of the pixels in a rectangle at the top-left of the screen which is A wide and B tall.
+rotate row y=A by B shifts all of the pixels in row A (0 is the top row) right by B pixels. Pixels that would fall off the right end appear at the left end of the row.
+rotate column x=A by B shifts all of the pixels in column A (0 is the left column) down by B pixels. Pixels that would fall off the bottom appear at the top of the column.
+For example, here is a simple sequence on a smaller screen:
+
+rect 3x2 creates a small rectangle in the top-left corner:
+
+###....
+###....
+.......
+rotate column x=1 by 1 rotates the second column down by one pixel:
+
+#.#....
+###....
+.#.....
+rotate row y=0 by 4 rotates the top row right by four pixels:
+
+....#.#
+###....
+.#.....
+rotate column x=1 by 1 again rotates the second column down by one pixel, causing the bottom pixel to wrap back to the top:
+
+.#..#.#
+#.#....
+.#.....
+As you can see, this display technology is extremely powerful, and will soon dominate the tiny-code-displaying-screen market. That's what the advertisement on the back of the display tries to convince you, anyway.
+
+There seems to be an intermediate check of the voltage used by the display: after you swipe your card, if the screen did work, how many pixels should be lit?
+	*/
+	/*
+W $$Part1^YUVGZ201608(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Width=50,Height=6
+	do InitGrid(.Grid,Width,Height)
+	do DisplayGrid(.Grid)
+	set Line=""
+	for  {
+		w !!!
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		do SetGrid(.Grid,RecordsArr(Line))
+		do DisplayGrid(.Grid)
+	}
+	//
+	set ANS=$$CountLit(.Grid)
+	//
+	//
+	//
+	quit ANS
+}
+InitGrid(&Grid,Width,Height)
+{
+	set $piece(data,".",Width+1)=""
+	for y=0:1:Height-1 {
+		set Grid(y)=data
+	}
+}
+DisplayGrid(&Grid)
+{
+	set y=""
+	for  {
+		set y=$order(Grid(y)) quit:y=""
+		write !,Grid(y)
+	}
+}
+SetGrid(&Grid,Instruction)
+{
+	set Command=$piece(Instruction," ",1)
+	if Command="rect" {
+		for y=0:1:$piece(Instruction,"x",2)-1 {
+			for x=1:1:$piece(Instruction," ",2) {
+				set $extract(Grid(y),x)="#"
+			}
+		}
+		quit
+	}
+	set axis=$piece(Instruction," ",2)
+	set position=+$piece(Instruction,"=",2)
+	set rotation=$piece(Instruction," by ",2)
+	if axis="row" {
+		set str=Grid(position)
+		set str=$$ROR(str,rotation)
+		set Grid(position)=str
+		quit
+	}
+	//rotate column
+	set str="",y=""
+	for  {
+		set y=$order(Grid(y)) quit:y=""
+		set str=str_$extract(Grid(y),position+1)
+	}
+	set str=$$ROR(str,rotation)
+	for  {
+		set y=$order(Grid(y)) quit:y=""
+		set $extract(Grid(y),position+1)=$extract(str,y+1)
+	}
+}
+ROR(str,rotation)
+{
+	set rotation=rotation#$length(str)
+	quit:'rotation str
+	quit $extract(str,*-rotation+1,*)_$extract(str,1,*-rotation)
+}
+CountLit(&Grid)
+{
+	set y="",Total=0
+	for  {
+		set y=$order(Grid(y)) quit:y=""
+		set Total=Total+$length($translate(Grid(y),"."))
+	}
+	quit Total
+}
+	/*
+Year 2016, Day 8 part 2:
+
+	*/
+	/*
+W $$Part2^YUVGZ201608(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	quit $$Part1(.FileName,.RecordsArr)
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		set command=$piece(Record," ",1)
+		if command'="rotate",command'="rect" {
+			set Error="Wrong command at line "_Line
+			quit
+		}
+		if command="rect",$piece(Record," ",2,*)'?1.N1"x"1.N {
+			set Error="Wrong rect command at line "_Line
+			quit
+		}
+		if command="rotate",$piece(Record," ",2)'="row",$piece(Record," ",2)'="column" {
+			set Error="Wrong rotate command at line "_Line
+			quit
+		}
+		if command="rotate",$piece(Record," ",2)="row",$piece(Record," ",3,*)'?1"y="1.N1" by "1.N {
+			set Error="Wrong rotate row command at line "_Line
+			quit
+		}
+		if command="rotate",$piece(Record," ",2)="column",$piece(Record," ",3,*)'?1"x="1.N1" by "1.N {
+			set Error="Wrong rotate column command at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

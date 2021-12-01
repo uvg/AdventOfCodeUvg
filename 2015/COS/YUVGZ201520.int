@@ -1,0 +1,175 @@
+ROUTINE YUVGZ201520 [Type=INT]
+YUVGZ201520	;https://adventofcode.com/2015/day/20;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+36000000
+	*/
+	/*
+Year 2015, Day 20 part 1:
+Day 20: Infinite Elves and Infinite Houses
+To keep the Elves busy, Santa has them deliver some presents by hand, door-to-door. He sends them down a street with infinite houses numbered sequentially: 1, 2, 3, 4, 5, and so on.
+
+Each Elf is assigned a number, too, and delivers presents to houses based on that number:
+
+The first Elf (number 1) delivers presents to every house: 1, 2, 3, 4, 5, ....
+The second Elf (number 2) delivers presents to every second house: 2, 4, 6, 8, 10, ....
+Elf number 3 delivers presents to every third house: 3, 6, 9, 12, 15, ....
+There are infinitely many Elves, numbered starting with 1. Each Elf delivers presents equal to ten times his or her number at each house.
+
+So, the first nine houses on the street end up like this:
+
+House 1 got 10 presents.
+House 2 got 30 presents.
+House 3 got 40 presents.
+House 4 got 70 presents.
+House 5 got 60 presents.
+House 6 got 120 presents.
+House 7 got 80 presents.
+House 8 got 150 presents.
+House 9 got 130 presents.
+The first house gets 10 presents: it is visited only by Elf 1, which delivers 1 * 10 = 10 presents. The fourth house gets 70 presents, because it is visited by Elves 1, 2, and 4, for a total of 10 + 20 + 40 = 70 presents.
+
+What is the lowest house number of the house to get at least as many presents as the number in your puzzle input?
+	*/
+	/*
+W $$Part1^YUVGZ201520(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Multiplier=10
+	set Data=RecordsArr(1)
+	W !,Data,!!
+	for ANS=1:1:Data/Multiplier {
+		set Sum=$$GetSumOfDivisors(ANS)
+		W:'(ANS#10000) !,ANS,"=",Sum
+		quit:Sum*Multiplier>=Data
+	}
+	W !!
+	quit ANS
+}
+GetSumOfDivisors(Number,MaxBoundMultiplier=0)
+{
+	do GetDivisors(Number,.DivisorsArray)
+	set Total=0
+	set Divisor=""
+	for  {
+		set Divisor=$order(DivisorsArray(Divisor)) quit:Divisor=""
+		if MaxBoundMultiplier,Divisor*MaxBoundMultiplier<Number continue
+		set Total=Total+Divisor
+	}
+	quit Total
+}
+GetDivisors(Number,&DivisorsArray)
+{
+	kill DivisorsArray
+	set DivisorsArray(1)="",DivisorsArray(Number)=""
+	if Number=1 {
+		quit 1
+	}
+	set to=Number**.5\1,totalDiv=2
+	for i=2:1:to {
+		if Number'=i,'(Number#i) {
+			set DivisorsArray(i)="",totalDiv=totalDiv+1
+			if Number/i>i {
+				set DivisorsArray(Number/i)="",totalDiv=totalDiv+1
+			}
+		}
+	}
+	quit totalDiv
+}
+
+	/*
+Year 2015, Day 20 part 2:
+The Elves decide they don't want to visit an infinite number of houses. Instead, each Elf will stop after delivering presents to 50 houses. To make up for it, they decide to deliver presents equal to eleven times their number at each house.
+
+With these changes, what is the new lowest house number of the house to get at least as many presents as the number in your puzzle input?
+	*/
+	/*
+W $$Part2^YUVGZ201520(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Multiplier=11
+	set Data=RecordsArr(1)
+	W !,Data,!!
+	for ANS=1:1:Data/Multiplier {
+		set Sum=$$GetSumOfDivisors(ANS,50)
+		W:'(ANS#10000) !,ANS,"=",Sum
+		quit:Sum*Multiplier>=Data
+	}
+	W !!
+	quit ANS
+
+}
+CheckData(RecordsArr)
+{
+	if $order(RecordsArr(""),-1)'=1 {
+		write !,"Only one data of line allowed"
+		quit 0
+	}
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

@@ -1,0 +1,244 @@
+ROUTINE YUVGZ201714 [Type=INT]
+YUVGZ201714	;https://adventofcode.com/2017/day/14;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+uugsqrei
+	*/
+	/*
+Year 2017, Day 14 part 1:
+--- Day 14: Disk Defragmentation ---
+Suddenly, a scheduled job activates the system's disk defragmenter. Were the situation different, you might sit and watch it for a while, but today, you just don't have that kind of time. It's soaking up valuable system resources that are needed elsewhere, and so the only option is to help it finish its task as soon as possible.
+
+The disk in question consists of a 128x128 grid; each square of the grid is either free or used. On this disk, the state of the grid is tracked by the bits in a sequence of knot hashes.
+
+A total of 128 knot hashes are calculated, each corresponding to a single row in the grid; each hash contains 128 bits which correspond to individual grid squares. Each bit of a hash indicates whether that square is free (0) or used (1).
+
+The hash inputs are a key string (your puzzle input), a dash, and a number from 0 to 127 corresponding to the row. For example, if your key string were flqrgnkx, then the first row would be given by the bits of the knot hash of flqrgnkx-0, the second row from the bits of the knot hash of flqrgnkx-1, and so on until the last row, flqrgnkx-127.
+
+The output of a knot hash is traditionally represented by 32 hexadecimal digits; each of these digits correspond to 4 bits, for a total of 4 * 32 = 128 bits. To convert to bits, turn each hexadecimal digit to its equivalent binary value, high-bit first: 0 becomes 0000, 1 becomes 0001, e becomes 1110, f becomes 1111, and so on; a hash that begins with a0c2017... in hexadecimal would begin with 10100000110000100000000101110000... in binary.
+
+Continuing this process, the first 8 rows and columns for key flqrgnkx appear as follows, using # to denote used squares, and . to denote free ones:
+
+##.#.#..-->
+.#.#.#.#   
+....#.#.   
+#.#.##.#   
+.##.#...   
+##..#..#   
+.#...#..   
+##.#.##.-->
+|      |   
+V      V   
+In this example, 8108 squares are used across the entire 128x128 grid.
+
+Given your actual key string, how many squares are used?
+	*/
+	/*
+W $$Part1^YUVGZ201714(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Data=RecordsArr(1),Total=0
+	for i=0:1:127 {
+		set HexKnotHash=$$GetKnotHash(Data_"-"_i)
+		set BinKnotHash=$$GetBinFromHex(HexKnotHash)
+		set Total=Total+$length($translate(BinKnotHash,0))
+		//write !,$l(BinKnotHash)
+	}
+	set ANS=Total
+	//
+	//
+	//
+	quit ANS
+}
+GetBinFromHex(String)
+{
+	set Answer=""
+	for i=1:1:$length(String) {
+		set ltr=$extract(String,i)
+		set Answer=Answer_$select(ltr=0:"0000",ltr=1:"0001",ltr=2:"0010",ltr=3:"0011",ltr=4:"0100",ltr=5:"0101",ltr=6:"0110",ltr=7:"0111",ltr=8:1000,ltr=9:1001,ltr="a":1010,ltr="b":1011,ltr="c":1100,ltr="d":1101,ltr="e":1110,ltr="f":1111)
+	}
+	quit Answer
+}
+GetKnotHash(Data)
+{
+	set Lengths=""
+	for i=1:1:$length(Data) set Lengths=Lengths_","_$ascii(Data,i)
+	set Lengths=Lengths_",17,31,73,47,23"
+	set $extract(Lengths)=""
+	//zwrite Lengths
+	set SIZE=256
+	set str=""
+	for i=1:1:SIZE {
+		set str=str_$char(i-1)
+	}
+	//zwrite str write !!!
+	set (Position,Skip)=0
+	for j=1:1:64 {
+		for i=1:1:$length(Lengths,",") {
+			set Length=$piece(Lengths,",",i)
+			if Length>1 do ReverseStr(.str,Position,Length)
+			set Position=(Position+Length+Skip)#SIZE
+			set Skip=Skip+1
+		}
+	}
+	set newstr=""
+	for j=1:1:16 {
+		set val=$factor($ascii(str,(j-1)*16+1))
+		for i=(j-1)*16+2:1:j*16 {
+			s val2=$factor($ascii(str,i))
+			s val=$bitlogic(val^val2)
+		}
+		set a=0 for bit=$bitcount(val):-1:1 set a=a*2+$bit(val,bit)
+		set newstr=newstr_$select(a\16<10:a\16,1:$char(a\16+87))_$select(a#16<10:a#16,1:$char(a#16+87))
+	}
+	quit newstr
+}
+ReverseStr(str,Position,Length)
+{
+	set size=$length(str)
+	set tempstr=$extract(str,Position+1,Position+Length)
+	set:Position+Length>size tempstr=tempstr_$extract(str,1,Position+Length-size)
+	set tempstr=$reverse(tempstr)
+	set str=$extract(str,1,Position)_tempstr_$extract(str,Position+Length+1,*)
+	set:$length(str)>size $extract(str,1,$length(str)-size)=$extract(str,*-($length(str)-size-1),*),$extract(str,*-($length(str)-size-1),*)=""
+	//zw str
+}
+	/*
+Year 2017, Day 14 part 2:
+Now, all the defragmenter needs to know is the number of regions. A region is a group of used squares that are all adjacent, not including diagonals. Every used square is in exactly one region: lone used squares form their own isolated regions, while several adjacent squares all count as a single region.
+
+In the example above, the following nine regions are visible, each marked with a distinct digit:
+
+11.2.3..-->
+.1.2.3.4   
+....5.6.   
+7.8.55.9   
+.88.5...   
+88..5..8   
+.8...8..   
+88.8.88.-->
+|      |   
+V      V   
+Of particular interest is the region marked 8; while it does not appear contiguous in this small view, all of the squares marked 8 are connected when considering the whole 128x128 grid. In total, in this example, 1242 regions are present.
+
+How many regions are present given your key string?
+	*/
+	/*
+W $$Part2^YUVGZ201714(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Data=RecordsArr(1),Total=0
+	for i=1:1:128 {
+		set HexKnotHash=$$GetKnotHash(Data_"-"_(i-1))
+		set BinKnotHash=$$GetBinFromHex(HexKnotHash)
+		set grid(i)=""
+		for j=1:1:128 {
+			set grid(i)=grid(i)_$listbuild($listbuild(+$extract(BinKnotHash,j),0))
+		}
+	}
+	set Groups=0
+	for i=1:1:128 {
+		for j=1:1:128 {
+			set data=$list(grid(i),j)
+			continue:'$list(data,1)  //Bit=0
+			continue:$li(data,2)  //Allready in group
+			set Groups=Groups+1
+			do SetGroup(.grid,i,j,Groups)
+		}
+	}
+	
+	//zw grid
+	set ANS=Groups
+	//
+	//
+	//
+	quit ANS
+}
+SetGroup(&grid,i,j,Group)
+{
+	quit:i<1  quit:i>128  quit:j<1  quit:j>128
+	set data=$list(grid(i),j)
+	quit:'$list(data,1)  //Bit=0
+	quit:$list(data,2)  //Allready in group
+	set $list(data,2)=Group
+	set $list(grid(i),j)=data
+	do SetGroup(.grid,i+1,j,Group)
+	do SetGroup(.grid,i-1,j,Group)
+	do SetGroup(.grid,i,j+1,Group)
+	do SetGroup(.grid,i,j-1,Group)
+}
+CheckData(RecordsArr)
+{
+	if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+		set Error="Only one line of data allowed"
+		write !,Error
+		quit 0
+	}
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.L {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

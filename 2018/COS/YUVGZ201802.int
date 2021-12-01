@@ -1,0 +1,422 @@
+ROUTINE YUVGZ201802 [Type=INT]
+YUVGZ201802	;https://adventofcode.com/2018/day/2;
+	//Intersystems developer community id: 130669-ab1f69bf
+	//
+	//Day 2: Inventory Management System
+	quit
+	/*
+Input data:
+mgdsdwqulhrinkatfjoyzxcbvq
+megsdwpulhrinkasfjdyzxcbvk
+megsdwpulhmibkatfjoyzccbvq
+megsdwtuohrinkatfjoyzecbvq
+megsdwpulhdinkatfyoyzxcbvb
+megszwpulhrirkatfjoyexcbvq
+eegsdwpulhzinkatfjoyzxdbvq
+megsdwpulhginkatfjoyqucbvq
+leqsdwpulhrinkatfeoyzxcbvq
+megsdwpblhrandatfjoyzxcbvq
+megrdwpudhrinvatfjoyzxcbvq
+mlgsdwpulhrinkatfuoyzxcbyq
+mensdwpunhrinsatfjoyzxcbvq
+megsdwpnlhrinqatfjoyzxcbuq
+megsdwpnlhrinkatfqoysxcbvq
+megsdwpulhrinkjtfjoywxobvq
+megsdwpclhbinkaffjoyzxcbvq
+mersdwpulhrinkattjoyzxcbdq
+megsddpwohrinkatfjoyzxcbvq
+mejsdwpulhrinratfjoyzxcbvl
+megsdwpujhrinkatfjkbzxcbvq
+megsdwpujhrinkatfjoyircbvq
+megsdwgulhrinkatojoyzxcbvm
+qegsdwpulhrinkatfjoyzxggvq
+megsdwpflhrinkatfjsazxcbvq
+megsdwpulhridkagfjoyzzcbvq
+mejsdwpulhriykatfjoyyxcbvq
+measdwpulhriakatfjoyzacbvq
+mebsdwpulhrinkatfjoyzxmyvq
+megsdwpflnrinkatfjoyzxcbxq
+megsdwpulhxinuatfjoytxcbvq
+megsdwsflhrinkatfjoyzxcmvq
+megsdwpuuhritkarfjoyzxcbvq
+megsdwpulhrinkazfjoyexcjvq
+megsdwpulhrifkatfjokzxcbvc
+megsdwmulvrinkatfjoyzxcblq
+meggdwpulhrfnkatfjoybxcbvq
+megsdwptlhrindatyjoyzxcbvq
+megsdwpulhrinkauqjoyzxibvq
+megsdwddlhrifkatfjoyzxcbvq
+megddwpulhrinkagfjoyzxcbva
+messdupulhrinkatfjoyzxqbvq
+megsdwpuahrinkatfjotzxchvq
+megsewpulhrankathjoyzxcbvq
+megsdwpulhrinkatfjoynqcbvv
+megsdwpulhrifkatfjotzxcbtq
+megsdjpulcrinkitfjoyzxcbvq
+fefsowpulhrinkatfjoyzxcbvq
+megsdwpulapinkatfjoyzvcbvq
+mejsdwpularinkatfjonzxcbvq
+megsxwpllrrinkatfjoyzxcbvq
+megsdlpulxvinkatfjoyzxcbvq
+megsdwpulhriekztfjoyzxxbvq
+megspwpulhrinuatfjoyzxcgvq
+megqdwpulhrinkatfjoyzujbvq
+megsdtpuehrinkatfjoyzxtbvq
+megsdwjulhrmnmatfjoyzxcbvq
+megjdwpulhrinkztfjoyzpcbvq
+megsdwpuljrinkawfjlyzxcbvq
+mewsdwpulhtinkatfjodzxcbvq
+megsdwpulhrinkatfcoizxcmvq
+meisdwpulhrinkatawoyzxcbvq
+megshwpulhrinkatfjoyzxcbtz
+megsdwpulhfinkatfjowzxcbvj
+megodwpulhrcskatfjoyzxcbvq
+megydxpulhrinkatfjofzxcbvq
+megsdwpulhrinkatljoytxdbvq
+mwgsdwpulyrinkatfjoyzxvbvq
+meesdwpulhrinkatfjcwzxcbvq
+cegsdwpwlhrinkatfioyzxcbvq
+megsdwpulhrinkatfqhyxxcbvq
+megsrrpulhrxnkatfjoyzxcbvq
+megsdgpulhrinkatfjoypxcbnq
+xegsdwpulhrinkaxkjoyzxcbvq
+mngsdwpulhrenkatfjofzxcbvq
+mecsdwpulhrinkabfjoozxcbvq
+pegsdkpulhrinkatfuoyzxcbvq
+megpdwpughrinkatfjoyzxzbvq
+mxgrdwpulhrinyatfjoyzxcbvq
+megsdwpulhpigkatfjoyzxcbfq
+mhgsdwpulhrinkagfjoxzxcbvq
+megsdwpblhtinkatfjqyzxcbvq
+megsawvulhrinkatfjoyzxcfvq
+metsuwpulhrinkatfjowzxcbvq
+mexsdwpulhrinkatsjoyzxvbvq
+megtdwpulhrinkatfjoizxcpvq
+megidwpjlhrinkatfdoyzxcbvq
+megsdwpuljrivkatfjoyqxcbvq
+mespdppulhrinkatfjoyzxcbvq
+megsdcpulhminkatftoyzxcbvq
+megsdwpulhriskatfjayzlcbvq
+mejsdwpulhrinkatfvoyzxibvq
+megfdwputhriykatfjoyzxcbvq
+megsdwparhrinkbtfjoyzxcbvq
+mtgsdwpulhmingatfjoyzxcbvq
+megsdwjulhrinkatfjtyzxtbvq
+megsvwpulhrinkatfjoyzecbvf
+megsdwpulprinkatyqoyzxcbvq
+zegsdwpulhwinkatfjoyzxcfvq
+megsdwiulhrinkatfjoyzxcjcq
+aegsdwpulirinkatfjoyvxcbvq
+mepsdwculbrinkatfjoyzxcbvq
+msgsdcpulhrinkctfjoyzxcbvq
+megsdwpulhrinkatfjoozxfevq
+megscwpulhrinkatmjoyzxcbsq
+megsdwpulhrinkltfjoyzxtmvq
+megsddpulhrixkatfjyyzxcbvq
+megsdwpulhrinkctfjoqzhcbvq
+megsbapblhrinkatfjoyzxcbvq
+megsdwpulhrinkatfjoyyxgpvq
+mwpsdwpulhrinkutfjoyzxcbvq
+megsdwpulhrinvnlfjoyzxcbvq
+megsdwsulorinkakfjoyzxcbvq
+mbgsdwpulhrinkktfjoyzxcbvg
+megddwpulhrindatfjoyzxcbvr
+memsdwpulhrinkatqjoyzxcbvo
+megsdwpulbrinkarfjoyzxcbxq
+megsdwpulhrilkatfjoynxcgvq
+mxgsdzpulhrinkatfjoydxcbvq
+megsawpulhrinkotfjoyzacbvq
+measdwpulhrinkctvjoyzxcbvq
+medsdwpulhtinkaqfjoyzxcbvq
+megsdwsulhrknkatfjoylxcbvq
+megadwpulhrinkatfjkyzxcbvh
+mygsdwpulhrinkatfboyzxcavq
+megsdwpulhrinkaufjxyzccbvq
+mtgsdwpulhrunkatfkoyzxcbvq
+megsdwpulhrinkamfwryzxcbvq
+meesdwpulhrgnkatnjoyzxcbvq
+megddwpolhrinkatfjoyixcbvq
+megsdwpulhrinsatfjoyzicwvq
+mmgsdwpulhrinkltfjoyzxcgvq
+meisdwpulhhinkatfjoyzxubvq
+megpdwpulhrinkatfroyzxcbkq
+megszwpuhhrinkatfjoyzxcbzq
+mersdwpulhrikcatfjoyzxcbvq
+mjgsdwpulhrinratfjoyzxcbvl
+megsdwnulkxinkatfjoyzxcbvq
+megsdwpulhrinkatlaoyzxpbvq
+megsdwpulhribkitfjjyzxcbvq
+megsdwpzlhrinkalfjoyzkcbvq
+megsdwpulhrinkutfjoyzxcdnq
+mfgpdwputhrinkatfjoyzxcbvq
+oegshwpclhrinkatfjoyzxcbvq
+megvdwxulhrinkatfjowzxcbvq
+mrgydwpulhrinkatfjoyzxcbvl
+megsdwpuqhrinkaxfjoyzxcbfq
+megsdwpughrinixtfjoyzxcbvq
+megsdwpslxrinkatfjoyzxcbvl
+megsdwpukhrinkatfjovzxnbvq
+megsdwpulnrinkrtojoyzxcbvq
+megsdwpuvhrinkatfjjyzxclvq
+vegrdwpulhrinzatfjoyzxcbvq
+melsdwwulvrinkatfjoyzxcbvq
+megsdwpulhrizkbtfjoyzjcbvq
+megsdwpulhrinlatfjoyzkcbvr
+megsdweulhrinkaofqoyzxcbvq
+megsdcpulhrifkatfdoyzxcbvq
+negsdwpulhainkztfjoyzxcbvq
+megsdwpklhrinkttfjoyzxvbvq
+megsdwpothrdnkatfjoyzxcbvq
+megsdwpulvrinkatfaoyzxcbvr
+mewsdwpulhrinkatfooyzxtbvq
+megtdwpulhrinkatfxoyzxcbvy
+zegsdwpulhrinkamljoyzxcbvq
+mkgodwpulhrcnkatfjoyzxcbvq
+megsdepularinkatfjoyzxybvq
+segsdwpulhrinkatfmoyzycbvq
+mbgsdwpulhrsnkztfjoyzxcbvq
+megsdwpmlhrinkatfjxyzhcbvq
+megsdwpulhrinkatfboyqxmbvq
+megsdwpulhrinkadtpoyzxcbvq
+megsdmpulhrjnkatfjoyzxwbvq
+megsdwpulhrivkatfroywxcbvq
+megsdwdulhrinkatpjwyzxcbvq
+megsdwpylhrdrkatfjoyzxcbvq
+megsdwpulhrvnkptfjoyzlcbvq
+megsdwpuihridkatfjuyzxcbvq
+megsdwpulhbiikatfjxyzxcbvq
+meggdwpulurinkatfjoyaxcbvq
+mehsnwpulcrinkatfjoyzxcbvq
+megsdwpulhrinkatfjoczdclvq
+megsdwjulhrinkatfhkyzxcbvq
+megsdwpulhrinoatfjoyzxcwvy
+megpdwpelhrfnkatfjoyzxcbvq
+megsjwpulhrwnkatfjdyzxcbvq
+megsdwpulhrbniatfjoyzxcbpq
+megsdwpulhrwnkatfjoydxcpvq
+megsdwrulhrinkatfjvyixcbvq
+yegvdwpulhtinkatfjoyzxcbvq
+meosdwpulhrinkatfjhyzxsbvq
+mjgsdwpulhrinkatfjoyyxcjvq
+megsdwpulhrinkatfnoyzlmbvq
+mehsdfkulhrinkatfjoyzxcbvq
+megsdwpuahrinkatfyoyzxcwvq
+megsdwpulhyinkatfjobzkcbvq
+megsdwpjlhrinkatfnoyzscbvq
+megsdwiulhrinqatfjoyzxcavq
+megsdwpulurinkatfjoykxcbmq
+megsdwpmlhvinkatfjotzxcbvq
+megswwpulhrinfatfjoytxcbvq
+mxgsdwpulhrrnkatfjoyhxcbvq
+megubwpulhrinkaafjoyzxcbvq
+megsdwpulhrdnsztfjoyzxcbvq
+megsdwpulhronkgtfjhyzxcbvq
+megsdwzulhfinratfjoyzxcbvq
+megsdwpulhrinkrtfjqyixcbvq
+megspwpulhrinkatfjoywxcavq
+megmfjpulhrinkatfjoyzxcbvq
+lelsdwpulhrinsatfjoyzxcbvq
+megsdwnultrinkatfjoyzxybvq
+megsdwpulhdnnkatfjpyzxcbvq
+megsdwpulhzinkatfjoyzhcpvq
+megoddpulhrilkatfjoyzxcbvq
+megsdvpulhrwnkatfjoyzxcbdq
+megsdwpulhmikkatfjoyzxcbvr
+meesdwpulhrinkaofjoazxcbvq
+megndwhulhrinfatfjoyzxcbvq
+megsdwpulhjihkatfjoyzxcbvb
+jegsdwpulhrinkattjoszxcbvq
+megsdwpulhrenkatfjodzxcbvp
+mefsdwpulhrinkatfjoyzxcczq
+megsdwpulhrknkatfjovzxcbvb
+megytwpulhrinkatfjoyzxcbvo
+csgsdwpulhrinkatdjoyzxcbvq
+megsbwpulhrinkazfjtyzxcbvq
+mrgsdwpulhjinkatfjoyzxcbvm
+megsywzulhrinkatfjofzxcbvq
+megxdwpulhrndkatfjoyzxcbvq
+mcgsdwpuphrixkatfjoyzxcbvq
+megsdlpulxvinkatfvoyzxcbvq
+megsdwpulhrinfatfjoyzicbvo
+megwgwpulhrinpatfjoyzxcbvq
+mggsdwpulhrinkatfjtrzxcbvq
+msgsdwpulirinkatfjoyzxcbaq
+megsdwpulhrineatfeoyzxcbvl
+megsdnpulhrinkatojoyzxcbvb
+mfgsdwpulhdinkatmjoyzxcbvq
+megsdwpulhrinkawfjuyzxcbvg
+megsdwpulhrincatfjoyzxcxvu
+mevsdwzplhrinkatfjoyzxcbvq
+megskweulhfinkatfjoyzxcbvq
+mebsdvpulhrinkatfjoyzxcbkq
+megddwiulhrinkatfioyzxcbvq
+mygsdwpulhqinkatfooyzxcbvq
+megsdweulhrfnkatfjoybxcbvq
+mrgsdhpulmrinkatfjoyzxcbvq
+megsdwkukhrinkatftoyzxcbvq
+megsqwpulhrinfatfjoyzxebvq
+megsdwpulhriskanfjoyzxctvq
+	*/
+	/*
+Year 2018, Day 2 part 1:
+You stop falling through time, catch your breath, and check the screen on the device. "Destination reached. Current Year: 1518. Current Location: North Pole Utility Closet 83N10." You made it! Now, to find those anomalies.
+
+Outside the utility closet, you hear footsteps and a voice. "...I'm not sure either. But now that so many people have chimneys, maybe he could sneak in that way?" Another voice responds, "Actually, we've been working on a new kind of suit that would let him fit through tight spaces like that. But, I heard that a few days ago, they lost the prototype fabric, the design plans, everything! Nobody on the team can even seem to remember important details of the project!"
+
+"Wouldn't they have had enough fabric to fill several boxes in the warehouse? They'd be stored together, so the box IDs should be similar. Too bad it would take forever to search the warehouse for two similar box IDs..." They walk too far away to hear any more.
+
+Late at night, you sneak to the warehouse - who knows what kinds of paradoxes you could cause if you were discovered - and use your fancy wrist device to quickly scan every box and produce a list of the likely candidates (your puzzle input).
+
+To make sure you didn't miss any, you scan the likely candidate boxes again, counting the number that have an ID containing exactly two of any letter and then separately counting those with exactly three of any letter. You can multiply those two counts together to get a rudimentary checksum and compare it to what your device predicts.
+
+For example, if you see the following box IDs:
+
+abcdef contains no letters that appear exactly two or three times.
+bababc contains two a and three b, so it counts for both.
+abbcde contains two b, but no letter appears exactly three times.
+abcccd contains three c, but no letter appears exactly two times.
+aabcdd contains two a and two d, but it only counts once.
+abcdee contains two e.
+ababab contains three a and three b, but it only counts once.
+Of these box IDs, four of them contain a letter which appears exactly twice, and three of them contain a letter which appears exactly three times. Multiplying these together produces a checksum of 4 * 3 = 12.
+
+What is the checksum for your list of box IDs?
+	*/
+	/*
+W $$Part1^YUVGZ201802(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set (Counter2,Counter3)=0
+	set Line=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line),(SW2,SW3)=0
+		for i=97:1:122 {
+			if 'SW2,$length(Record,$char(i))=3 set Counter2=Counter2+1,SW2=1
+			if 'SW3,$length(Record,$char(i))=4 set Counter3=Counter3+1,SW3=1
+			if SW2,SW3 quit
+		}
+	}
+	set ANS=Counter2*Counter3
+	//
+	//
+	//
+	quit ANS
+}
+	/*
+Year 2018, Day 2 part 2:
+Confident that your list of box IDs is complete, you're ready to find the boxes full of prototype fabric.
+
+The boxes will have IDs which differ by exactly one character at the same position in both strings. For example, given the following box IDs:
+
+abcde
+fghij
+klmno
+pqrst
+fguij
+axcye
+wvxyz
+The IDs abcde and axcye are close, but they differ by two characters (the second and fourth). However, the IDs fghij and fguij differ by exactly one character, the third (h and u). Those must be the correct boxes.
+
+What letters are common between the two correct box IDs? (In the example above, this is found by removing the differing character from either ID, producing fgij.)
+	*/
+	/*
+W $$Part2^YUVGZ201802(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Line="",SW=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		set CompareLine=Line
+		for  {
+			set SW=0
+			set CompareLine=$order(RecordsArr(CompareLine)) quit:CompareLine=""
+			set CompareRecord=RecordsArr(CompareLine)
+			for i=1:1:$length(Record) {
+				if $extract(Record,i)'=$extract(CompareRecord,i) {
+					if ($extract(Record,1,i-1)_$extract(Record,i+1,*))=($extract(CompareRecord,1,i-1)_$extract(CompareRecord,i+1,*)) {
+						set SW=1_"*"_$extract(Record,1,i-1)_$extract(Record,i+1,*)
+					}
+					set:'SW SW=2
+					quit
+				}
+			}
+			quit:+SW=1
+		}
+		quit:+SW=1
+	}
+	set ANS=$piece(SW,"*",2)
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.L {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

@@ -1,0 +1,179 @@
+ROUTINE YUVGZ201703 [Type=INT]
+YUVGZ201703	;https://adventofcode.com/2017/day/3;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+368078
+	*/
+	/*
+Year 2017, Day 3 part 1:
+--- Day 3: Spiral Memory ---
+You come across an experimental new kind of memory stored on an infinite two-dimensional grid.
+
+Each square on the grid is allocated in a spiral pattern starting at a location marked 1 and then counting up while spiraling outward. For example, the first few squares are allocated like this:
+
+17  16  15  14  13
+18   5   4   3  12
+19   6   1   2  11
+20   7   8   9  10
+21  22  23---> ...
+While this is very space-efficient (no squares are skipped), requested data must be carried back to square 1 (the location of the only access port for this memory system) by programs that can only move up, down, left, or right. They always take the shortest path: the Manhattan Distance between the location of the data and square 1.
+
+For example:
+
+Data from square 1 is carried 0 steps, since it's at the access port.
+Data from square 12 is carried 3 steps, such as: down, left, left.
+Data from square 23 is carried only 2 steps: up twice.
+Data from square 1024 must be carried 31 steps.
+How many steps are required to carry the data from the square identified in your puzzle input all the way to the access port?
+	*/
+	/*
+W $$Part1^YUVGZ201703(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set n=RecordsArr(1)
+	set k=(n**.5-1)/2
+	set:k["." k=$piece(k+1,".",1)
+	set t=2*k+1,m=t*t,t=t-1
+	if n>=(m-t) w k-(m-n),";",-k,! q $zabs(m-n-k)+k
+	s m=m-t
+	if n>=(m-t) w -k,";",-k+(m-n),! q $zabs(m-n-k)+k
+	s m=m-t
+	if n>=(m-t) w -k+m-n,";",k,! q $zabs(m-n-k)+k
+	write k,";",k-(m-n-t),! quit $zabs(m-n-k-t)+k
+	set ANS=""
+	//
+	//
+	//
+	quit ANS
+}
+	/*
+Year 2017, Day 3 part 2:
+As a stress test on the system, the programs here clear the grid and then store the value 1 in square 1. Then, in the same allocation order as shown above, they store the sum of the values in all adjacent squares, including diagonals.
+
+So, the first few squares' values are chosen as follows:
+
+Square 1 starts with the value 1.
+Square 2 has only one adjacent filled square (with value 1), so it also stores 1.
+Square 3 has both of the above squares as neighbors and stores the sum of their values, 2.
+Square 4 has all three of the aforementioned squares as neighbors and stores the sum of their values, 4.
+Square 5 only has the first and fourth squares as neighbors, so it gets the value 5.
+Once a square is written, its value does not change. Therefore, the first few squares would receive the following values:
+
+147  142  133  122   59
+304    5    4    2   57
+330   10    1    1   54
+351   11   23   25   26
+362  747  806--->   ...
+What is the first value written that is larger than your puzzle input?
+	*/
+	/*
+W $$Part2^YUVGZ201703(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set grid(0,0)=1,x=1,y=0,size=1,dx=0,dy=-1,sw=0,n=RecordsArr(1),sum=0
+	for {
+		set sum=$$SumAdjacent(.grid,x,y)
+		quit:sum>n
+		write y,",",x,"=",sum,!
+		set grid(y,x)=sum
+		if y=size,x=size set size=size+1,dx=1,dy=0,sw=1
+		if y=-size,x=size set dx=-1,dy=0
+		if y=-size,x=-size set dx=0,dy=1
+		if y=size,x=-size set dx=1,dy=0
+		set x=x+dx,y=y+dy
+		set:sw dx=0,dy=-1,sw=0
+	}
+	//zw grid
+	set y="" for  set y=$order(grid(y)) quit:y=""  write ! set x="" for  set x=$order(grid(y,x)) quit:x=""  write $j(grid(y,x),11)
+	set ANS=sum
+	//
+	//
+	//
+	quit ANS
+}
+SumAdjacent(&grid,x,y)
+{
+	set total=0
+	for ty=y-1:1:y+1 {
+		for tx=x-1:1:x+1 {
+			if ty=y,tx=x continue
+			set total=total+$get(grid(ty,tx))
+		}
+	}
+	quit total
+}
+CheckData(RecordsArr)
+{
+	if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+		set Error="Only one line of data allowed"
+		write !,Error
+		quit 0
+	}
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

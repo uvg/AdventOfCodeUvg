@@ -1,0 +1,352 @@
+ROUTINE YUVGZ201522 [Type=INT]
+YUVGZ201522	;https://adventofcode.com/2015/day/22;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+Hit Points: 55
+Damage: 8
+	*/
+	/*
+Year 2015, Day 22 part 1:
+Day 22: Wizard Simulator 20XX
+Little Henry Case decides that defeating bosses with swords and stuff is boring. Now he's playing the game with a wizard. Of course, he gets stuck on another boss and needs your help again.
+
+In this version, combat still proceeds with the player and the boss taking alternating turns. The player still goes first. Now, however, you don't get any equipment; instead, you must choose one of your spells to cast. The first character at or below 0 hit points loses.
+
+Since you're a wizard, you don't get to wear armor, and you can't attack normally. However, since you do magic damage, your opponent's armor is ignored, and so the boss effectively has zero armor as well. As before, if armor (from a spell, in this case) would reduce damage below 1, it becomes 1 instead - that is, the boss' attacks always deal at least 1 damage.
+
+On each of your turns, you must select one of your spells to cast. If you cannot afford to cast any spell, you lose. Spells cost mana; you start with 500 mana, but have no maximum limit. You must have enough mana to cast a spell, and its cost is immediately deducted when you cast it. Your spells are Magic Missile, Drain, Shield, Poison, and Recharge.
+
+Magic Missile costs 53 mana. It instantly does 4 damage.
+Drain costs 73 mana. It instantly does 2 damage and heals you for 2 hit points.
+Shield costs 113 mana. It starts an effect that lasts for 6 turns. While it is active, your armor is increased by 7.
+Poison costs 173 mana. It starts an effect that lasts for 6 turns. At the start of each turn while it is active, it deals the boss 3 damage.
+Recharge costs 229 mana. It starts an effect that lasts for 5 turns. At the start of each turn while it is active, it gives you 101 new mana.
+Effects all work the same way. Effects apply at the start of both the player's turns and the boss' turns. Effects are created with a timer (the number of turns they last); at the start of each turn, after they apply any effect they have, their timer is decreased by one. If this decreases the timer to zero, the effect ends. You cannot cast a spell that would start an effect which is already active. However, effects can be started on the same turn they end.
+
+For example, suppose the player has 10 hit points and 250 mana, and that the boss has 13 hit points and 8 damage:
+
+-- Player turn --
+- Player has 10 hit points, 0 armor, 250 mana
+- Boss has 13 hit points
+Player casts Poison.
+
+-- Boss turn --
+- Player has 10 hit points, 0 armor, 77 mana
+- Boss has 13 hit points
+Poison deals 3 damage; its timer is now 5.
+Boss attacks for 8 damage.
+
+-- Player turn --
+- Player has 2 hit points, 0 armor, 77 mana
+- Boss has 10 hit points
+Poison deals 3 damage; its timer is now 4.
+Player casts Magic Missile, dealing 4 damage.
+
+-- Boss turn --
+- Player has 2 hit points, 0 armor, 24 mana
+- Boss has 3 hit points
+Poison deals 3 damage. This kills the boss, and the player wins.
+Now, suppose the same initial conditions, except that the boss has 14 hit points instead:
+
+-- Player turn --
+- Player has 10 hit points, 0 armor, 250 mana
+- Boss has 14 hit points
+Player casts Recharge.
+
+-- Boss turn --
+- Player has 10 hit points, 0 armor, 21 mana
+- Boss has 14 hit points
+Recharge provides 101 mana; its timer is now 4.
+Boss attacks for 8 damage!
+
+-- Player turn --
+- Player has 2 hit points, 0 armor, 122 mana
+- Boss has 14 hit points
+Recharge provides 101 mana; its timer is now 3.
+Player casts Shield, increasing armor by 7.
+
+-- Boss turn --
+- Player has 2 hit points, 7 armor, 110 mana
+- Boss has 14 hit points
+Shield's timer is now 5.
+Recharge provides 101 mana; its timer is now 2.
+Boss attacks for 8 - 7 = 1 damage!
+
+-- Player turn --
+- Player has 1 hit point, 7 armor, 211 mana
+- Boss has 14 hit points
+Shield's timer is now 4.
+Recharge provides 101 mana; its timer is now 1.
+Player casts Drain, dealing 2 damage, and healing 2 hit points.
+
+-- Boss turn --
+- Player has 3 hit points, 7 armor, 239 mana
+- Boss has 12 hit points
+Shield's timer is now 3.
+Recharge provides 101 mana; its timer is now 0.
+Recharge wears off.
+Boss attacks for 8 - 7 = 1 damage!
+
+-- Player turn --
+- Player has 2 hit points, 7 armor, 340 mana
+- Boss has 12 hit points
+Shield's timer is now 2.
+Player casts Poison.
+
+-- Boss turn --
+- Player has 2 hit points, 7 armor, 167 mana
+- Boss has 12 hit points
+Shield's timer is now 1.
+Poison deals 3 damage; its timer is now 5.
+Boss attacks for 8 - 7 = 1 damage!
+
+-- Player turn --
+- Player has 1 hit point, 7 armor, 167 mana
+- Boss has 9 hit points
+Shield's timer is now 0.
+Shield wears off, decreasing armor by 7.
+Poison deals 3 damage; its timer is now 4.
+Player casts Magic Missile, dealing 4 damage.
+
+-- Boss turn --
+- Player has 1 hit point, 0 armor, 114 mana
+- Boss has 2 hit points
+Poison deals 3 damage. This kills the boss, and the player wins.
+You start with 50 hit points and 500 mana points. The boss's actual stats are in your puzzle input. What is the least amount of mana you can spend and still win the fight? (Do not include mana recharge effects as "spending" negative mana.)
+	*/
+	/*
+W $$Part1^YUVGZ201522(FN)
+	*/
+Part1(FileName="",RecordsArr) [MinSpendedMana] PUBLIC	;
+{
+	new MinSpendedMana
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	//
+	set BossHitPoints=$piece(RecordsArr(1),": ",2)
+	set BossDamage=$piece(RecordsArr(2),": ",2)
+	//
+	set HitPoints=50,Mana=500
+	do LoadItems(.ItemsArr)
+	zwrite ItemsArr
+	set MinSpendedMana=9999999 //=953 as the final answer
+	kill BestMoves
+	set ANS=$$SimulateGames(1,BossHitPoints,BossDamage,HitPoints,Mana,0,0,.ItemsArr,1,1,,.BestMoves)
+	//
+	//
+	//
+	write !!!
+	zw BestMoves
+	write !!!
+	quit ANS
+}
+SimulateGames(Player,BossHitPoints,BossDamage,HitPoints,Mana,Armor,SpendedMana,&ItemsArr,Game,Turn,&Moves,&BestMoves,HardLevel=0) [MinSpendedMana]
+{
+	set DEBUG=1
+	//do:DEBUG PrintGameData(Game,Turn,Player,HitPoints,Armor,Mana,SpendedMana,BossHitPoints,MinSpendedMana,.Moves,HardLevel)
+	//
+	set LoseValue=999999999
+	quit:SpendedMana>=MinSpendedMana LoseValue
+	if HardLevel,Player=1 set HitPoints=HitPoints-1 //w:DEBUG HitPoints,!
+	quit:HitPoints<=0 LoseValue
+	set Item=""
+	for  {
+		set Item=$order(ItemsArr("Spells",Item)) quit:Item=""
+		set Data=ItemsArr("Spells",Item)
+		if $list(Data,8) {
+			set Damage=$list(Data,2),Heal=$list(Data,3),Turns=$list(Data,4),NewArmor=$list(Data,5),NewMana=$list(Data,6)
+			set BossHitPoints=BossHitPoints-Damage,HitPoints=HitPoints+Heal,RemainingTurns=$list(Data,9)-1,Mana=Mana+NewMana
+			set:NewArmor Armor=NewArmor
+			set:'RemainingTurns $list(Data,8)=0
+			set $list(Data,9)=RemainingTurns
+			set ItemsArr("Spells",Item)=Data
+		}
+	}
+	if BossHitPoints<=0 {
+		if SpendedMana<MinSpendedMana {
+			//set MinSpendedMana=SpendedMana
+			//do:DEBUG PrintGameData(Game,Turn,Player,HitPoints,Armor,Mana,SpendedMana,BossHitPoints,MinSpendedMana,.Moves,HardLevel)
+			merge BestMoves=Moves
+		}
+		quit SpendedMana
+	}
+	if Player=0 set HitPoints=HitPoints-BossDamage+Armor
+	quit:HitPoints<=0 LoseValue
+	set:'$list(ItemsArr("Spells","Shield"),8) Armor=0
+	if Player=0 quit $$SimulateGames(1,BossHitPoints,BossDamage,HitPoints,Mana,Armor,SpendedMana,.ItemsArr,Game,Turn+1,.Moves,.BestMoves,HardLevel)
+	if Player=1 {
+		kill Curr
+		merge tempArr=ItemsArr
+		set tempGame=Game
+		set Item="",SW=0
+		for  {
+			set Item=$order(ItemsArr("Spells",Item)) quit:Item=""
+			set Data=ItemsArr("Spells",Item)
+			continue:$list(Data,8)
+			continue:$list(Data,1)>Mana
+			set SW=1
+			merge tempArr=ItemsArr
+			kill tempMoves
+			merge tempMoves=Moves
+			set lastMove=$order(tempMoves(""),-1)+1
+			set tempMoves(lastMove)=Item
+			merge Curr($increment(Curr),"Moves")=tempMoves
+			//do:DEBUG PrintGameData(Game,Turn,Player,HitPoints,Armor,Mana,SpendedMana,BossHitPoints,MinSpendedMana,.tempMoves,HardLevel)
+			if '$list(Data,7) {
+				//write:DEBUG !,"Checking with instant ",Item
+				set Curr(Curr)=$$SimulateGames(0,BossHitPoints-$list(Data,2),BossDamage,HitPoints+$list(Data,3),Mana-$list(Data,1),Armor,SpendedMana+$list(Data,1),.tempArr,$increment(tempGame),Turn+1,.tempMoves,.BestMoves,HardLevel)
+				continue
+			}
+			//write:DEBUG !,"Checking with effect ",Item
+			set $list(Data,8)=1
+			set $list(Data,9)=$list(Data,4)
+			set tempArr("Spells",Item)=Data
+			set Curr(Curr)=$$SimulateGames(0,BossHitPoints,BossDamage,HitPoints,Mana-$list(Data,1),Armor,SpendedMana+$list(Data,1),.tempArr,$increment(tempGame),Turn+1,.tempMoves,.BestMoves,HardLevel)
+		}
+		quit:'SW LoseValue
+		set Curr="",Min=LoseValue
+		kill minMoves
+		for  {
+			set Curr=$order(Curr(Curr)) quit:Curr=""
+			if Curr(Curr)<Min {
+				set Min=Curr(Curr)
+				kill minMoves
+				merge minMoves=Curr(Curr,"Moves")
+			}
+		}
+		if Min<MinSpendedMana {
+			set MinSpendedMana=Min
+			if $get(Moves)>MinSpendedMana||'$get(Moves) {
+				kill Moves merge Moves=minMoves
+				set Moves=MinSpendedMana
+			}
+			do:DEBUG PrintGameData(Game,Turn,Player,HitPoints,Armor,Mana,SpendedMana,BossHitPoints,MinSpendedMana,.Moves,HardLevel)
+			write:DEBUG !,"Minimum for game ",Game," is ",Min,!!
+			kill BestMoves
+			merge BestMoves=Moves
+		}
+		quit Min
+	}
+}
+PrintGameData(Game,Turn,Player,HitPoints,Armor,Mana,SpendedMana,BossHitPoints,MinSpendedMana,&Moves,HardLevel)
+{
+	write !!!,"Game ",Game,", Turn ",Turn
+	write !,"-- ",$select(Player=1:"Player",1:"Boss")," turn --"
+	write !,"- Player has ",HitPoints," hit points, ",Armor," armor, ",Mana," mana, ",SpendedMana," spended mana"
+	write !,"- Boss has ",BossHitPoints," hit points"
+	write !,"Minimum spended mana so far = ",MinSpendedMana
+	write !,"Moves:",! zwrite Moves
+}
+LoadItems(&ItemsArray)
+{
+	kill ItemsArray
+	//             1 ,  2   ,  3 ,  4  ,  5  ,   6    ,   7     ,   8  ,       9
+	//$listbuild(Mana,Damage,Heal,Turns,Armor,New mana,Is effect,Active,Remaining turns)
+	set ItemsArray("Spells","Magic Missile")=$listbuild(53,4,0,0,0,0,0,0,0)
+	set ItemsArray("Spells","Drain")=$listbuild(73,2,2,0,0,0,0,0,0)
+	set ItemsArray("Spells","Shield")=$listbuild(113,0,0,6,7,0,1,0,0)
+	set ItemsArray("Spells","Poison")=$listbuild(173,3,0,6,0,0,1,0,0)
+	set ItemsArray("Spells","Recharge")=$listbuild(229,0,0,5,0,101,1,0,0)
+}
+	/*
+Year 2015, Day 22 part 2:
+On the next run through the game, you increase the difficulty to hard.
+
+At the start of each player turn (before any other effects apply), you lose 1 hit point. If this brings you to or below 0 hit points, you lose.
+
+With the same starting stats for you and the boss, what is the least amount of mana you can spend and still win the fight?
+	*/
+	/*
+W $$Part2^YUVGZ201522(FN)
+	*/
+Part2(FileName="",RecordsArr) [MinSpendedMana] PUBLIC	;
+{
+	new MinSpendedMana
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	//
+	set BossHitPoints=$piece(RecordsArr(1),": ",2)
+	set BossDamage=$piece(RecordsArr(2),": ",2)
+	//
+	set HitPoints=50,Mana=500
+	do LoadItems(.ItemsArr)
+	zwrite ItemsArr
+	set MinSpendedMana=9999999 //=953 as the final answer
+	kill BestMoves
+	set ANS=$$SimulateGames(1,BossHitPoints,BossDamage,HitPoints,Mana,0,0,.ItemsArr,1,1,,.BestMoves,1)
+	//
+	//
+	//
+	write !!!
+	zw BestMoves
+	write !!!
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	if '$data(RecordsArr(1))||'$data(RecordsArr(2)) {
+		write !,"Wrong data, should contain exactlly 2 lines of data"
+		quit 0
+	}
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?.E1": "1.N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

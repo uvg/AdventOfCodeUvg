@@ -1,0 +1,188 @@
+ROUTINE YUVGZ201619 [Type=INT]
+YUVGZ201619	;https://adventofcode.com/2016/day/19;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+3014387
+	*/
+	/*
+Year 2016, Day 19 part 1:
+--- Day 19: An Elephant Named Joseph ---
+The Elves contact you over a highly secure emergency channel. Back at the North Pole, the Elves are busy misunderstanding White Elephant parties.
+
+Each Elf brings a present. They all sit in a circle, numbered starting with position 1. Then, starting with the first Elf, they take turns stealing all the presents from the Elf to their left. An Elf with no presents is removed from the circle and does not take turns.
+
+For example, with five Elves (numbered 1 to 5):
+
+  1
+5   2
+ 4 3
+Elf 1 takes Elf 2's present.
+Elf 2 has no presents and is skipped.
+Elf 3 takes Elf 4's present.
+Elf 4 has no presents and is also skipped.
+Elf 5 takes Elf 1's two presents.
+Neither Elf 1 nor Elf 2 have any presents, so both are skipped.
+Elf 3 takes Elf 5's three presents.
+So, with five Elves, the Elf that sits starting in position 3 gets all the presents.
+
+With the number of Elves given in your puzzle input, which Elf gets all the presents?
+	*/
+	/*
+W $$Part1^YUVGZ201619(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Elfs=RecordsArr(1)
+	for i=1:1:Elfs set Elfs(i)=""
+	set ANS=""
+	set i=""
+	for  {
+		set i=$order(Elfs(i))
+		set:i="" i=$order(Elfs(i))
+		set j=$order(Elfs(i))
+		if j="" set j=$order(Elfs(""))
+		if (j="")||(j=i) {
+			set ANS=i
+			quit
+		}
+		kill Elfs(j)
+	}
+	//
+	//
+	//
+	quit ANS
+}
+	/*
+Year 2016, Day 19 part 2:
+Realizing the folly of their present-exchange rules, the Elves agree to instead steal presents from the Elf directly across the circle. If two Elves are across the circle, the one on the left (from the perspective of the stealer) is stolen from. The other rules remain unchanged: Elves with no presents are removed from the circle entirely, and the other elves move in slightly to keep the circle evenly spaced.
+
+For example, with five Elves (again numbered 1 to 5):
+
+The Elves sit in a circle; Elf 1 goes first:
+  1
+5   2
+ 4 3
+Elves 3 and 4 are across the circle; Elf 3's present is stolen, being the one to the left. Elf 3 leaves the circle, and the rest of the Elves move in:
+  1           1
+5   2  -->  5   2
+ 4 -          4
+Elf 2 steals from the Elf directly across the circle, Elf 5:
+  1         1 
+-   2  -->     2
+  4         4 
+Next is Elf 4 who, choosing between Elves 1 and 2, steals from Elf 1:
+ -          2  
+    2  -->
+ 4          4
+Finally, Elf 2 steals from Elf 4:
+ 2
+    -->  2  
+ -
+So, with five Elves, the Elf that sits starting in position 2 gets all the presents.
+
+With the number of Elves given in your puzzle input, which Elf now gets all the presents?
+	*/
+	/*
+W $$Part2^YUVGZ201619(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Elfs=RecordsArr(1)
+	for i=1:1:Elfs set Elfs(i)=""
+	set ANS=""
+	set i=0,j=$select('(Elfs#2):Elfs/2,1:Elfs-1/2),sw=Elfs#2
+	for  {
+		set i=$order(Elfs(i))
+		set:i="" i=$order(Elfs(i))
+		set j=$order(Elfs(j))
+		if j="" set j=$order(Elfs(""))
+		if (j="")||(j=i) {
+			set ANS=i
+			quit
+		}
+		//w i,";",j,!
+		kill Elfs(j)
+		if sw {
+			set j=$order(Elfs(j))
+			if j="" set j=$order(Elfs(""))
+		}
+		set sw='sw
+	}
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+		set Error="Only one line of data allowed"
+		write !,Error
+		quit 0
+	}
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

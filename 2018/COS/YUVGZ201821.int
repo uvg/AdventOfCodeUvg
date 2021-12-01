@@ -1,0 +1,264 @@
+ROUTINE YUVGZ201821 [Type=INT]
+YUVGZ201821	;https://adventofcode.com/2018/day/21;
+	//Intersystems developer community id: 130669-ab1f69bf
+	//
+	//
+	quit
+	/*
+Input data:
+#ip 3
+seti 123 0 4
+bani 4 456 4
+eqri 4 72 4
+addr 4 3 3
+seti 0 0 3
+seti 0 9 4
+bori 4 65536 2
+seti 6152285 4 4
+bani 2 255 1
+addr 4 1 4
+bani 4 16777215 4
+muli 4 65899 4
+bani 4 16777215 4
+gtir 256 2 1
+addr 1 3 3
+addi 3 1 3
+seti 27 4 3
+seti 0 3 1
+addi 1 1 5
+muli 5 256 5
+gtrr 5 2 5
+addr 5 3 3
+addi 3 1 3
+seti 25 9 3
+addi 1 1 1
+seti 17 4 3
+setr 1 9 2
+seti 7 4 3
+eqrr 4 0 1
+addr 1 3 3
+seti 5 6 3
+	*/
+	/*
+Year 2018, Day 21 part 1:
+--- Day 21: Chronal Conversion ---
+You should have been watching where you were going, because as you wander the new North Pole base, you trip and fall into a very deep hole!
+
+Just kidding. You're falling through time again.
+
+If you keep up your current pace, you should have resolved all of the temporal anomalies by the next time the device activates. Since you have very little interest in browsing history in 500-year increments for the rest of your life, you need to find a way to get back to your present time.
+
+After a little research, you discover two important facts about the behavior of the device:
+
+First, you discover that the device is hard-wired to always send you back in time in 500-year increments. Changing this is probably not feasible.
+
+Second, you discover the activation system (your puzzle input) for the time travel module. Currently, it appears to run forever without halting.
+
+If you can cause the activation system to halt at a specific moment, maybe you can make the device send you so far back in time that you cause an integer underflow in time itself and wrap around back to your current time!
+
+The device executes the program as specified in manual section one and manual section two.
+
+Your goal is to figure out how the program works and cause it to halt. You can only control register 0; every other register begins at 0 as usual.
+
+Because time travel is a dangerous activity, the activation system begins with a few instructions which verify that bitwise AND (via bani) does a numeric operation and not an operation as if the inputs were interpreted as strings. If the test fails, it enters an infinite loop re-running the test instead of allowing the program to execute normally. If the test passes, the program continues, and assumes that all other bitwise operations (banr, bori, and borr) also interpret their inputs as numbers. (Clearly, the Elves who wrote this system were worried that someone might introduce a bug while trying to emulate this system with a scripting language.)
+
+What is the lowest non-negative integer value for register 0 that causes the program to halt after executing the fewest instructions? (Executing the same instruction multiple times counts as multiple instructions executed.)
+	*/
+	/*
+W $$Part1^YUVGZ201821(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+	new (FileName,RecordsArr)
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do LoadOperations(.OperationsArr)
+	set Instruction="",ipr=$piece(RecordsArr(1)," ",2),ip=0
+	set minInstructions=9999999999,minr0=0,minr4=99999999999999999999
+	for j=0:1 {
+		//quit:j>minr4  //Max value for r(0) is depend on r(4)
+		for i=1:1:5 set r(i)=0
+		set total=0,r(0)=j
+		for  {
+			set r(ipr)=ip
+			set Data=RecordsArr(ip+2)
+			set Op=OperationsArr($piece(Data," ",1)),A=$piece(Data," ",2),B=$piece(Data," ",3),C=$piece(Data," ",4)
+			//if (C=0)||((A=0)&&(Op["r(A)"))||((B=0)&&(Op["r(B)")) zwrite r,ip //To find where r(0) is being used
+			//if ip=28 zwrite r,Op,A,B,C //r(0) is being used only in ip=28 with the code 'eqrr 4 0 1' so not changing r(0) just comparing to r(4)
+			//if ip=28 w !,r(4) //So write r(4) on ip=28 to look for minimal value
+			if ip=28,r(4)<minr4,r(4)>=j {
+				set minr4=r(4)
+				zwrite j,minr4
+			}
+			xecute Op
+			set ip=r(ipr),ip=ip+1
+			set total=total+1
+			quit:'$data(RecordsArr(ip+2))
+			quit:total>1848
+		}
+		if total<minInstructions {
+			set minInstructions=total
+			set minr0=j
+		}
+		//write !,j,"=",total,";",minr0,"=",minInstructions
+	}
+	zwrite total,r,ip
+	set ANS=minr0 //11840402
+	//
+	//
+	//
+	quit ANS
+LoadOperations(&OperationsArr)
+{
+	set OperationsArr("addr")="S r(C)=r(A)+r(B)"
+	set OperationsArr("addi")="S r(C)=r(A)+B"
+	set OperationsArr("mulr")="S r(C)=r(A)*r(B)"
+	set OperationsArr("muli")="S r(C)=r(A)*B"
+	set OperationsArr("banr")="S r(C)=$$AND(r(A),r(B))"
+	set OperationsArr("bani")="S r(C)=$$AND(r(A),B)"
+	set OperationsArr("borr")="S r(C)=$$OR(r(A),r(B))"
+	set OperationsArr("bori")="S r(C)=$$OR(r(A),B)"
+	set OperationsArr("setr")="S r(C)=r(A)"
+	set OperationsArr("seti")="S r(C)=A"
+	set OperationsArr("gtir")="S r(C)=A>r(B)"
+	set OperationsArr("gtri")="S r(C)=r(A)>B"
+	set OperationsArr("gtrr")="S r(C)=r(A)>r(B)"
+	set OperationsArr("eqir")="S r(C)=A=r(B)"
+	set OperationsArr("eqri")="S r(C)=r(A)=B"
+	set OperationsArr("eqrr")="S r(C)=r(A)=r(B)"
+}
+AND(A,B) PUBLIC
+{
+	set val1=$factor(A),val2=$factor(B)
+	quit $$FactorToDec($bitlogic(val1&val2))
+}
+OR(A,B) PUBLIC
+{
+	set val1=$factor(A),val2=$factor(B)
+	quit $$FactorToDec($bitlogic(val1|val2))
+}
+FactorToDec(Factor)
+{
+	set ans=0,mul=1
+	for i=1:1:$bitcount(Factor) {
+		set:$bit(Factor,i) ans=ans+mul
+		set mul=mul*2
+	}
+	quit ans	
+}
+	/*
+Year 2018, Day 21 part 2:
+In order to determine the timing window for your underflow exploit, you also need an upper bound:
+
+What is the lowest non-negative integer value for register 0 that causes the program to halt after executing the most instructions? (The program must actually halt; running forever does not count as halting.)
+	*/
+	/*
+W $$Part2^YUVGZ201821(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+	new (FileName,RecordsArr)
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do LoadOperations(.OperationsArr)
+	set Instruction="",ipr=$piece(RecordsArr(1)," ",2)
+	for i=0:1:5 set r(i)=0
+	set total=0,ip=0
+	for  {
+		set r(ipr)=ip
+		set Data=RecordsArr(ip+2)
+		set Op=OperationsArr($piece(Data," ",1)),A=$piece(Data," ",2),B=$piece(Data," ",3),C=$piece(Data," ",4)
+		xecute Op
+		//set:total>$get(r4arr(r(4))) r4arr(r(4))=total
+		if ip=28 {
+			set:'$get(r4arr28(r(4))) r4arr28(r(4))=total
+			set str=""
+			//for k=0:1:5 set str=str_$listbuild(r(k))
+			for k=1,2,4,5 set str=str_$listbuild(r(k))
+			quit:$data(rAllArr(str))  //registers values are in loop stop loop
+			set rAllArr(str)=total
+		}
+		set ip=r(ipr),ip=ip+1
+		set total=total+1
+		if '(total#10000000) write !,total
+		quit:'$data(RecordsArr(ip+2))
+		//quit:total>999999999
+	}
+	//zwrite total,r,ip,r4arr28,rAllArr
+	zwrite rAllArr,r4arr28
+	set maxr0="",maxTotal=-1
+	set key=""
+	for  {
+		set key=$order(r4arr28(key)) quit:key=""
+		if r4arr28(key)>maxTotal {
+			set maxTotal=r4arr28(key),maxr0=key
+		}
+	}
+	set ANS=maxr0 //6577657
+
+	//
+	//
+	//
+	quit ANS
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?.E {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	set io=$io
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	use io
+	quit 1
+}

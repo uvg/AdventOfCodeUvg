@@ -1,0 +1,190 @@
+ROUTINE YUVGZ201814 [Type=INT]
+YUVGZ201814	;https://adventofcode.com/2018/day/14;
+	//Intersystems developer community id: 130669-ab1f69bf
+	//
+	//
+	quit
+	/*
+Input data:
+939601
+	*/
+	/*
+Year 2018, Day 14 part 1:
+--- Day 14: Chocolate Charts ---
+You finally have a chance to look at all of the produce moving around. Chocolate, cinnamon, mint, chili peppers, nutmeg, vanilla... the Elves must be growing these plants to make hot chocolate! As you realize this, you hear a conversation in the distance. When you go to investigate, you discover two Elves in what appears to be a makeshift underground kitchen/laboratory.
+
+The Elves are trying to come up with the ultimate hot chocolate recipe; they're even maintaining a scoreboard which tracks the quality score (0-9) of each recipe.
+
+Only two recipes are on the board: the first recipe got a score of 3, the second, 7. Each of the two Elves has a current recipe: the first Elf starts with the first recipe, and the second Elf starts with the second recipe.
+
+To create new recipes, the two Elves combine their current recipes. This creates new recipes from the digits of the sum of the current recipes' scores. With the current recipes' scores of 3 and 7, their sum is 10, and so two new recipes would be created: the first with score 1 and the second with score 0. If the current recipes' scores were 2 and 3, the sum, 5, would only create one recipe (with a score of 5) with its single digit.
+
+The new recipes are added to the end of the scoreboard in the order they are created. So, after the first round, the scoreboard is 3, 7, 1, 0.
+
+After all new recipes are added to the scoreboard, each Elf picks a new current recipe. To do this, the Elf steps forward through the scoreboard a number of recipes equal to 1 plus the score of their current recipe. So, after the first round, the first Elf moves forward 1 + 3 = 4 times, while the second Elf moves forward 1 + 7 = 8 times. If they run out of recipes, they loop back around to the beginning. After the first round, both Elves happen to loop around until they land on the same recipe that they had in the beginning; in general, they will move to different recipes.
+
+Drawing the first Elf as parentheses and the second Elf as square brackets, they continue this process:
+
+(3)[7]
+(3)[7] 1  0 
+ 3  7  1 [0](1) 0 
+ 3  7  1  0 [1] 0 (1)
+(3) 7  1  0  1  0 [1] 2 
+ 3  7  1  0 (1) 0  1  2 [4]
+ 3  7  1 [0] 1  0 (1) 2  4  5 
+ 3  7  1  0 [1] 0  1  2 (4) 5  1 
+ 3 (7) 1  0  1  0 [1] 2  4  5  1  5 
+ 3  7  1  0  1  0  1  2 [4](5) 1  5  8 
+ 3 (7) 1  0  1  0  1  2  4  5  1  5  8 [9]
+ 3  7  1  0  1  0  1 [2] 4 (5) 1  5  8  9  1  6 
+ 3  7  1  0  1  0  1  2  4  5 [1] 5  8  9  1 (6) 7 
+ 3  7  1  0 (1) 0  1  2  4  5  1  5 [8] 9  1  6  7  7 
+ 3  7 [1] 0  1  0 (1) 2  4  5  1  5  8  9  1  6  7  7  9 
+ 3  7  1  0 [1] 0  1  2 (4) 5  1  5  8  9  1  6  7  7  9  2 
+The Elves think their skill will improve after making a few recipes (your puzzle input). However, that could take ages; you can speed this up considerably by identifying the scores of the ten recipes after that. For example:
+
+If the Elves think their skill will improve after making 9 recipes, the scores of the ten recipes after the first nine on the scoreboard would be 5158916779 (highlighted in the last line of the diagram).
+After 5 recipes, the scores of the next ten would be 0124515891.
+After 18 recipes, the scores of the next ten would be 9251071085.
+After 2018 recipes, the scores of the next ten would be 5941429882.
+What are the scores of the ten recipes immediately after the number of recipes in your puzzle input?
+	*/
+	/*
+W $$Part1^YUVGZ201814(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set Index=RecordsArr(1)
+	set MinLength=Index+10
+	set String=37
+	set Elf1=1,Elf2=2
+	for  {
+		//w !,String,?40,Elf1,$c(9),Elf2
+		quit:$length(String)>=MinLength
+		set val=$extract(String,Elf1)+$extract(String,Elf2)
+		set dig1=val\10,dig2=val#10
+		set:dig1 String=String_dig1
+		set String=String_dig2
+		set Elf1=(Elf1+1+$extract(String,Elf1))#$length(String) set:'Elf1 Elf1=$length(String)
+		set Elf2=(Elf2+1+$extract(String,Elf2))#$length(String) set:'Elf2 Elf2=$length(String)
+	}
+	set ANS=$extract(String,Index+1,Index+10)
+	//
+	//
+	//
+	quit ANS
+}
+	/*
+Year 2018, Day 14 part 2:
+As it turns out, you got the Elves' plan backwards. They actually want to know how many recipes appear on the scoreboard to the left of the first recipes whose scores are the digits from your puzzle input.
+
+51589 first appears after 9 recipes.
+01245 first appears after 5 recipes.
+92510 first appears after 18 recipes.
+59414 first appears after 2018 recipes.
+How many recipes appear on the scoreboard to the left of the score sequence in your puzzle input?
+	*/
+	/*
+W $$Part2^YUVGZ201814(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set MinMem=1024*1024
+	set:$zstorage<MinMem $zstorage=MinMem
+	set Data=RecordsArr(1),DataLen=$length(Data)
+	set Elf1=1,Elf2=2,ANS=""
+	set RecipesArr(1)=3,RecipesArr(2)=7,length=$order(RecipesArr(""),-1)
+	for  {
+		set str=""
+		for i=length-DataLen-2:1:length {
+			continue:i<1
+			set str=str_RecipesArr(i)
+		}
+		if str[Data {
+			set ANS=$find(str,Data)-DataLen-1+length-DataLen-2-1
+			quit
+		}
+		set val1=RecipesArr(Elf1),val2=RecipesArr(Elf2)
+		set val=val1+val2
+		set dig1=val\10,dig2=val#10
+		set:dig1 length=length+1,RecipesArr(length)=dig1
+		set length=length+1,RecipesArr(length)=dig2
+		set Elf1=(Elf1+1+val1)#length set:'Elf1 Elf1=length
+		set Elf2=(Elf2+1+val2)#length set:'Elf2 Elf2=length
+	}
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+		set Error="Only one line of data allowed"
+		write !,Error
+		quit 0
+	}
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.N {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

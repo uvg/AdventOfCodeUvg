@@ -1,0 +1,246 @@
+ROUTINE YUVGZ201625 [Type=INT]
+YUVGZ201625	;https://adventofcode.com/2016/day/25;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+cpy a d
+cpy 11 c
+cpy 231 b
+inc d
+dec b
+jnz b -2
+dec c
+jnz c -5
+cpy d a
+jnz 0 0
+cpy a b
+cpy 0 a
+cpy 2 c
+jnz b 2
+jnz 1 6
+dec b
+dec c
+jnz c -4
+inc a
+jnz 1 -7
+cpy 2 b
+jnz c 2
+jnz 1 4
+dec b
+dec c
+jnz 1 -4
+jnz 0 0
+out b
+jnz a -19
+jnz 1 -21
+	*/
+	/*
+Year 2016, Day 25 part 1:
+--- Day 25: Clock Signal ---
+You open the door and find yourself on the roof. The city sprawls away from you for miles and miles.
+
+There's not much time now - it's already Christmas, but you're nowhere near the North Pole, much too far to deliver these stars to the sleigh in time.
+
+However, maybe the huge antenna up here can offer a solution. After all, the sleigh doesn't need the stars, exactly; it needs the timing data they provide, and you happen to have a massive signal generator right here.
+
+You connect the stars you have to your prototype computer, connect that to the antenna, and begin the transmission.
+
+Nothing happens.
+
+You call the service number printed on the side of the antenna and quickly explain the situation. "I'm not sure what kind of equipment you have connected over there," he says, "but you need a clock signal." You try to explain that this is a signal for a clock.
+
+"No, no, a clock signal - timing information so the antenna computer knows how to read the data you're sending it. An endless, alternating pattern of 0, 1, 0, 1, 0, 1, 0, 1, 0, 1...." He trails off.
+
+You ask if the antenna can handle a clock signal at the frequency you would need to use for the data from the stars. "There's no way it can! The only antenna we've installed capable of that is on top of a top-secret Easter Bunny installation, and you're definitely not-" You hang up the phone.
+
+You've extracted the antenna's clock signal generation assembunny code (your puzzle input); it looks mostly compatible with code you worked on just recently.
+
+This antenna code, being a signal generator, uses one extra instruction:
+
+out x transmits x (either an integer or the value of a register) as the next value for the clock signal.
+The code takes a value (via register a) that describes the signal to generate, but you're not sure how it's used. You'll have to find the input to produce the right signal through experimentation.
+
+What is the lowest positive integer that can be used to initialize register a and cause the code to output a clock signal of 0, 1, 0, 1... repeating forever?
+	*/
+	/*
+W $$Part1^YUVGZ201625(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	for a=0:1 quit:$$Compute(a,0,0,0,.RecordsArr)'="error"
+	set ANS=a
+	//
+	//
+	//
+	quit ANS
+}
+Compute(a,b,c,d,&Code) [a,b,c,d]
+{
+	set ip=1,last="",loops=0
+	while $data(Code(ip)) {
+		set command=Code(ip)
+		set instruct=$piece(command," ",1),val1=$piece(command," ",2),val2=$piece(command," ",3)
+		if instruct="out" {
+			set:val1'?.1"-"1.n val1=@val1
+			if 'last'=val1&&$length(last) return "error"
+			set last=val1,loops=loops+1
+			if loops>1000 return a
+			write val1
+			set ip=ip+1
+		}
+		if instruct="tgl" {
+			set val=@val1
+			set tempc=$get(Code(ip+val))
+			if tempc'="" {
+				if $piece(tempc," ",1)="inc" {
+					set $piece(Code(ip+val)," ",1)="dec"
+				}
+				elseif '$length($piece(tempc," ",3)) {
+					set $piece(Code(ip+val)," ",1)="inc"
+				}
+				elseif $piece(tempc," ",1)="jnz" {
+					set $piece(Code(ip+val)," ",1)="cpy"
+				}
+				else {
+					set $piece(Code(ip+val)," ",1)="jnz"
+				}
+			}
+			set ip=ip+1
+		}
+		if instruct="cpy" {
+			set:val1'?.1"-"1.n val1=@val1
+			set:val2'?.1"-"1.n @val2=val1 //Only valid instruction will be executed
+			set ip=ip+1
+		}
+		if instruct="inc" {
+			set @val1=@val1+1
+			set ip=ip+1
+		}
+		if instruct="dec" {
+			set @val1=@val1-1
+			set ip=ip+1
+		}
+		if instruct="jnz" {
+			set:val1'?.1"-"1.n val1=@val1
+			set:val2'?.1"-"1.n val2=@val2 //val2 could be a register
+			if val1 {
+				set ip=ip+val2
+			}
+			else {
+				set ip=ip+1
+			}
+		}
+	}
+	quit a
+}
+
+	/*
+Year 2016, Day 25 part 2:
+The antenna is ready. Now, all you need is the fifty stars required to generate the signal for the sleigh, but you don't have enough.
+
+You look toward the sky in desperation... suddenly noticing that a lone star has been installed at the top of the antenna! Only 49 more to go.
+
+You activate all fifty stars and transmit the signal. The star atop the antenna begins to glow.
+
+Suddenly, you see the sleigh fly past you!
+
+Looks like Santa was already waiting for your signal.
+	*/
+	/*
+W $$Part2^YUVGZ201625(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	//
+	//
+	//
+	quit "FINITO"
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		set pieces=$length(Record," ")
+		if pieces'=2,pieces'=3 {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+		set instruction=$piece(Record," ",1),val1=$piece(Record," ",2),val2=$piece(Record," ",3)
+		if ",cpy,inc,dec,jnz,tgl,out,"'[(","_instruction_",") {
+			set Error="Unknown instruction at line "_Line
+			quit
+		}
+		if ",cpy,jnz,"[(","_instruction_",") {
+			if pieces'=3 {
+				set Error="Unknown "_instruction_" format at line "_Line
+				quit
+			}
+			if val1'?1(1(1"a",1"b",1"c",1"d"),.1"-"1.N) {
+				set Error="Unknown "_instruction_" format at line "_Line
+				quit
+			}
+			if instruction="cpy",",a,b,c,d,"'[(","_val2_",") {
+				set Error="Unknown registry "_val2_" at line "_Line
+			}
+			if instruction="jnz",val2'?1(1(1"a",1"b",1"c",1"d"),.1"-"1.N) {
+				set Error="Unknown "_instruction_" format at line "_Line
+				quit
+			}
+		}
+		if ",inc,dec,tgl,out,"[(","_instruction_",") {
+			if pieces'=2 {
+				set Error="Unknown "_instruction_" format at line "_Line
+				quit
+			}
+			if instruction="out",val1'?.1"-"1.N,",a,b,c,d,"'[(","_val1_",") {
+				set Error="Unknown "_instruction_" format at line "_Line
+				quit
+			}
+			if instruction'="out",",a,b,c,d,"'[(","_val1_",") {
+				set Error="Unknown registry "_val1_" at line "_Line
+				quit
+			}			
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

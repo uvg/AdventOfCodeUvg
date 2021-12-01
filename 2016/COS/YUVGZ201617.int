@@ -1,0 +1,190 @@
+ROUTINE YUVGZ201617 [Type=INT]
+YUVGZ201617	;https://adventofcode.com/2016/day/17;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+edjrjqaa
+	*/
+	/*
+Year 2016, Day 17 part 1:
+--- Day 17: Two Steps Forward ---
+You're trying to access a secure vault protected by a 4x4 grid of small rooms connected by doors. You start in the top-left room (marked S), and you can access the vault (marked V) once you reach the bottom-right room:
+
+#########
+#S| | | #
+#-#-#-#-#
+# | | | #
+#-#-#-#-#
+# | | | #
+#-#-#-#-#
+# | | |  
+####### V
+Fixed walls are marked with #, and doors are marked with - or |.
+
+The doors in your current room are either open or closed (and locked) based on the hexadecimal MD5 hash of a passcode (your puzzle input) followed by a sequence of uppercase characters representing the path you have taken so far (U for up, D for down, L for left, and R for right).
+
+Only the first four characters of the hash are used; they represent, respectively, the doors up, down, left, and right from your current position. Any b, c, d, e, or f means that the corresponding door is open; any other character (any number or a) means that the corresponding door is closed and locked.
+
+To access the vault, all you need to do is reach the bottom-right room; reaching this room opens the vault and all doors in the maze.
+
+For example, suppose the passcode is hijkl. Initially, you have taken no steps, and so your path is empty: you simply find the MD5 hash of hijkl alone. The first four characters of this hash are ced9, which indicate that up is open (c), down is open (e), left is open (d), and right is closed and locked (9). Because you start in the top-left corner, there are no "up" or "left" doors to be open, so your only choice is down.
+
+Next, having gone only one step (down, or D), you find the hash of hijklD. This produces f2bc, which indicates that you can go back up, left (but that's a wall), or right. Going right means hashing hijklDR to get 5745 - all doors closed and locked. However, going up instead is worthwhile: even though it returns you to the room you started in, your path would then be DU, opening a different set of doors.
+
+After going DU (and then hashing hijklDU to get 528e), only the right door is open; after going DUR, all doors lock. (Fortunately, your actual passcode is not hijkl).
+
+Passcodes actually used by Easter Bunny Vault Security do allow access to the vault if you know the right path. For example:
+
+If your passcode were ihgpwlah, the shortest path would be DDRRRD.
+With kglvqrro, the shortest path would be DDUDRLRRUDRD.
+With ulqzkmiv, the shortest would be DRURDRUDDLLDLUURRDULRLDUUDDDRR.
+Given your vault's passcode, what is the shortest path (the actual path, not just the length) to reach the vault?
+	*/
+	/*
+W $$Part1^YUVGZ201617(FN)
+	*/
+Part1(FileName="",RecordsArr) [minpath,longestpath] PUBLIC	;
+{
+	new minpath,longestpath
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set minpath="",data=RecordsArr(1),longestpath=""
+	w !,data
+	do GetPath(data,1,1,"",0)
+	set ANS=minpath
+	//
+	//
+	//
+	quit ANS
+}
+GetPath(data,x,y,&path,steps) [minpath,longestpath]
+{
+	//w !,data,";",x,";",y
+	if x=4,y=4 {
+		if '$length(minpath) {
+			set minpath=path
+			//write !,minpath
+		}
+		if $length(path)<$length(minpath) {
+			set minpath=path
+			//write !,minpath
+		}
+		if $length(longestpath)<$length(path) {
+			set longestpath=path
+			//write !,"longest=",$length(longestpath)
+		}
+		quit 0
+	}
+	set instruct=$extract($system.Encryption.MD5Hash(data),1,2)
+	//zzdump instruct
+	set u=$ascii(instruct,1)\16,d=$ascii(instruct,1)#16,l=$ascii(instruct,2)\16,r=$ascii(instruct,2)#16
+	set u=u>10,d=d>10,l=l>10,r=r>10
+	//w !,u,";",d,";",l,";",r
+	if u,y-1>0 set s($increment(s))=$$GetPath(data_"U",x,y-1,path_"U",steps+1),p(s)=path_"U"
+	if d,y+1<5 set s($increment(s))=$$GetPath(data_"D",x,y+1,path_"D",steps+1),p(s)=path_"D"
+	if l,x-1>0 set s($increment(s))=$$GetPath(data_"L",x-1,y,path_"L",steps+1),p(s)=path_"L"
+	if r,x+1<5 set s($increment(s))=$$GetPath(data_"R",x+1,y,path_"R",steps+1),p(s)=path_"R"
+	set min=99999
+	set s=""
+	for  {
+		set s=$order(s(s)) quit:s=""
+		if s(s)<min set min=s(s)
+	}
+	quit min
+}
+	/*
+Year 2016, Day 17 part 2:
+You're curious how robust this security solution really is, and so you decide to find longer and longer paths which still provide access to the vault. You remember that paths always end the first time they reach the bottom-right room (that is, they can never pass through it, only end in it).
+
+For example:
+
+If your passcode were ihgpwlah, the longest path would take 370 steps.
+With kglvqrro, the longest path would be 492 steps long.
+With ulqzkmiv, the longest path would be 830 steps long.
+What is the length of the longest path that reaches the vault?
+	*/
+	/*
+W $$Part2^YUVGZ201617(FN)
+	*/
+Part2(FileName="",RecordsArr) [minpath,longestpath] PUBLIC	;
+{
+	new minpath,longestpath
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set minpath="",data=RecordsArr(1),longestpath=""
+	w !,data
+	do GetPath(data,1,1,"",0)
+	set ANS=$length(longestpath)
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+		set Error="Only one line of data allowed"
+		write !,Error
+		quit 0
+	}
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?1.L {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

@@ -1,0 +1,401 @@
+ROUTINE YUVGZ201721 [Type=INT]
+YUVGZ201721	;https://adventofcode.com/2017/day/21;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+../.. => .##/#../..#
+#./.. => .##/#../###
+##/.. => ..#/#.#/#..
+.#/#. => #../#../.#.
+##/#. => .#./#../#..
+##/## => .##/.../.##
+.../.../... => #.#./###./####/#..#
+#../.../... => .###/####/##../#.##
+.#./.../... => ###./.###/#..#/#.##
+##./.../... => ..../..../.#../##..
+#.#/.../... => ...#/.##./..../##..
+###/.../... => ##../##../##.#/..##
+.#./#../... => .#../###./##../####
+##./#../... => ####/##.#/..../..##
+..#/#../... => ..#./####/...#/#.##
+#.#/#../... => #.#./##../##../.##.
+.##/#../... => ##../####/..#./...#
+###/#../... => #..#/#.#./##.#/#.#.
+.../.#./... => .#.#/..#./#.../....
+#../.#./... => ##../..##/..##/.#..
+.#./.#./... => ..../##../##../#.##
+##./.#./... => ...#/##../#..#/.###
+#.#/.#./... => ####/##.#/###./..##
+###/.#./... => ..../...#/.###/.#..
+.#./##./... => #.#./#..#/.##./.#.#
+##./##./... => .###/#.../#..#/#.#.
+..#/##./... => .###/####/..../#.##
+#.#/##./... => ...#/.###/.###/.###
+.##/##./... => ..##/..##/.###/##.#
+###/##./... => ####/#..#/####/#.#.
+.../#.#/... => #.##/..#./.###/#.#.
+#../#.#/... => ####/##.#/##.#/....
+.#./#.#/... => #.../...#/#.##/#..#
+##./#.#/... => .#.#/##../##../....
+#.#/#.#/... => ##.#/#.../##../.#..
+###/#.#/... => ...#/###./.#.#/...#
+.../###/... => .###/#.##/#.../###.
+#../###/... => ..##/.#../.###/..#.
+.#./###/... => ..../.##./#.##/#.##
+##./###/... => .#.#/##.#/#.../#.#.
+#.#/###/... => ..#./#.../#.#./.##.
+###/###/... => ..##/.#.#/#..#/.##.
+..#/.../#.. => ..##/.#../##.#/##..
+#.#/.../#.. => ..#./..../#.../...#
+.##/.../#.. => .##./..##/####/#...
+###/.../#.. => #.##/..../##../#.##
+.##/#../#.. => .###/...#/###./....
+###/#../#.. => .#.#/#.#./#.##/..#.
+..#/.#./#.. => ...#/..#./..##/.#.#
+#.#/.#./#.. => #.../##.#/.###/#.#.
+.##/.#./#.. => ###./####/#..#/##.#
+###/.#./#.. => ..../..#./..../#...
+.##/##./#.. => .#.#/.##./.#.#/#.##
+###/##./#.. => ..../##../###./.#.#
+#../..#/#.. => ...#/#.../#.##/.###
+.#./..#/#.. => #..#/.#../###./#.#.
+##./..#/#.. => #.#./..#./###./###.
+#.#/..#/#.. => .#.#/##.#/##../####
+.##/..#/#.. => ###./..../.#../...#
+###/..#/#.. => #.#./.##./.#.#/#..#
+#../#.#/#.. => #.#./##.#/.#../.###
+.#./#.#/#.. => ##.#/#.#./#.../####
+##./#.#/#.. => .#.#/#.../..#./#.##
+..#/#.#/#.. => ##.#/.##./#.../.###
+#.#/#.#/#.. => ..##/..../..../####
+.##/#.#/#.. => ####/#.#./###./.#.#
+###/#.#/#.. => #.##/..#./##../#...
+#../.##/#.. => ..##/##.#/####/.#..
+.#./.##/#.. => ..##/##../.#../..##
+##./.##/#.. => ..##/.#.#/#..#/....
+#.#/.##/#.. => #.../##../...#/.#.#
+.##/.##/#.. => ##../...#/.###/.#.#
+###/.##/#.. => ####/..#./.##./#.##
+#../###/#.. => .#.#/##.#/#.#./#.#.
+.#./###/#.. => .###/#..#/.#.#/###.
+##./###/#.. => ##../.#../###./.#.#
+..#/###/#.. => #.##/..../...#/..#.
+#.#/###/#.. => #.../#..#/..../.#..
+.##/###/#.. => ####/#..#/..#./.#.#
+###/###/#.. => .##./##../.#../..#.
+.#./#.#/.#. => #.#./.###/#.#./..##
+##./#.#/.#. => .##./..../..##/##..
+#.#/#.#/.#. => ...#/..../.#.#/..##
+###/#.#/.#. => .#../####/#.#./#.##
+.#./###/.#. => #..#/.#.#/#..#/#.#.
+##./###/.#. => .#../##../#..#/..##
+#.#/###/.#. => #.#./.##./##.#/.#.#
+###/###/.#. => #.#./...#/..##/#...
+#.#/..#/##. => ..#./..#./...#/#..#
+###/..#/##. => #..#/###./..../##.#
+.##/#.#/##. => #.##/.#.#/...#/..##
+###/#.#/##. => #.##/...#/.##./.###
+#.#/.##/##. => ..../##.#/..../...#
+###/.##/##. => .###/#.../###./###.
+.##/###/##. => #.../#.#./.###/..#.
+###/###/##. => #.##/.#../..#./.#.#
+#.#/.../#.# => .##./##../###./.###
+###/.../#.# => ..##/...#/###./.#..
+###/#../#.# => ##.#/..#./#.##/.#..
+#.#/.#./#.# => .#../#.##/...#/###.
+###/.#./#.# => ..#./..../####/####
+###/##./#.# => ###./#..#/..../#..#
+#.#/#.#/#.# => ##.#/###./..../#...
+###/#.#/#.# => ##../.###/#..#/.#..
+#.#/###/#.# => #.../###./.###/..#.
+###/###/#.# => ..../.##./.#../###.
+###/#.#/### => ##../#.../.###/#...
+###/###/### => .###/###./#.##/..#.
+	*/
+	/*
+Year 2017, Day 21 part 1:
+--- Day 21: Fractal Art ---
+You find a program trying to generate some art. It uses a strange process that involves repeatedly enhancing the detail of an image through a set of rules.
+
+The image consists of a two-dimensional square grid of pixels that are either on (#) or off (.). The program always begins with this pattern:
+
+.#.
+..#
+###
+Because the pattern is both 3 pixels wide and 3 pixels tall, it is said to have a size of 3.
+
+Then, the program repeats the following process:
+
+If the size is evenly divisible by 2, break the pixels up into 2x2 squares, and convert each 2x2 square into a 3x3 square by following the corresponding enhancement rule.
+Otherwise, the size is evenly divisible by 3; break the pixels up into 3x3 squares, and convert each 3x3 square into a 4x4 square by following the corresponding enhancement rule.
+Because each square of pixels is replaced by a larger one, the image gains pixels and so its size increases.
+
+The artist's book of enhancement rules is nearby (your puzzle input); however, it seems to be missing rules. The artist explains that sometimes, one must rotate or flip the input pattern to find a match. (Never rotate or flip the output pattern, though.) Each pattern is written concisely: rows are listed as single units, ordered top-down, and separated by slashes. For example, the following rules correspond to the adjacent patterns:
+
+../.#  =  ..
+          .#
+
+                .#.
+.#./..#/###  =  ..#
+                ###
+
+                        #..#
+#..#/..../#..#/.##.  =  ....
+                        #..#
+                        .##.
+When searching for a rule to use, rotate and flip the pattern as necessary. For example, all of the following patterns match the same rule:
+
+.#.   .#.   #..   ###
+..#   #..   #.#   ..#
+###   ###   ##.   .#.
+Suppose the book contained the following two rules:
+
+../.# => ##./#../...
+.#./..#/### => #..#/..../..../#..#
+As before, the program begins with this pattern:
+
+.#.
+..#
+###
+The size of the grid (3) is not divisible by 2, but it is divisible by 3. It divides evenly into a single square; the square matches the second rule, which produces:
+
+#..#
+....
+....
+#..#
+The size of this enhanced grid (4) is evenly divisible by 2, so that rule is used. It divides evenly into four squares:
+
+#.|.#
+..|..
+--+--
+..|..
+#.|.#
+Each of these squares matches the same rule (../.# => ##./#../...), three of which require some flipping and rotation to line up with the rule. The output for the rule is the same in all four cases:
+
+##.|##.
+#..|#..
+...|...
+---+---
+##.|##.
+#..|#..
+...|...
+Finally, the squares are joined into a new grid:
+
+##.##.
+#..#..
+......
+##.##.
+#..#..
+......
+Thus, after 2 iterations, the grid contains 12 pixels that are on.
+
+How many pixels stay on after 5 iterations?
+	*/
+	/*
+W $$Part1^YUVGZ201721(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do GetRules(.RecordsArr,.RulesArr)
+	zwrite RulesArr
+	do InitGrid(.Grid)
+	w !! zwrite Grid
+	for i=1:1:5 {
+		do SetNewGrid(.Grid,.NewGrid,.RulesArr)
+		kill Grid
+		merge Grid=NewGrid
+		kill NewGrid
+		write !!! zwrite Grid
+	}
+	set ANS=$$GetOn(.Grid)
+	//
+	//
+	//
+	quit ANS
+}
+GetOn(&Grid)
+{
+	set Total=0
+	set y=""
+	for  {
+		set y=$order(Grid(y)) quit:y=""
+		set Total=Total+$length($translate(Grid(y),"."))
+	}
+	quit Total
+}
+SetNewGrid(&Grid,&NewGrid,&RulesArr)
+{
+	set Size=$length(Grid(1)),Start=1
+	kill NewGrid
+	if '(Size#2) {
+		for y=1:2:Size {
+			set NewGrid(Start)="",NewGrid(Start+1)="",NewGrid(Start+2)=""
+			for x=1:2:Size {
+				set From=$extract(Grid(y),x,x+1)_"/"_$extract(Grid(y+1),x,x+1)
+				set To=RulesArr(2,From)
+				set NewGrid(Start)=NewGrid(Start)_$piece(To,"/",1)
+				set NewGrid(Start+1)=NewGrid(Start+1)_$piece(To,"/",2)
+				set NewGrid(Start+2)=NewGrid(Start+2)_$piece(To,"/",3)
+				//write !,From,"=",To
+			}
+			set Start=Start+3
+		}
+	}
+	else {
+		for y=1:3:Size {
+			set NewGrid(Start)="",NewGrid(Start+1)="",NewGrid(Start+2)="",NewGrid(Start+3)=""
+			for x=1:3:Size {
+				set From=$extract(Grid(y),x,x+2)_"/"_$extract(Grid(y+1),x,x+2)_"/"_$extract(Grid(y+2),x,x+2)
+				set To=RulesArr(3,From)
+				set NewGrid(Start)=NewGrid(Start)_$piece(To,"/",1)
+				set NewGrid(Start+1)=NewGrid(Start+1)_$piece(To,"/",2)
+				set NewGrid(Start+2)=NewGrid(Start+2)_$piece(To,"/",3)
+				set NewGrid(Start+3)=NewGrid(Start+3)_$piece(To,"/",4)
+				//write !,From,"=",To
+			}
+			set Start=Start+4
+		}
+	}
+	//zw NewGrid
+	//merge NewGrid=Grid
+}
+InitGrid(&Grid)
+{
+	set Grid(1)=".#."
+	set Grid(2)="..#"
+	set Grid(3)="###"
+}
+GetRules(&RecordsArr,&Arr)
+{
+	set Line=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		set From=$piece(Record," => ",1),To=$piece(Record," => ",2),Size=$length($piece(From,"/",1))
+		for i=1:1:4 {
+			do Rotate(.From)
+			set Arr(Size,From)=To
+			//write !,From,$char(9),To
+		}
+		if Size=3 {
+			do Flip(.From)
+			for i=1:1:4 {
+				do Rotate(.From)
+				set Arr(Size,From)=To
+				//write !,From,$char(9),To
+			}
+		}
+	}	
+}
+Rotate(&Data)
+{
+	if $length(Data)=5 {
+		set Data=$extract(Data,2)_$extract(Data,5)_"/"_$extract(Data,1)_$extract(Data,4)
+	}
+	else {
+		set Data=$extract(Data,3)_$extract(Data,7)_$extract(Data,11)_"/"_$extract(Data,2)_$extract(Data,6)_$extract(Data,10)_"/"_$extract(Data,1)_$extract(Data,5)_$extract(Data,9)
+	}
+}
+Flip(&Data)
+{
+	set Data=$reverse($extract(Data,1,3))_"/"_$reverse($extract(Data,5,7))_"/"_$reverse($extract(Data,9,11))
+}
+	/*
+FlipVertical(&Data)
+{
+	set Data=$extract(Data,9,11)_"/"_$extract(Data,5,7)_"/"_$extract(Data,1,3)
+}
+	*/
+	/*
+Year 2017, Day 21 part 2:
+How many pixels stay on after 18 iterations?
+	*/
+	/*
+W $$Part2^YUVGZ201721(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	do GetRules(.RecordsArr,.RulesArr)
+	zwrite RulesArr
+	do InitGrid(.Grid)
+	w !! zwrite Grid
+	for i=1:1:18 {
+		do SetNewGrid(.Grid,.NewGrid,.RulesArr)
+		kill Grid
+		merge Grid=NewGrid
+		kill NewGrid
+		//write !!! zwrite Grid
+	}
+	set ANS=$$GetOn(.Grid)
+	//
+	//
+	//
+	quit ANS
+}
+CheckData(RecordsArr)
+{
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=$translate(RecordsArr(Line),".","#")
+		if Record'="##/## => ###/###/###",Record'="###/###/### => ####/####/####/####" {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}

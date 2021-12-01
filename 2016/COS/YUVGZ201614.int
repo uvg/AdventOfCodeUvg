@@ -1,0 +1,223 @@
+ROUTINE YUVGZ201614 [Type=INT]
+YUVGZ201614	;https://adventofcode.com/2016/day/14;
+	//Intersystems developer community id: 130669-ab1f69bf
+	quit
+	/*
+Input data:
+yjdafjpo
+	*/
+	/*
+Year 2016, Day 14 part 1:
+--- Day 14: One-Time Pad ---
+In order to communicate securely with Santa while you're on this mission, you've been using a one-time pad that you generate using a pre-agreed algorithm. Unfortunately, you've run out of keys in your one-time pad, and so you need to generate some more.
+
+To generate keys, you first get a stream of random data by taking the MD5 of a pre-arranged salt (your puzzle input) and an increasing integer index (starting with 0, and represented in decimal); the resulting MD5 hash should be represented as a string of lowercase hexadecimal digits.
+
+However, not all of these MD5 hashes are keys, and you need 64 new keys for your one-time pad. A hash is a key only if:
+
+It contains three of the same character in a row, like 777. Only consider the first such triplet in a hash.
+One of the next 1000 hashes in the stream contains that same character five times in a row, like 77777.
+Considering future hashes for five-of-a-kind sequences does not cause those hashes to be skipped; instead, regardless of whether the current hash is a key, always resume testing for keys starting with the very next hash.
+
+For example, if the pre-arranged salt is abc:
+
+The first index which produces a triple is 18, because the MD5 hash of abc18 contains ...cc38887a5.... However, index 18 does not count as a key for your one-time pad, because none of the next thousand hashes (index 19 through index 1018) contain 88888.
+The next index which produces a triple is 39; the hash of abc39 contains eee. It is also the first key: one of the next thousand hashes (the one at index 816) contains eeeee.
+None of the next six triples are keys, but the one after that, at index 92, is: it contains 999 and index 200 contains 99999.
+Eventually, index 22728 meets all of the criteria to generate the 64th key.
+So, using our example salt of abc, index 22728 produces the 64th key.
+
+Given the actual salt in your puzzle input, what index produces your 64th one-time pad key?
+	*/
+	/*
+W $$Part1^YUVGZ201614(FN)
+	*/
+Part1(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set salt=RecordsArr(1),keys=0
+	write !,salt,!!
+	for i=1:1:30000 {
+		set md5=$system.Encryption.MD5Hash(salt_i)
+		set hex="" for j=1:1:$length(md5) set b=$ascii(md5,j),c=b\16,d=b#16,c=$select(c<10:c,1:$char(c+87)),d=$select(d<10:d,1:$char(d+87)),hex=hex_c_d
+		for j=1:1:$length(hex)-2 {
+			set l=$extract(hex,j)
+			if l=$extract(hex,j+1),l=$extract(hex,j+2) {
+				set arr(3,0,l,i)=""
+				set arr(3,1,i,l)=""
+				quit
+			}
+		}	
+		for k=0:1:15 {
+			set l=$select(k<10:k,1:$char(k+87))
+			if hex[(l_l_l_l_l) {
+				set arr(5,0,l,i)=""
+				set arr(5,1,i,l)=""
+			}
+		}
+	}
+	set k="" for  {
+		set k=$order(arr(3,1,k)) quit:k=""
+		set l=$order(arr(3,1,k,""))
+		set next=$order(arr(5,0,l,k))
+		if next,next-k<=1000 {
+			set keys=keys+1,keys(k)=keys
+			if keys=64 {
+				set ANS=k
+				quit
+			}
+		}
+	}
+	zw keys
+	//
+	//
+	//
+	quit ANS
+}
+	/*
+Year 2016, Day 14 part 2:
+Of course, in order to make this process even more secure, you've also implemented key stretching.
+
+Key stretching forces attackers to spend more time generating hashes. Unfortunately, it forces everyone else to spend more time, too.
+
+To implement key stretching, whenever you generate a hash, before you use it, you first find the MD5 hash of that hash, then the MD5 hash of that hash, and so on, a total of 2016 additional hashings. Always use lowercase hexadecimal representations of hashes.
+
+For example, to find the stretched hash for index 0 and salt abc:
+
+Find the MD5 hash of abc0: 577571be4de9dcce85a041ba0410f29f.
+Then, find the MD5 hash of that hash: eec80a0c92dc8a0777c619d9bb51e910.
+Then, find the MD5 hash of that hash: 16062ce768787384c81fe17a7a60c7e3.
+...repeat many times...
+Then, find the MD5 hash of that hash: a107ff634856bb300138cac6568c0f24.
+So, the stretched hash for index 0 in this situation is a107ff.... In the end, you find the original hash (one use of MD5), then find the hash-of-the-previous-hash 2016 times, for a total of 2017 uses of MD5.
+
+The rest of the process remains the same, but now the keys are entirely different. Again for salt abc:
+
+The first triple (222, at index 5) has no matching 22222 in the next thousand hashes.
+The second triple (eee, at index 10) hash a matching eeeee at index 89, and so it is the first key.
+Eventually, index 22551 produces the 64th key (triple fff with matching fffff at index 22859.
+Given the actual salt in your puzzle input and using 2016 extra MD5 calls of key stretching, what index now produces your 64th one-time pad key?
+	*/
+	/*
+W $$Part2^YUVGZ201614(FN)
+	*/
+Part2(FileName="",RecordsArr) PUBLIC	;
+{
+	if $data(RecordsArr)'=10 {
+		if '$length(FileName) {
+			read !,"Enter filename: ",FileName
+			write !
+		}
+		if '$length(FileName) {
+			write !,"Missing file to read from"
+			quit 0
+		}
+		quit:'$$LoadFile(FileName,.RecordsArr) 0
+		if '$data(RecordsArr) {
+			write !,"No data was red from "_FileName
+			quit 0
+		}
+	}
+	quit:'$$CheckData(.RecordsArr) 0
+	set salt=RecordsArr(1),keys=0
+	write !,salt,!!
+	for i=1:1:30000 {
+		write:'(i#100) !,i
+		set hex=$$GetMD5Hex(salt_i)
+		for j=1:1:2016 set hex=$$GetMD5Hex(hex)
+		for j=1:1:$length(hex)-2 {
+			set l=$extract(hex,j)
+			if l=$extract(hex,j+1),l=$extract(hex,j+2) {
+				set arr(3,0,l,i)=""
+				set arr(3,1,i,l)=""
+				quit
+			}
+		}	
+		for k=0:1:15 {
+			set l=$select(k<10:k,1:$char(k+87))
+			if hex[(l_l_l_l_l) {
+				set arr(5,0,l,i)=""
+				set arr(5,1,i,l)=""
+			}
+		}
+	}
+	set k="" for  {
+		set k=$order(arr(3,1,k)) quit:k=""
+		set l=$order(arr(3,1,k,""))
+		set next=$order(arr(5,0,l,k))
+		if next,next-k<=1000 {
+			set keys=keys+1,keys(k)=keys
+			if keys=64 {
+				set ANS=k
+				quit
+			}
+		}
+	}
+	zw keys
+	//
+	//
+	//
+	quit ANS
+}
+GetMD5Hex(data)
+{
+	//if $data(^||hash(data)) quit ^||hash(data)
+	set md5=$system.Encryption.MD5Hash(data)
+	set hex="" for j=1:1:$length(md5) set b=$ascii(md5,j),c=b\16,d=b#16,c=$select(c<10:c,1:$char(c+87)),d=$select(d<10:d,1:$char(d+87)),hex=hex_c_d
+	//set ^||hash(data)=hex
+	quit hex
+}
+CheckData(RecordsArr)
+{
+	if ($order(RecordsArr(""))'=1)||($order(RecordsArr(""),-1)'=1) {
+		set Error="Only one line of data allowed"
+		write !,Error
+		quit 0
+	}
+	set Line="",Error=""
+	for  {
+		set Line=$order(RecordsArr(Line)) quit:Line=""
+		set Record=RecordsArr(Line)
+		if Record'?.l {
+			set Error="Wrong data format at line "_Line
+			quit
+		}
+	}
+	if $length(Error) {
+		write !,Error
+		quit 0
+	}
+	quit 1
+}
+LoadFile(FileName,RecordsArr)	;
+{
+	kill RecordsArr
+	open FileName::.1 if '$test {
+		write !,"Error loading file "_FileName
+		quit 0
+	}
+	set EndOfFileSW=$zutil(68,40,1) //$system.Process.SetZEOF(1)
+	use FileName
+	for Line=1:1 {
+		read Record quit:$zeof
+		set RecordsArr(Line)=Record
+	}
+	close FileName
+	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
+	quit 1
+}
