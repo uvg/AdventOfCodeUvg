@@ -27,7 +27,7 @@ For example:
 ))) and )())()) both result in floor -3.
 To what floor do the instructions take Santa?
 	*/
-Part1(FileName="",Data="") PUBLIC	;
+Part1(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
