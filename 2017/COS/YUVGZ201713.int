@@ -212,7 +212,7 @@ Given the details of the firewall you've recorded, if you leave immediately, wha
 	/*
 W $$Part1^YUVGZ201713(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -389,7 +389,7 @@ What is the fewest number of picoseconds that you need to delay the packet to pa
 	/*
 W $$Part2^YUVGZ201713(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -459,7 +459,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

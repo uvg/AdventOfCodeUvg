@@ -1031,7 +1031,7 @@ What is the largest value in any register after completing the instructions in y
 	/*
 W $$Part1^YUVGZ201708(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 	new (FileName,RecordsArr)
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -1086,7 +1086,7 @@ To be safe, the CPU also needs to know the highest value held in any register du
 	/*
 W $$Part2^YUVGZ201708(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -1148,7 +1148,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {
