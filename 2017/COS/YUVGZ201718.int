@@ -88,9 +88,9 @@ What is the value of the recovered frequency (the value of the most recently pla
 	*/
 	/*
 W $$Part1^YUVGZ201718(FN)
-	//new (FileName,RecordsArr)
 	*/
 Part1(FileName="",RecordsArr) PUBLIC
+{
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
 			read !,"Enter filename: ",FileName
@@ -167,6 +167,7 @@ Part1(FileName="",RecordsArr) PUBLIC
 	//
 	//
 	quit ANS
+}
 	/*
 Year 2017, Day 18 part 2:
 As you congratulate yourself for a job well done, you notice that the documentation has been on the back of the tablet this entire time. While you actually got most of the instructions correct, there are a few key differences. This assembly code isn't about sound at all - it's meant to be run twice at the same time.
@@ -241,7 +242,7 @@ Part2(FileName="",RecordsArr) PUBLIC
 		}
 	}
 	set ANS=^Send(1) //Should be >127 and <15240
-	write !,ANS
+	//write !,ANS
 	kill ^Queue,^Instruction,^Send,^Finish,^Stop
 	//
 	//

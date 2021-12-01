@@ -58,7 +58,8 @@ If you run the program (your puzzle input), how many times is the mul instructio
 W $$Part1^YUVGZ201723(FN)
 	*/
 Part1(FileName="",RecordsArr) PUBLIC
-	new (FileName,RecordsArr)
+{
+	//new (FileName,RecordsArr)
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
 			read !,"Enter filename: ",FileName
@@ -115,6 +116,7 @@ Part1(FileName="",RecordsArr) PUBLIC
 	//
 	//
 	quit ANS
+}
 	/*
 Year 2017, Day 23 part 2:
 Now, it's time to fix the problem.
@@ -131,7 +133,7 @@ After setting register a to 1, if the program were to run to completion, what va
 W $$Part2^YUVGZ201723(FN)
 	*/
 Part2(FileName="",RecordsArr) PUBLIC
-	new (FileName,RecordsArr)
+{
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
 			read !,"Enter filename: ",FileName
@@ -169,6 +171,7 @@ Part2(FileName="",RecordsArr) PUBLIC
 	//
 	//
 	quit ANS
+}
 CheckData(RecordsArr)
 {
 	set Line="",Error=""
