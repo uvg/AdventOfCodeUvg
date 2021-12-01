@@ -65,7 +65,7 @@ What is the X,Y coordinate of the top-left fuel cell of the 3x3 square with the 
 	/*
 W $$Part1^YUVGZ201811(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -148,7 +148,7 @@ What is the X,Y,size identifier of the square with the largest total power?
 	/*
 W $$Part2^YUVGZ201811(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -220,7 +220,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

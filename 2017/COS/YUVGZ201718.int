@@ -223,7 +223,7 @@ Part2(FileName="",RecordsArr) PUBLIC
 	for  quit:$get(^Finish(1))  hang .000001
 	if '$get(^Finish(0)) {
 		//Wait for program 0 to quit
-		set TIMEOUT=11,HH=$zhorolog
+		set TIMEOUT=5,HH=$zhorolog
 		for  {
 			quit:$get(^Finish(0))
 			hang .000001
@@ -293,7 +293,7 @@ RunCode(ID) PUBLIC
 			continue
 		}
 		if Op="rcv" {
-			set HH=$zhorolog,TIMEOUT=10
+			set HH=$zhorolog,TIMEOUT=1
 			for  set key=$order(^Queue(ID,"")) quit:$length(key)  hang 0.000001  quit:$zhorolog-HH>TIMEOUT
 			quit:$zhorolog-HH>TIMEOUT
 			set @val1=^Queue(ID,key) kill ^Queue(ID,key)

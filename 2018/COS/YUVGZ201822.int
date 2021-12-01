@@ -68,7 +68,7 @@ What is the total risk level for the smallest rectangle that includes 0,0 and th
 	/*
 W $$Part1^YUVGZ201822(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -421,7 +421,7 @@ What is the fewest number of minutes you can take to reach the target?
 	/*
 W $$Part2^YUVGZ201822(FN)
 	*/
-Part2(FileName="",RecordsArr) [TopMinutes] PUBLIC	;
+Part2(FileName="",RecordsArr) [TopMinutes] PUBLIC
 {
 	new TopMinutes
 	if $data(RecordsArr)'=10 {
@@ -525,7 +525,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	set io=$io
 	kill RecordsArr

@@ -109,7 +109,7 @@ After 20 generations, what is the sum of the numbers of all pots which contain a
 	/*
 W $$Part1^YUVGZ201812(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -186,7 +186,7 @@ After fifty billion (50000000000) generations, what is the sum of the numbers of
 	/*
 W $$Part2^YUVGZ201812(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -243,7 +243,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

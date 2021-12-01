@@ -215,7 +215,7 @@ What will the total resource value of the lumber collection area be after 10 min
 	/*
 W $$Part1^YUVGZ201818(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -305,7 +305,7 @@ What will the total resource value of the lumber collection area be after 100000
 	/*
 W $$Part2^YUVGZ201818(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -410,7 +410,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	set io=$io
 	kill RecordsArr

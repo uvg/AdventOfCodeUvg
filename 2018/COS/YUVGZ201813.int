@@ -319,7 +319,7 @@ In this example, the location of the first crash is 7,3.
 	/*
 W $$Part1^YUVGZ201813(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -487,7 +487,7 @@ What is the location of the last cart at the end of the first tick where it is t
 	/*
 W $$Part2^YUVGZ201813(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -610,7 +610,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	set io=$io
 	kill RecordsArr

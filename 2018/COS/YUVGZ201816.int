@@ -4269,7 +4269,7 @@ Ignoring the opcode numbers, how many samples in your puzzle input behave like t
 	/*
 W $$Part1^YUVGZ201816(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -4386,7 +4386,7 @@ What value is contained in register 0 after executing the test program?
 	/*
 W $$Part2^YUVGZ201816(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 	new (FileName,RecordsArr)
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -4480,7 +4480,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {
