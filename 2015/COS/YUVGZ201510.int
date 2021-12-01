@@ -19,7 +19,7 @@ For example:
 111221 becomes 312211 (three 1s, two 2s, and one 1).
 Starting with the digits in your puzzle input, apply this process 40 times. What is the length of the result?
 	*/
-Part1(FileName="",Data="",Times="") PUBLIC	;
+Part1(FileName="",Data="",Times="") PUBLIC
 {
 	if '$length(Times) {
 		read !,"Enter how many times to process it: ",Times
@@ -73,7 +73,7 @@ Part1(FileName="",Data="",Times="") PUBLIC	;
 
 	/*
 	*/
-Part2(FileName="",Data="",Times="") PUBLIC	;
+Part2(FileName="",Data="",Times="") PUBLIC
 {
 	if '$length(Times) {
 		read !,"Enter how many times to process it: ",Times
@@ -131,7 +131,7 @@ Part2(FileName="",Data="",Times="") PUBLIC	;
 	quit obj.Size
 }
 
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

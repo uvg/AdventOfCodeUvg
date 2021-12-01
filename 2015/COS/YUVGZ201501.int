@@ -27,7 +27,7 @@ For example:
 ))) and )())()) both result in floor -3.
 To what floor do the instructions take Santa?
 	*/
-Part1(FileName="",Data="") PUBLIC	;
+Part1(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -48,7 +48,6 @@ Part1(FileName="",Data="") PUBLIC	;
 		}
 		set Data=RecordsArr(1)
 	}
-	s a=1
 	quit:'$$CheckData(Data) 0
 	set Up=$length($translate(Data,")"))
 	set Down=$length($translate(Data,"("))
@@ -63,7 +62,7 @@ For example:
 ()()) causes him to enter the basement at character position 5.
 What is the position of the character that causes Santa to first enter the basement?
 	*/
-Part2(FileName="",Data="") PUBLIC	;
+Part2(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -94,7 +93,7 @@ Part2(FileName="",Data="") PUBLIC	;
 	}
 	quit Location
 }
-CheckData(Data)	;
+CheckData(Data)
 {
 	if '$length(Data) {
 		write !,"Missing data"
@@ -107,7 +106,7 @@ CheckData(Data)	;
 	quit 1
 }
 
-LoadFile(Filename,LineArr)	;
+LoadFile(Filename,LineArr)
 {
 	kill LineArr
 	set eofSW=$zutil(68,40,1)

@@ -380,7 +380,7 @@ x: 123
 y: 456
 In little Bobby's kit's instructions booklet (provided as your puzzle input), what signal is ultimately provided to wire a?
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -484,7 +484,8 @@ Part1(FileName="",RecordsArr) PUBLIC	;
 	*/
 	quit a
 }
-ComputeHeight(Node,Tree) {
+ComputeHeight(Node,Tree)
+{
 	if '$data(Tree(Node)) quit 0
 	if $get(Tree(Node)) quit Tree(Node)
 	set To="",MaxHeight=0 for  {
@@ -498,7 +499,7 @@ ComputeHeight(Node,Tree) {
 	/*
 Now, take the signal you got on wire a, override wire b to that signal, and reset the other wires (including wire a). What new signal is ultimately provided to wire a?
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -524,7 +525,8 @@ Part2(FileName="",RecordsArr) PUBLIC	;
 	}
 	quit $$Part1(,.RecordsArr)
 }
-CheckData(RecordsArr) {
+CheckData(RecordsArr)
+{
 	set ERR=""
 	set Line="" for  {
 		set Line=$order(RecordsArr(Line)) quit:Line=""
@@ -563,11 +565,12 @@ CheckData(RecordsArr) {
 	quit:$length(ERR) 0
 	quit 1
 }
-DisplayErr(Error) {
+DisplayErr(Error)
+{
 	write !,Error
 	quit Error
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

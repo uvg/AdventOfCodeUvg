@@ -177,7 +177,7 @@ In your grid of 100x100 lights, given your initial configuration, how many light
 	/*
 W $$Part1^YUVGZ201518(FN)
 	*/
-Part1(FileName="",RecordsArr,NumberOfCycles) PUBLIC	;
+Part1(FileName="",RecordsArr,NumberOfCycles) PUBLIC
 {
 	if $get(NumberOfCycles)'?1.n||'$extract($get(NumberOfCycles)) {
 		write !,"Wrong number of cycles, bye bye"
@@ -310,7 +310,7 @@ In your grid of 100x100 lights, given your initial configuration, but with the f
 	/*
 W $$Part2^YUVGZ201518(FN)
 	*/
-Part2(FileName="",RecordsArr,NumberOfCycles) PUBLIC	;
+Part2(FileName="",RecordsArr,NumberOfCycles) PUBLIC
 {
 	if $get(NumberOfCycles)'?1.n||'$extract($get(NumberOfCycles)) {
 		write !,"Wrong number of cycles, bye bye"
@@ -369,7 +369,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

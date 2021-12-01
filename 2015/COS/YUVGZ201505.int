@@ -1021,7 +1021,7 @@ haegwjzuvuyypxyu is naughty because it contains the string xy.
 dvszwmarrgswjxmb is naughty because it contains only one vowel.
 How many strings are nice?
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -1070,7 +1070,7 @@ uurcxstgmygtbstg is naughty because it has a pair (tg) but no repeat with a sing
 ieodomkazucvgmuy is naughty because it has a repeating letter with one between (odo), but no pair that appears twice.
 How many strings are nice under these new rules?
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -1105,7 +1105,7 @@ Part2(FileName="",RecordsArr) PUBLIC	;
 	quit Nice
 }
 
-CheckData(RecordsArr)	;
+CheckData(RecordsArr)
 {
 	if $data(RecordsArr)'=10 {
 		write !,"Wrong data"
@@ -1134,7 +1134,7 @@ CheckData(RecordsArr)	;
 	quit 1
 }
 
-LoadFile(Filename,LineArr)	;
+LoadFile(Filename,LineArr)
 {
 	kill LineArr
 	set eofSW=$zutil(68,40,1)

@@ -320,7 +320,7 @@ toggle 0,0 through 999,0 would toggle the first line of 1000 lights, turning off
 turn off 499,499 through 500,500 would turn off (or leave off) the middle four lights.
 After following the instructions, how many lights are lit?
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -385,7 +385,7 @@ For example:
 turn on 0,0 through 0,0 would increase the total brightness by 1.
 toggle 0,0 through 999,999 would increase the total brightness by 2000000.
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -431,7 +431,8 @@ Part2(FileName="",RecordsArr) PUBLIC	;
 	}
 	quit LightBrightness
 }
-CheckData(RecordsArr) {
+CheckData(RecordsArr)
+{
 	set ERR=""
 	set Line="" for  {
 		set Line=$order(RecordsArr(Line)) quit:Line=""
@@ -465,7 +466,7 @@ CheckData(RecordsArr) {
 	quit:$length(ERR) 0
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

@@ -18,7 +18,7 @@ For example:
 ^>v< delivers presents to 4 houses in a square, including twice to the house at his starting/ending location.
 ^v^v^v^v^v delivers a bunch of presents to some very lucky children at only 2 houses.
 	*/
-Part1(FileName="",Data="") PUBLIC	;
+Part1(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -65,7 +65,7 @@ For example:
 ^>v< now delivers presents to 3 houses, and Santa and Robo-Santa end up back where they started.
 ^v^v^v^v^v now delivers presents to 11 houses, with Santa going one direction and Robo-Santa going the other.
 	*/
-Part2(FileName="",Data="") PUBLIC	;
+Part2(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -101,7 +101,7 @@ Part2(FileName="",Data="") PUBLIC	;
 	}
 	quit TotalHouses
 }
-CheckData(Data)	;
+CheckData(Data)
 {
 	if '$length(Data) {
 		write !,"Missing data"
@@ -114,7 +114,7 @@ CheckData(Data)	;
 	quit 1
 }
 
-LoadFile(Filename,LineArr)	;
+LoadFile(Filename,LineArr)
 {
 	kill LineArr
 	set eofSW=$zutil(68,40,1)

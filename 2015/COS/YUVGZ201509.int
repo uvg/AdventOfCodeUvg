@@ -54,7 +54,7 @@ The shortest of these is London -> Dublin -> Belfast = 605, and so the answer is
 
 What is the distance of the shortest route?
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -116,7 +116,7 @@ For example, given the distances above, the longest route would be 982 via (for 
 
 What is the distance of the longest route?
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -169,7 +169,8 @@ Part2(FileName="",RecordsArr) PUBLIC	;
 	zw OrderdPlaces
 	quit MaxDistance
 }
-CheckData(RecordsArr) {
+CheckData(RecordsArr)
+{
 	set ERR=""
 	set Line="" for  {
 		set Line=$order(RecordsArr(Line)) quit:Line=""
@@ -191,11 +192,12 @@ CheckData(RecordsArr) {
 	quit:$length(ERR) 0
 	quit 1
 }
-DisplayErr(Error) {
+DisplayErr(Error)
+{
 	write !,Error
 	quit Error
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {
