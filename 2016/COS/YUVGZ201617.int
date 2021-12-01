@@ -44,7 +44,7 @@ Given your vault's passcode, what is the shortest path (the actual path, not jus
 	/*
 W $$Part1^YUVGZ201617(FN)
 	*/
-Part1(FileName="",RecordsArr) [minpath,longestpath] PUBLIC	;
+Part1(FileName="",RecordsArr) [minpath,longestpath] PUBLIC
 {
 	new minpath,longestpath
 	if $data(RecordsArr)'=10 {
@@ -121,7 +121,7 @@ What is the length of the longest path that reaches the vault?
 	/*
 W $$Part2^YUVGZ201617(FN)
 	*/
-Part2(FileName="",RecordsArr) [minpath,longestpath] PUBLIC	;
+Part2(FileName="",RecordsArr) [minpath,longestpath] PUBLIC
 {
 	new minpath,longestpath
 	if $data(RecordsArr)'=10 {
@@ -171,7 +171,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

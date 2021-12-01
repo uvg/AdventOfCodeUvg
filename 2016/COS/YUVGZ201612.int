@@ -62,7 +62,7 @@ After executing the assembunny code in your puzzle input, what value is left in 
 	/*
 W $$Part1^YUVGZ201612(FN)
 	*/
-Part1(FileName="",RecordsArr) [a,b,c,d] PUBLIC	;
+Part1(FileName="",RecordsArr) [a,b,c,d] PUBLIC
 {
 	new a,b,c,d
 	if $data(RecordsArr)'=10 {
@@ -129,7 +129,7 @@ If you instead initialize register c to be 1, what value is now left in register
 	/*
 W $$Part2^YUVGZ201612(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -202,7 +202,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {
