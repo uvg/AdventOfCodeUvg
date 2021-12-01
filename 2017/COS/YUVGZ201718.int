@@ -88,9 +88,9 @@ What is the value of the recovered frequency (the value of the most recently pla
 	*/
 	/*
 W $$Part1^YUVGZ201718(FN)
+	//new (FileName,RecordsArr)
 	*/
 Part1(FileName="",RecordsArr) PUBLIC
-	//new (FileName,RecordsArr)
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
 			read !,"Enter filename: ",FileName
