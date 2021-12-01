@@ -93,7 +93,7 @@ Part2(FileName="",Data="") PUBLIC
 	}
 	quit Location
 }
-CheckData(Data)	;
+CheckData(Data)
 {
 	if '$length(Data) {
 		write !,"Missing data"
@@ -106,7 +106,7 @@ CheckData(Data)	;
 	quit 1
 }
 
-LoadFile(Filename,LineArr)	;
+LoadFile(Filename,LineArr)
 {
 	kill LineArr
 	set eofSW=$zutil(68,40,1)
