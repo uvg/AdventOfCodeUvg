@@ -1,4 +1,4 @@
-ROUTINE YUVGZTEST
+ROUTINE YUVGZTESTz
 YUVGZ201501	;https://adventofcode.com/2015/day/1;
 	//Intersystems developer community id: 130669-ab1f69bf
 	quit
@@ -48,7 +48,6 @@ Part1(FileName="",Data="") PUBLIC
 		}
 		set Data=RecordsArr(1)
 	}
-	s a=1
 	quit:'$$CheckData(Data) 0
 	set Up=$length($translate(Data,")"))
 	set Down=$length($translate(Data,"("))
