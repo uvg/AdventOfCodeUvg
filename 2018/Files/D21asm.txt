@@ -1,0 +1,74 @@
+#ip 3
+0	seti 123 0 4		r(4)=123							r(4)=123
+1	bani 4 456 4		r(4)=r(4)&456						1	r(4)=72  	//leave bits 3,6,7,8 (turn off all other bits)
+2	eqri 4 72 4		r(4)=r(4)=72							r(4)=0/1	//1 if was 72 (bits 3,6 were on and bits 7,8 were off)
+3	addr 4 3 3		r(3)=r(3)+r(4)		==>	ip=$s(r(4):5,1:4)		cmp r(4),1 jz 5
+4	seti 0 0 3		r(3)=0			==>	ip=1				jmp 1           //Nevere reaching this??
+5	seti 0 9 4		r(4)=0							5	r(4)=0
+6	bori 4 65536 2		r(2)=r(4)|65536						6	r(2)=65536	//turn on bit 16, so if off +65536 otherwise no change
+7	seti 6152285 4 4	r(4)=6152285							r(4)=6152285
+8	bani 2 255 1		r(1)=r(2)&255						8	r(1)=0
+9	addr 4 1 4		r(4)=r(4)+r(1)							r(4)=6152285
+10	bani 4 16777215 4	r(4)=r(4)&16777215						r(4)=6152285
+11	muli 4 65899 4		r(4)=r(4)*65899							r(4)=405429429215
+12	bani 4 16777215 4	r(4)=r(4)&16777215						r(4)=8004575
+13	gtir 256 2 1		r(1)=256>r(2)							r(1)=0
+14	addr 1 3 3		r(3)=r(3)+r(1)		==>	ip=$s(r(1):16,1:15)		cmp r(1),1 jz 16
+15	addi 3 1 3		r(3)=r(3)+1		==>	ip=17				jmp 17
+16	seti 27 4 3		r(3)=27			==>	ip=28			16	jmp 28
+17	seti 0 3 1		r(1)=0							17	r(1)=0
+18	addi 1 1 5		r(5)=r(1)+1						18	r(5)=r(1)+1
+19	muli 5 256 5		r(5)=r(5)*256							r(5)=(r(1)+1)*256
+20	gtrr 5 2 5		r(5)=r(5)>r(2)							r(5)=0/1
+21	addr 5 3 3		r(3)=r(3)+r(5)		==>	ip=$s(r(5):23,1:22)		cmp r(5),1 jz 23
+22	addi 3 1 3		r(3)=r(3)+1		==>	ip=24				jmp 24
+23	seti 25 9 3		r(3)=25			==>	ip=26			23	jmp 26
+24	addi 1 1 1		r(1)=r(1)+1						24	r(1)=r(1)+1
+25	seti 17 4 3		r(3)=17			==>	ip=18				jmp 18
+26	setr 1 9 2		r(2)=1							26	r(2)=1
+27	seti 7 4 3		r(3)=7			==>	ip=8				jmp 8
+28	eqrr 4 0 1		r(1)=r(4)=r(0)						28	r1=0/1
+29	addr 1 3 3		r(3)=r(3)+r1		==>	ip=$s(r(1):31,1:30)		quit:r(1)
+30	seti 5 6 3		r(3)=5			==>	ip=6				jmp 6
+
+----------------
+	r(4)=0
+6	r(2)=r(4)|65536  //turn on bit 16, so if off +65536 otherwise no change
+	r(4)=6152285
+8	r(1)=r(2)&255    //Leaving lower 8 bits from r(2)
+	r(4)=r(4)+r(1)
+	r(4)=r(4)&16777215
+	r(4)=r(4)*65899
+	r(4)=r(4)&16777215
+	if 256>r(2) jmp 28
+	r(1)=0
+18	r(5)=(r(1)+1)*256
+	if r(5)>r(2) jmp 26
+	r(1)=r(1)+1
+	jmp 18
+26	r(2)=1
+	jmp 8
+28	if r(4)=r(0) quit
+	jmp 6
+----------------
+	r(4)=0
+	for {
+		r(2)=r(4)|65536  //turn on bit 16, so if off +65536 otherwise no change
+		for  {
+			r(1)=r(2)&255      //Leaving lower 8 bits from r(2), so lower 8 bits from r(4) on first itteration and 1 for others.
+			r(4)=r(4)+r1       //r(4)+8bit(r(4)) on first itteration or r(4)++ on others.
+			r(4)=r(4)&16777215 //Leaving lower 24 bits from r(4)
+			r(4)=r(4)*65899    //??
+			r(4)=r(4)&16777215 //Leaving lower 24 bits from r(4)
+			quit:r(2)<256
+			r(1)=0
+			for  {
+				r(5)=(r(1)+1)*256
+				quit:r(5)>r(2)
+				r(1)=r(1)+1
+			}
+			r(2)=1
+		}
+		quit:r(4)=r(0)
+	}
+----------------
