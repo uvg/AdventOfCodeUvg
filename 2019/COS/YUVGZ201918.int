@@ -860,7 +860,8 @@ Part2(FileName="",RecordsArr) PUBLIC
 	quit MinPath
 }
 
-CheckData(RecordsArr) {
+CheckData(RecordsArr)
+{
 	set ERR=""
 	set AtLocation="",LastLength=""
 	set Line="" for  {
@@ -900,7 +901,8 @@ CheckData(RecordsArr) {
 	quit:$length(ERR) 0
 	quit 1
 }
-DisplayErr(Error) {
+DisplayErr(Error)
+{
 	write !,Error
 	quit Error
 }
