@@ -130,6 +130,7 @@ Part1(FileName="",Data="") PUBLIC
 	quit 1
 }
 Input(Line)
+{
 	do DisplayGrid("Part1")
 	set LocationX=^mtempSORT($zname,"Part1","LocationX")
 	set LocationY=^mtempSORT($zname,"Part1","LocationY")
@@ -184,6 +185,7 @@ Input(Line)
 	}
 	set ^mtempSORT($zname,"Part1","Direction")=Direction
 	quit Direction
+}
 SetDirection(Direction)
 {
 	set ^mtempSORT($zname,"Part1","Direction")=Direction
@@ -314,7 +316,8 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 				set Val=Inputs(InputId)
 			}
 			elseif $length(InputLabel) {
-				set Val=$$@(InputLabel)(Line)
+				//set Val=$$@(InputLabel)(Line)
+				set Val=$$Input(Line)
 			}
 			else {
 				read !,"Please enter value: ",Val
