@@ -68,6 +68,7 @@ Part1(FileName="",Data="") PUBLIC
 		}
 		set Data=RecordsArr(1)
 	}
+	set OriginalData=Data
 	quit:'$$CheckData(Data)
 	kill ^mtempSORT($zname,"Part1")
 	set ^mtempSORT($zname,"Part1","LocationX")=1
@@ -95,7 +96,7 @@ Part1(FileName="",Data="") PUBLIC
 		}
 	}
 	//w !
-	quit Total
+	quit $listbuild(Total,OriginalData)
 }
 DisplayGrid(PartKey)
 {
@@ -104,7 +105,7 @@ DisplayGrid(PartKey)
 		set LocationX="" for  {
 			set LocationX=$order(^mtempSORT($zname,PartKey,"grid",LocationY,LocationX)) quit:LocationX=""
 			set Val=^mtempSORT($zname,PartKey,"grid",LocationY,LocationX)
-			write *27,*41,*76,*27,*91,LocationY,*59,LocationX,*102,*27,*41,*74,Val
+			//write *27,*41,*76,*27,*91,LocationY,*59,LocationX,*102,*27,*41,*74,Val
 		}
 	}
 }
@@ -173,6 +174,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 	set OpCode="",ERR="",DiagnosticCode="",InputId=0,ExitSW=0,Offset=0,Line=0
 	//w !,"Data before: ",Data
 	while OpCode'=99&&'$length(ERR)&&'ExitSW {
+		s ^mtempSORT($zn,"Part2","Data","startofloop")=Data
 		if Data[",," for i=1:1:$length(Data,",") if $piece(Data,",",i)="" set $piece(Data,",",i)=0
 		set Instruction=$piece(Data,",",InstructionPointer)
 		;W !,Instruction,"@",InstructionPointer
@@ -181,6 +183,8 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 			quit 
 		}
 		set OpCode=+$extract(Instruction,*-1,*)
+		s ^mtempSORT($zn,"Part2","Data",OpCode,"Instruction")=Instruction
+		s ^mtempSORT($zn,"Part2","Data",OpCode,"Start")=Data
 		if ",1,2,3,4,5,6,7,8,9,99,"'[(","_OpCode_",") {
 			set ERR="Unknown operation "_OpCode
 			quit
@@ -215,6 +219,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 			set $piece(Data,",",OutPos+1)=Val
 			//w !,"Data after "_Data
 			set InstructionPointer=InstructionPointer+4
+			s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 			continue
 		}
 		if OpCode=2
@@ -233,6 +238,8 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 			if $extract(ParametersMode,*-2)=2 set OutPos=OutPos+Offset ;$piece(Data,",",OutPos+Offset+1)
 			set $piece(Data,",",OutPos+1)=Val1*Val2
 			set InstructionPointer=InstructionPointer+4
+			s ^mtempSORT($zn,"Part2","Data",$i(^mtempSORT($zn)))=Data
+			s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 			continue
 		}
 		if OpCode=3
@@ -248,7 +255,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 				set Val=Inputs(InputId)
 			}
 			elseif $length(InputLabel) {
-				set Val=$$@(InputLabel)(Line)
+				set Val=$$Input(Line)
 			}
 			else {
 				read !,"Please enter value: ",Val
@@ -256,6 +263,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 			}
 			set $piece(Data,",",OutPos+1)=Val
 			set InstructionPointer=InstructionPointer+2
+			s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 			continue
 		}
 		if OpCode=4
@@ -278,6 +286,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 			}
 			set DiagnosticCode=Val
 			set InstructionPointer=InstructionPointer+2
+			s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 			quit:ExitOpCode4
 			continue
 		}
@@ -295,9 +304,11 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 				if '$extract(ParametersMode,*-1) set InstructionPointer=$piece(Data,",",InstructionPointer+1)
 				if $extract(ParametersMode,*-1)=2 set InstructionPointer=$piece(Data,",",InstructionPointer+Offset+1)
 				set InstructionPointer=InstructionPointer+1
+				s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 				continue
 			}
 			set InstructionPointer=InstructionPointer+3
+			s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 			continue
 		}
 		if OpCode=6
@@ -314,9 +325,11 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 				if '$extract(ParametersMode,*-1) set InstructionPointer=$piece(Data,",",InstructionPointer+1)
 				if $extract(ParametersMode,*-1)=2 set InstructionPointer=$piece(Data,",",InstructionPointer+Offset+1)
 				set InstructionPointer=InstructionPointer+1
+				s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 				continue
 			}
 			set InstructionPointer=InstructionPointer+3
+			s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 			continue
 		}
 		if OpCode=7
@@ -336,6 +349,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 			set Val=Val1<Val2
 			set $piece(Data,",",OutPos+1)=Val
 			set InstructionPointer=InstructionPointer+4
+			s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 			continue
 		}
 		if OpCode=8
@@ -357,6 +371,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 			set Val=Val1=Val2
 			set $piece(Data,",",OutPos+1)=Val
 			set InstructionPointer=InstructionPointer+4
+			s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 			continue
 		}
 		if OpCode=9
@@ -370,9 +385,9 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 			if $extract(ParametersMode,*)=2 set Val=$piece(Data,",",Val+Offset+1)
 			set Offset=Offset+Val
 			set InstructionPointer=InstructionPointer+2
+			s ^mtempSORT($zn,"Part2","Data",OpCode,"End")=Data
 			continue
 		}
-
 		set ERR="Unknown operation for instruction "_Instruction
 		quit
 	}
@@ -460,8 +475,8 @@ After visiting every part of the scaffold at least once, how much dust does the 
 	*/
 Part2(FileName="",Data="") PUBLIC
 {
-	set OriginalData=Data
-	set Total=$$Part1(FileName,.Data)
+	set Answer=$$Part1(FileName,.Data)
+	set Total=$list(Answer,1),OriginalData=$list(Answer,2)
 	if 'Total quit 0
 	if $extract(Data)'=1 {
 		write !,"Wrong data"
@@ -508,6 +523,7 @@ Part2(FileName="",Data="") PUBLIC
 	for  {
 		do ComputeSignalCode(.Data,,.ERR,,0,.StopRunning,,"Output","Input")
 		w !!!,"StopRunning=",StopRunning,!
+		set Total=^mtempSORT($zname,"Part2","LastVal")
 		quit:StopRunning
 		quit:$length(ERR)
 	}
