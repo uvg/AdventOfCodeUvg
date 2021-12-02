@@ -63,7 +63,7 @@ Part1(Filename,ModuleData) PUBLIC
 			quit 0
 		}
 	}
-	if '$$IsDataOk(.ModuleData) quit 0
+	if '$$IsDataOk(.ModuleData,Filename) quit 0
 	set ERR=""
 	kill ^mtempSORT($zname)
 	for Wire=1:1:2 {
@@ -126,7 +126,8 @@ Part1(Filename,ModuleData) PUBLIC
 	kill ^mtempSORT($zname)
 	quit MinDistance
 }
-IsDataOk(ModuleData) PRIVATE
+IsDataOk(ModuleData,Filename)
+{
 	if '$data(ModuleData) {
 		write !,"Data wan't found in file "_Filename
 		quit 0
@@ -147,6 +148,7 @@ IsDataOk(ModuleData) PRIVATE
 	}
 	*/
 	Q 1
+}
 
 	/*
 It turns out that this circuit is very timing-sensitive; you actually need to minimize the signal delay.
@@ -193,7 +195,7 @@ Part2(Filename,ModuleData) PUBLIC
 			quit 0
 		}
 	}
-	if '$$IsDataOk(.ModuleData) quit 0
+	if '$$IsDataOk(.ModuleData,Filename) quit 0
 	set ERR=""
 	kill ^mtempSORT($zname)
 	for Wire=1:1:2 {
