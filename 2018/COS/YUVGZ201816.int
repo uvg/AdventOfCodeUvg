@@ -4289,7 +4289,7 @@ Part1(FileName="",RecordsArr) PUBLIC
 	quit:'$$CheckData(.RecordsArr) 0
 	do LoadOperations(.OperationsArr)
 	do AnalayzeData(.RecordsArr,.OperationsArr,.ExamplesArr)
-	zwrite OperationsArr,ExamplesArr
+	//zwrite OperationsArr,ExamplesArr
 	set Total=0,Example=""
 	for  {
 		set Example=$order(ExamplesArr(Example)) quit:Example=""
@@ -4340,8 +4340,9 @@ FactorToDec(Factor)
 	}
 	quit ans	
 }
-AnalayzeData(&RecordsArr,&OperationsArr,&ExamplesArr,&InstructionsArr)
-	new (RecordsArr,OperationsArr,ExamplesArr,InstructionsArr)
+AnalayzeData(&RecordsArr,&OperationsArr,&ExamplesArr,&InstructionsArr) [r,A,B,C]
+{
+	new r,A,B,C
 	set Line=""
 	for  {
 		set Line=$order(RecordsArr(Line)) quit:Line=""
@@ -4377,6 +4378,7 @@ AnalayzeData(&RecordsArr,&OperationsArr,&ExamplesArr,&InstructionsArr)
 		set InstructionsArr($increment(InstructionsArr))=str
 	}
 	quit
+}
 	/*
 Year 2018, Day 16 part 2:
 Using the samples you collected, work out the number of each opcode and execute the test program (the second section of your puzzle input).
@@ -4386,8 +4388,9 @@ What value is contained in register 0 after executing the test program?
 	/*
 W $$Part2^YUVGZ201816(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC
-	new (FileName,RecordsArr)
+Part2(FileName="",RecordsArr) [r,A,B,C] PUBLIC
+{
+	new r,A,B,C
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
 			read !,"Enter filename: ",FileName
@@ -4408,7 +4411,7 @@ Part2(FileName="",RecordsArr) PUBLIC
 	do AnalayzeData(.RecordsArr,.OperationsArr,.ExamplesArr,.InstructionsArr)
 	//zwrite OperationsArr,ExamplesArr,InstructionsArr
 	do GetOperations(.ExamplesArr,.OperationsArr,.OpCodesArr)
-	zwrite OpCodesArr,InstructionsArr
+	//zwrite OpCodesArr,InstructionsArr
 	for i=0:1:3 set r(i)=0
 	set Instruction=""
 	for  {
@@ -4422,7 +4425,7 @@ Part2(FileName="",RecordsArr) PUBLIC
 	//
 	//
 	quit ANS
-
+}
 GetOperations(&ExamplesArr,&OperationsArr,&OpCodesArr)
 {
 	set Example=""
@@ -4435,7 +4438,7 @@ GetOperations(&ExamplesArr,&OperationsArr,&OpCodesArr)
 		for i=1:1:$listlength(Maybe(Op)) if $listfind(Maybe,$list(Maybe(Op),i)) set str=str_$listbuild($list(Maybe(Op),i))
 		set:str'=Maybe(Op) Maybe(Op)=str
 	}
-	zwrite Maybe write !!!
+	//zwrite Maybe write !!!
 	for  {
 		set Op="",SW=0
 		for  {
@@ -4456,7 +4459,7 @@ GetOperations(&ExamplesArr,&OperationsArr,&OpCodesArr)
 		}
 		quit:'SW
 	}
-	zwrite Maybe,OperationsArr
+	//zwrite Maybe,OperationsArr
 	set Maybe="" for  {
 		set Maybe=$order(Maybe(Maybe)) quit:Maybe=""
 		set OpCodesArr(Maybe)=OperationsArr($list(Maybe(Maybe),1))		
