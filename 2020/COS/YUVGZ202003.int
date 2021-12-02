@@ -384,7 +384,7 @@ Starting at the top-left corner of your map and following a slope of right 3 and
 	/*
 W $$Part1^YUVGZ202003(FN)
 	*/
-Part1(FileName="",RecordsArr,Right,Down) PUBLIC	;
+Part1(FileName="",RecordsArr,Right,Down) PUBLIC
 {
 	set:$get(Right)'?1.n||'$extract(Right) Right=3
 	set:$get(Down)'?1.n||'$extract(Down) Down=1
@@ -432,7 +432,7 @@ What do you get if you multiply together the number of trees encountered on each
 	/*
 W $$Part2^YUVGZ202003(FN)
 	*/
-Part2(FileName="",RecordsArr,Step) PUBLIC	;
+Part2(FileName="",RecordsArr,Step) PUBLIC
 {
 	set:$get(Step)'?1.n||'$extract(Step) Step=1
 	if $data(RecordsArr)'=10 {
@@ -479,7 +479,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

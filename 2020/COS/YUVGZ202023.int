@@ -83,7 +83,7 @@ Using your labeling, simulate 100 moves. What are the labels on the cups after c
 	/*
 W $$Part1^YUVGZ202023(FN)
 	*/
-Part1(FileName="",RecordsArr,Moves) PUBLIC	;
+Part1(FileName="",RecordsArr,Moves) PUBLIC
 {
 	if '$length($get(Moves)) {
 		read !,"Enter number of moves: ",Moves
@@ -156,7 +156,7 @@ Determine which two cups will end up immediately clockwise of cup 1. What do you
 	/*
 W $$Part2^YUVGZ202023(FN)
 	*/
-Part2(FileName="",RecordsArr,Moves) PUBLIC	;
+Part2(FileName="",RecordsArr,Moves) PUBLIC
 {
 	if '$length($get(Moves)) {
 		read !,"Enter number of moves: ",Moves
@@ -225,7 +225,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

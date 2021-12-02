@@ -75,7 +75,7 @@ Determine which ingredients cannot possibly contain any of the allergens in your
 	/*
 W $$Part1^YUVGZ202021(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -169,7 +169,7 @@ Time to stock your raft with supplies. What is your canonical dangerous ingredie
 	/*
 W $$Part2^YUVGZ202021(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -290,7 +290,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

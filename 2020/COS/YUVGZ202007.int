@@ -633,7 +633,7 @@ How many bag colors can eventually contain at least one shiny gold bag? (The lis
 	/*
 W $$Part1^YUVGZ202007(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -722,7 +722,7 @@ How many individual bags are required inside your single shiny gold bag?
 	/*
 W $$Part2^YUVGZ202007(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -786,7 +786,7 @@ posh salmon bags contain 1 dull black bag, 1 striped indigo bag, 1 muted silver 
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

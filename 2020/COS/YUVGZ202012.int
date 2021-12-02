@@ -817,7 +817,7 @@ Figure out where the navigation instructions lead. What is the Manhattan distanc
 	/*
 W $$Part1^YUVGZ202012(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -909,7 +909,7 @@ Figure out where the navigation instructions actually lead. What is the Manhatta
 	/*
 W $$Part2^YUVGZ202012(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -996,7 +996,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

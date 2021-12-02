@@ -55,7 +55,7 @@ What is the ID of the earliest bus you can take to the airport multiplied by the
 	/*
 W $$Part1^YUVGZ202013(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -153,7 +153,7 @@ What is the earliest timestamp such that all of the listed bus IDs depart at off
 	/*
 W $$Part2^YUVGZ202013(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -247,7 +247,7 @@ CheckData(RecordsArr)
 	}
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {
