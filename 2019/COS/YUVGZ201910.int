@@ -289,7 +289,10 @@ Part2(FileName="") PUBLIC
 					set DefY=AstroidY-Line
 					set Quarter=$S((DefX'<0):1+(DefY'<0),1:3+(DefY<0))
 					set Diag=999
-					set:DefX Diag=$zarctan($zabs(DefY/DefX))
+					if DefX {
+						set AbsVal=$zabs(DefY/DefX)
+						set Diag=$zarctan(AbsVal)
+					}
 					if 13[Quarter set Diag=-Diag
 					set Distance=((DefX**2)+(DefY**2))**.5
 					set Astroid(X,Line,Quarter,Diag,Distance,AstroidX,AstroidY)=""
