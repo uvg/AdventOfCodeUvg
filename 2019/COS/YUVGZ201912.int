@@ -186,7 +186,7 @@ pot: 16 + 13 + 23 = 52;   kin: 7 +  1 + 1 =  9;   total: 52 *  9 = 468
 Sum of total energy: 290 + 608 + 574 + 468 = 1940
 What is the total energy in the system after simulating the moons given in your scan for 1000 steps?
 	*/
-Part1(FileName="",RecordsArr,NumOfLoops="") PUBLIC	;
+Part1(FileName="",RecordsArr,NumOfLoops="") PUBLIC
 {
 	if '$length(NumOfLoops) {
 		read !,"How many loops? ",NumOfLoops
@@ -323,7 +323,7 @@ This set of initial positions takes 4686774924 steps before it repeats a previou
 
 How many steps does it take to reach the first state that exactly matches a previous state?
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)<10 {
 		if '$length(FileName) {
@@ -415,7 +415,7 @@ ComputeAxis(Axis) PUBLIC {
 	w !!
 	quit Loop
 }
-GetKey(Moons,Axis)	;
+GetKey(Moons,Axis)
 {
 	set Key="",Moon="" for  {
 		set Moon=$order(Moons(Moon)) quit:Moon=""
@@ -425,7 +425,7 @@ GetKey(Moons,Axis)	;
 	quit Key
 }
 
-CheckData(RecordsArr)	;
+CheckData(RecordsArr)
 {
 	set ERR=""
 	set Line="" for  {
@@ -457,7 +457,7 @@ CheckData(RecordsArr)	;
 	quit:$length(ERR) 0
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

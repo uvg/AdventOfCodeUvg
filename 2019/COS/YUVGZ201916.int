@@ -75,7 +75,7 @@ Here are the first eight digits of the final output list after 100 phases for so
 69317163492948606335995924319873 becomes 52432133.
 After 100 phases of FFT, what are the first eight digits in the final output list?
 	*/
-Part1(FileName="",Data="",NumberOfTimes="") PUBLIC	;
+Part1(FileName="",Data="",NumberOfTimes="") PUBLIC
 {
 	if '$length(NumberOfTimes) {
 		read !,"Enter how many times to run: ",NumberOfTimes
@@ -152,7 +152,7 @@ Here is the eight-digit message in the final output list after 100 phases. The m
 03081770884921959731165446850517 becomes 53553731.
 After repeating your input signal 10000 times and running 100 phases of FFT, what is the eight-digit message embedded in the final output list?
 	*/
-Part2(FileName="",Data="",NumberOfTimes="") PUBLIC	;
+Part2(FileName="",Data="",NumberOfTimes="") PUBLIC
 {
 	if '$length(NumberOfTimes) {
 		read !,"Enter how many times to run: ",NumberOfTimes
@@ -213,7 +213,7 @@ Part2(FileName="",Data="",NumberOfTimes="") PUBLIC	;
 	set String="" for j=1:1:8 set String=String_Digits(j)
 	quit $extract(String,1,8)
 }
-Part2temp2(FileName="",Data="",NumberOfTimes="") PUBLIC	;
+Part2temp2(FileName="",Data="",NumberOfTimes="") PUBLIC
 {
 	if '$length(NumberOfTimes) {
 		read !,"Enter how many times to run: ",NumberOfTimes
@@ -271,7 +271,7 @@ Part2temp2(FileName="",Data="",NumberOfTimes="") PUBLIC	;
 	quit $extract(String,Offset+1,Offset+8)
 }
 	
-Part2temp(FileName="",Data="",NumberOfTimes="") PUBLIC	;
+Part2temp(FileName="",Data="",NumberOfTimes="") PUBLIC
 {
 	if '$length(NumberOfTimes) {
 		read !,"Enter how many times to run: ",NumberOfTimes
@@ -370,7 +370,7 @@ Part2temp(FileName="",Data="",NumberOfTimes="") PUBLIC	;
 	w !
 	quit $extract(String,Offset+1,Offset+8)
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

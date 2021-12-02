@@ -52,7 +52,7 @@ Finally, the program will output a diagnostic code and immediately halt. This fi
 
 After providing 1 to the only input instruction and passing all the tests, what diagnostic code does the program produce?
 	*/
-Part1(FileName="",Data="") PUBLIC	;
+Part1(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -200,7 +200,7 @@ This time, when the TEST diagnostic program runs its input instruction to get th
 
 What is the diagnostic code for system ID 5?
 	*/
-Part2(FileName="",Data="") PUBLIC	;
+Part2(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -380,7 +380,7 @@ Part2(FileName="",Data="") PUBLIC	;
 	write !,"Diagnostic Code is: "_DiagnosticCode
 	quit Data
 }
-CheckData(Data)	;
+CheckData(Data)
 {
 	if $length(Data,",")<2,Data'=99 {
 		write !,"Wrong data "_Data
@@ -398,7 +398,7 @@ CheckData(Data)	;
 	quit:$length(ERR) 0
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

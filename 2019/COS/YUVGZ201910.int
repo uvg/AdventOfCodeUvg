@@ -127,7 +127,7 @@ Best is 11,13 with 210 other asteroids detected:
 ###.##.####.##.#..##
 Find the best location for a new monitoring station. How many other asteroids can be detected from that location?
 	*/
-Part1(FileName="") PUBLIC	;
+Part1(FileName="") PUBLIC
 {
 	if '$length(FileName) {
 		read !,"Enter filename: ",FileName
@@ -256,7 +256,7 @@ The Elves are placing bets on which will be the 200th asteroid to be vaporized. 
 ..#.....#...###..
 ..#.#.....#....##
 	*/
-Part2(FileName="") PUBLIC	;
+Part2(FileName="") PUBLIC
 {
 	if '$length(FileName) {
 		read !,"Enter filename: ",FileName
@@ -343,7 +343,7 @@ Part2(FileName="") PUBLIC	;
 	quit Answer
 }
 
-CheckData(RecordsArr)	;
+CheckData(RecordsArr)
 {
 	set Line="",ERR=""
 	for  {
@@ -358,7 +358,7 @@ CheckData(RecordsArr)	;
 	quit:$length(ERR) 0
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

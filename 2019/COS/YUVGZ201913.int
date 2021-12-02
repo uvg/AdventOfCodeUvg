@@ -21,7 +21,7 @@ For example, a sequence of output values like 1,2,3,6,5,4 would draw a horizonta
 
 Start the game. How many block tiles are on the screen when the game exits?
 	*/
-Part1(FileName="",Data="") PUBLIC	;
+Part1(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -77,7 +77,7 @@ GetNumOfTiles(TileType)
 	quit Counter
 }
     ;              1     2     3        4                   5          6      7        8               9
-ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")	;
+ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")
 {
 	set OpCode="",ERR="",DiagnosticCode="",InputId=0,ExitSW=0,Offset=0,Line=0
 	//w !,"Data before: ",Data
@@ -304,7 +304,7 @@ The arcade cabinet also has a segment display capable of showing a single number
 
 Beat the game by breaking all the blocks. What is your score after the last block is broken?
 	*/
-Part2(FileName="",Data="") PUBLIC	;
+Part2(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -344,7 +344,7 @@ Part2(FileName="",Data="") PUBLIC	;
 	//w !!!!,"new data is ",Data
 	quit 1
 }
-Input(Line)	;
+Input(Line)
 	set LocationY="" for  {
 		set LocationY=$order(^mtempSORT($zname,"grid",LocationY)) quit:LocationY=""
 		write !
@@ -355,7 +355,7 @@ Input(Line)	;
 		}
 	}
 	quit
-Output(Line,Val)	;
+Output(Line,Val)
 
 	set ^mtempSORT($zname,"Output",Line)=Val
 	if Line#3=1 set ^mtempSORT($zname,"LocationX")=Val
@@ -381,7 +381,7 @@ Output(Line,Val)	;
 	}
 	quit
 
-CheckData(Data)	;
+CheckData(Data)
 {
 	if $length(Data,",")<2,Data'=99 {
 		write !,"Wrong data "_Data
@@ -399,7 +399,7 @@ CheckData(Data)	;
 	quit:$length(ERR) 0
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

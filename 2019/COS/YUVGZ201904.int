@@ -21,7 +21,7 @@ Other than the range rule, the following are true:
 123789 does not meet these criteria (no double).
 How many different passwords within the range given in your puzzle input meet these criteria?
 	*/
-Part1(PasswordRange) PUBLIC	;
+Part1(PasswordRange) PUBLIC
 {
 	/*set Filename=$get(Filename)
 	if $data(ModuleData)<10 {
@@ -85,7 +85,7 @@ Given this additional criterion, but still ignoring the range rule, the followin
 111122 meets the criteria (even though 1 is repeated more than twice, it still contains a double 22).
 How many different passwords within the range given in your puzzle input meet all of the criteria?
 	*/
-Part2(PasswordRange) PUBLIC	;
+Part2(PasswordRange) PUBLIC
 {
 	/*set Filename=$get(Filename)
 	if $data(ModuleData)<10 {
@@ -150,7 +150,7 @@ Part2(PasswordRange) PUBLIC	;
 	}
 	quit MaybePasswordOK
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

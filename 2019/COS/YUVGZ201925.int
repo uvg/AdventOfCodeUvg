@@ -28,7 +28,7 @@ Santa's ship is a Reindeer-class starship; these ships use pressure-sensitive fl
 
 Look around the ship and see if you can find the password for the main airlock.
 	*/
-Part1(FileName="",Data="") PUBLIC	;
+Part1(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -113,7 +113,7 @@ SetCommands(PartKey)
 	//                                            "I" - Init so send computer id
 	//                                            "X" - X value
 	//                                            "Y" - Y Value
-Input(Line)	;
+Input(Line)
 	if $data(^mtempSORT($zname,"STOP")) K A S A=A
 	set PartKey=^mtempSORT($zname,"PartKey")
 	;/*
@@ -143,7 +143,7 @@ Input(Line)	;
 	//                                            "D" - Destination
 	//                                            "X" - X value
 	//                                            "Y" - Y Value
-Output(Line,Val)	;
+Output(Line,Val)
 	if $data(^mtempSORT($zname,"STOP")) K A S A=A
 	set PartKey=^mtempSORT($zname,"PartKey")
 	set PartKey=^mtempSORT($zname,"PartKey")
@@ -162,7 +162,7 @@ Output(Line,Val)	;
 	}
 	quit
     ;              1     2     3        4                   5          6      7        8               9
-ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")	;
+ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")
 {
 	set OpCode="",ERR="",DiagnosticCode="",InputId=0,ExitSW=0,Offset=0,Line=0
 	//w !,"Data before: ",Data
@@ -394,12 +394,12 @@ You use all fifty stars to align the warp drive! Suddenly, the Sun starts gettin
 
 You'll be home before you know it.
 	*/
-Part2(FileName="",Data="") PUBLIC	;
+Part2(FileName="",Data="") PUBLIC
 {
 	write !,"FINITO LA COMMEDIA",!!
 	quit 0
 }
-CheckData(Data)	;
+CheckData(Data)
 {
 	if $length(Data,",")<2,Data'=99 {
 		write !,"Wrong data "_Data
@@ -417,7 +417,7 @@ CheckData(Data)	;
 	quit:$length(ERR) 0
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

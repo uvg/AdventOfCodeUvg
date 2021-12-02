@@ -27,7 +27,7 @@ The image you received is 25 pixels wide and 6 pixels tall.
 
 To make sure the image wasn't corrupted during transmission, the Elves would like you to find the layer that contains the fewest 0 digits. On that layer, what is the number of 1 digits multiplied by the number of 2 digits?
 	*/
-Part1(Filename="",ImageData="",Width=0,Height=0) PUBLIC	;
+Part1(Filename="",ImageData="",Width=0,Height=0) PUBLIC
 {
 	if Width'?1.n||'$extract(Width) {
 		read !,"Please enter the image width: ",Width
@@ -128,7 +128,7 @@ So, the final image looks like this:
 10
 What message is produced after decoding your image?
 	*/
-Part2(Filename="",ImageData="",Width=0,Height=0) PUBLIC	;
+Part2(Filename="",ImageData="",Width=0,Height=0) PUBLIC
 {
 	if Width'?1.n||'$extract(Width) {
 		read !,"Please enter the image width: ",Width
@@ -221,7 +221,7 @@ Part2(Filename="",ImageData="",Width=0,Height=0) PUBLIC	;
 	write !!
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

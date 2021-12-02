@@ -22,7 +22,7 @@ Note that these input and output instructions never block. Specifically, output 
 
 Boot up all 50 computers and attach them to your network. What is the Y value of the first packet sent to address 255?
 	*/
-Part1(FileName="",Data="") PUBLIC	;
+Part1(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -59,7 +59,7 @@ Part1(FileName="",Data="") PUBLIC	;
 	}
 	quit $piece(^mtempSORT($zname,PartKey,255,"Input","Data"),",",2)
 }
-RunComputer(Computer,Data)	;
+RunComputer(Computer,Data)
 	set PartKey=^mtempSORT($zname,"PartKey")
 	set ^mtempSORT($zname,PartKey,"Process",$job,"Computer")=Computer
 	set ^mtempSORT($zname,PartKey,"Process",$job,"Start")=$zutil(188)
@@ -69,7 +69,7 @@ RunComputer(Computer,Data)	;
 	do ComputeSignalCode(Data,,,,0,,,"Output","Input")
 	set ^mtempSORT($zname,PartKey,"Process",$job,"End")=$zutil(188)
 	quit
-IdleMonitor	;
+IdleMonitor
 	set ^mtempSORT($zname,"Part2","Process",$job,"Start")=$zutil(188)_"*"
 	set ^mtempSORT($zname,"Part2",255,"Idle")=0
 	for  {
@@ -126,7 +126,7 @@ IsIdle()
 	//                                            "I" - Init so send computer id
 	//                                            "X" - X value
 	//                                            "Y" - Y Value
-Input(Line)	;
+Input(Line)
 	if $data(^mtempSORT($zname,"STOP")) halt
 	set PartKey=^mtempSORT($zname,"PartKey")
 	set ^mtempSORT($zname,PartKey,"Process",$job,"Input")=1_"*"_$zutil(188)
@@ -163,7 +163,7 @@ Input(Line)	;
 	//                                            "D" - Destination
 	//                                            "X" - X value
 	//                                            "Y" - Y Value
-Output(Line,Val)	;
+Output(Line,Val)
 	if $data(^mtempSORT($zname,"STOP")) halt
 	set PartKey=^mtempSORT($zname,"PartKey")
 	set ^mtempSORT($zname,PartKey,"Process",$job,"Output")=1_"*"_$zutil(188)
@@ -198,7 +198,7 @@ SendMessage(PartKey,From,To,X,Y)
 	set ^mtempSORT($zname,PartKey,To,"Que",QueId,"F")=From
 }
     ;              1     2     3        4                   5          6      7        8               9
-ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")	;
+ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")
 {
 	set OpCode="",ERR="",DiagnosticCode="",InputId=0,ExitSW=0,Offset=0,Line=0
 	//w !,"Data before: ",Data
@@ -426,7 +426,7 @@ Once the network is idle, the NAT sends only the last packet it received to addr
 
 Monitor packets released to the computer at address 0 by the NAT. What is the first Y value delivered by the NAT to the computer at address 0 twice in a row?
 	*/
-Part2(FileName="",Data="") PUBLIC	;
+Part2(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -464,7 +464,7 @@ Part2(FileName="",Data="") PUBLIC	;
 	}
 	quit $piece(^mtempSORT($zname,"Part2",255,"Send2times"),",",2)
 }
-CheckData(Data)	;
+CheckData(Data)
 {
 	if $length(Data,",")<2,Data'=99 {
 		write !,"Wrong data "_Data
@@ -482,7 +482,7 @@ CheckData(Data)	;
 	quit:$length(ERR) 0
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

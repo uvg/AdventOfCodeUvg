@@ -177,7 +177,7 @@ Shortest paths are 81 steps; one is: a, c, f, i, d, g, b, e, h
 
 How many steps is the shortest path that collects all of the keys?
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	set $zstorage=4194304  //Change process memory to 4G
 	if $data(RecordsArr)'=10 {
@@ -501,7 +501,7 @@ HasPath(Graph,fromPoint,toPoint)	;BFS (Breadth First Search)
 	}
 	quit hasPath
 }
-GetShortestPath(Graph,fromPoint,toPoint)	;Using Dijkstra algorithm
+GetShortestPath(Graph,fromPoint,toPoint)	//Using Dijkstra algorithm
 {
 	set vertex="",dist=999999999999999999
 	for  {
@@ -832,7 +832,7 @@ This example requires at least 72 steps to collect all keys.
 
 After updating your map and using the remote-controlled robots, what is the fewest steps necessary to collect all of the keys?
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	set $zstorage=4194304  //Change process memory to 4G
 	if $data(RecordsArr)'=10 {
@@ -904,7 +904,7 @@ DisplayErr(Error) {
 	write !,Error
 	quit Error
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::.1 if '$test {

@@ -1854,7 +1854,7 @@ The total number of direct and indirect orbits in this example is 42.
 
 What is the total number of direct and indirect orbits in your map data?
 	*/
-Part1(FileName="") PUBLIC	;
+Part1(FileName="") PUBLIC
 {
 	if '$length(FileName) {
 		read !,"Enter filename: ",FileName
@@ -1923,7 +1923,7 @@ COM - B - C - D - E - F
                   YOU
 What is the minimum number of orbital transfers required to move from the object YOU are orbiting to the object SAN is orbiting? (Between the objects they are orbiting - not between YOU and SAN.)
 	*/
-Part2(FileName="") PUBLIC	;
+Part2(FileName="") PUBLIC
 {
 	if '$length(FileName) {
 		read !,"Enter filename: ",FileName
@@ -1989,7 +1989,7 @@ Part2(FileName="") PUBLIC	;
 	quit:$length(ERR) 0
 	quit Answer
 }
-IsFather(DataArr,Son,Father)	;
+IsFather(DataArr,Son,Father)
 {
 	set Next=$order(DataArr(Son,""))
 	quit:'$length(Next) 0
@@ -2003,7 +2003,7 @@ GetTotalOrbits(DataArr,FromObj,ToObj="")
 	if $length(ToObj),Next=ToObj quit 0
 	quit 1+$$GetTotalOrbits(.DataArr,Next)
 }
-GetData(RecordsArr,DataArr)	;
+GetData(RecordsArr,DataArr)
 {
 	kill DataArr
 	set Line="",ERR=""
@@ -2036,7 +2036,7 @@ GetData(RecordsArr,DataArr)	;
 	quit:$length(ERR) 0
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

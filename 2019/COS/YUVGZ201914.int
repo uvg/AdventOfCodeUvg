@@ -149,7 +149,7 @@ Given the list of reactions in your puzzle input, what is the minimum amount of 
 	S FN="c:\inetpub\wwwroot\nikuv\image\wbemployee\653612370874812820.txt"
 	W $$Part1^YUVGZ201914(FN,,,3756899)
 	*/
-Part1(FileName="",RecordsArr,Materials) PUBLIC	;
+Part1(FileName="",RecordsArr,Materials) PUBLIC
 {
 	if '$data(Materials)
 	{
@@ -248,7 +248,7 @@ The 180697 ORE-per-FUEL example could produce 5586022 FUEL.
 The 2210736 ORE-per-FUEL example could produce 460664 FUEL.
 Given 1 trillion ORE, what is the maximum amount of FUEL you can produce?
 	*/
-Part2(FileName="",RecordsArr,Materials,Cargo="") PUBLIC	;
+Part2(FileName="",RecordsArr,Materials,Cargo="") PUBLIC
 {
 	if Cargo'?1.n||'$extract(Cargo) {
 		read !,"Enter cargo: ",Cargo
@@ -355,7 +355,7 @@ DisplayErr(Error) {
 	write !,Error
 	quit Error
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

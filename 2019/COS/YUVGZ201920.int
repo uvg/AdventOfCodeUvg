@@ -210,7 +210,7 @@ In your maze, how many steps does it take to get from the open tile marked AA to
 W $$Part1^YUVGZ201920(FN)
 	*/
 
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -489,7 +489,7 @@ S FNE2="c:\inetpub\wwwroot\nikuv\image\wbemployee\653706902051519652.txt"
 S FNE3="c:\inetpub\wwwroot\nikuv\image\wbemployee\653707466965213008.txt"
 W $$Part2^YUVGZ201920(FN)
 	*/
-Part2(FileName="",RecordsArr) PUBLIC	;
+Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
@@ -601,7 +601,7 @@ DisplayErr(Error) {
 	write !,Error
 	quit Error
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {

@@ -87,7 +87,7 @@ However, if the springdroid successfully makes it across, it will use an output 
 
 Program the springdroid with logic that allows it to survey the hull without falling into space. What amount of hull damage does it report?
 	*/
-Part1(FileName="",Data="") PUBLIC	;
+Part1(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -169,7 +169,7 @@ SetCommands(PartKey)
 	//set ^mtempSORT($zname,PartKey,"Commands",8)="WALK"
 	zw ^mtempSORT($zname,PartKey,"Commands")
 }
-Input(Line)	;
+Input(Line)
 	set PartKey=^mtempSORT($zname,"PartKey")
 	set CurrentCommand=^mtempSORT($zname,PartKey,"Commands","Current"),IndexCommand=^mtempSORT($zname,PartKey,"Commands","Index")
 	set IndexCommand=IndexCommand+1
@@ -186,7 +186,7 @@ Input(Line)	;
 	set ^mtempSORT($zname,PartKey,"Commands","Index")=IndexCommand
 	//w Val
 	quit Val
-Output(Line,Val)	;
+Output(Line,Val)
 	set PartKey=^mtempSORT($zname,"PartKey")
 	set ^mtempSORT($zname,PartKey,"LastVal")=Val
 	if Val>255 {
@@ -202,7 +202,7 @@ Output(Line,Val)	;
 	}
 	quit
     ;              1     2     3        4                   5          6      7        8               9
-ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")	;
+ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Output,OutputLabel="",InputLabel="")
 {
 	set OpCode="",ERR="",DiagnosticCode="",InputId=0,ExitSW=0,Offset=0,Line=0
 	//w !,"Data before: ",Data
@@ -433,7 +433,7 @@ All other functions remain the same.
 
 Successfully survey the rest of the hull by ending your program with RUN. What amount of hull damage does the springdroid now report?
 	*/
-Part2(FileName="",Data="") PUBLIC	;
+Part2(FileName="",Data="") PUBLIC
 {
 	if '$length(Data) {
 		if '$length(FileName) {
@@ -463,7 +463,7 @@ Part2(FileName="",Data="") PUBLIC	;
 	quit:$length(ERR) 0
 	quit 1
 }
-CheckData(Data)	;
+CheckData(Data)
 {
 	if $length(Data,",")<2,Data'=99 {
 		write !,"Wrong data "_Data
@@ -481,7 +481,7 @@ CheckData(Data)	;
 	quit:$length(ERR) 0
 	quit 1
 }
-LoadFile(FileName,RecordsArr)	;
+LoadFile(FileName,RecordsArr)
 {
 	kill RecordsArr
 	open FileName::2 if '$test {
