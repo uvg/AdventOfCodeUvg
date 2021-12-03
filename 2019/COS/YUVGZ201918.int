@@ -472,8 +472,9 @@ GetDistance(Graph,fromPoint,toPoint,Doors)
 	}
 	quit $listbuild($listlength(path)-1,DoorsInPath)
 }
-HasPath(Graph,fromPoint,toPoint)	;BFS (Breadth First Search)
+HasPath(Graph,fromPoint,toPoint)
 {
+	;BFS (Breadth First Search)
 	set hasPath=0
 	set Queue($increment(Queue))=fromPoint
 	set Visited(fromPoint)=""
