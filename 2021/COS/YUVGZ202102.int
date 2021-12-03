@@ -1041,7 +1041,7 @@ Calculate the horizontal position and depth you would have after following the p
 	/*
 W $$Part1^YUVGZ202102(FN)
 	*/
-Part1(FileName="",RecordsArr) PUBLIC	;
+Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
