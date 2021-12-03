@@ -242,7 +242,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 				set Val=Inputs(InputId)
 			}
 			elseif $length(InputLabel) {
-				set Val=$$@(InputLabel)(Line)
+				set Val=$$Input(Line)
 			}
 			else {
 				read !,"Please enter value: ",Val
