@@ -60,6 +60,7 @@ Part1(FileName="",Data="") PUBLIC
 	set ^mtempSORT($zname,"Part1","LocationX")=0
 	set ^mtempSORT($zname,"Part1","LocationY")=0
 	set ^mtempSORT($zname,"Part1","CurrentInstruction")=0
+	set ^mtempSORT($zname,"Part1","ZeroStart")=0
 	set MaxSize=50
 	set ^mtempSORT($zname,"Part1","MaxSize")=MaxSize
 	write 0,?5
@@ -159,7 +160,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 			}
 			else {
 				if $length(InputLabel) {
-					set Val=$$@(InputLabel)(Line)
+					set Val=$$Input(Line)
 				}
 				else {
 					read !,"Please enter value: ",Val
