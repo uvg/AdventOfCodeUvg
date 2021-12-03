@@ -120,7 +120,7 @@ Part1(FileName="",Data="") PUBLIC
 SetCommands(PartKey)
 {
 	set ^mtempSORT($zname,PartKey,"Commands","Current")=1,^mtempSORT($zname,PartKey,"Commands","Index")=0
-	i PartKey="Part1" {
+	if PartKey="Part1" {
 		set ^mtempSORT($zname,PartKey,"Commands",$increment(Command))="NOT A J"
 		set ^mtempSORT($zname,PartKey,"Commands",$increment(Command))="NOT C T"
 		set ^mtempSORT($zname,PartKey,"Commands",$increment(Command))="AND D T"
@@ -167,7 +167,7 @@ SetCommands(PartKey)
 	//set ^mtempSORT($zname,PartKey,"Commands",6)="NOT D T"
 	//set ^mtempSORT($zname,PartKey,"Commands",7)="AND T J"
 	//set ^mtempSORT($zname,PartKey,"Commands",8)="WALK"
-	zw ^mtempSORT($zname,PartKey,"Commands")
+	zwrite ^mtempSORT($zname,PartKey,"Commands")
 }
 Input(Line)
 	set PartKey=^mtempSORT($zname,"PartKey")
@@ -195,7 +195,7 @@ Output(Line,Val)
 	}
 	//write $c(Val)
 	if Val'=10 {
-		write $c(Val)
+		write $char(Val)
 	}
 	if Val=10 {
 		write !
@@ -282,7 +282,7 @@ ComputeSignalCode(Data,Inputs,ERR,InstructionPointer=1,ExitOpCode4=0,ExitSW,Outp
 				set Val=Inputs(InputId)
 			}
 			elseif $length(InputLabel) {
-				set Val=$$@(InputLabel)(Line)
+				set Val=$$Input(Line)
 			}
 			else {
 				read !,"Please enter value: ",Val
