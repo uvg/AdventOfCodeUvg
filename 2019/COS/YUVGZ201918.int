@@ -502,8 +502,9 @@ HasPath(Graph,fromPoint,toPoint)
 	}
 	quit hasPath
 }
-GetShortestPath(Graph,fromPoint,toPoint)	//Using Dijkstra algorithm
+GetShortestPath(Graph,fromPoint,toPoint)
 {
+	//Using Dijkstra algorithm
 	set vertex="",dist=999999999999999999
 	for  {
 		set vertex=$order(Graph(vertex)) quit:vertex=""
