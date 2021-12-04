@@ -4,11 +4,11 @@ YUVGZ202125	;https://adventofcode.com/2021/day/25;
 	quit
 	/*
 Input data:
- 
+
 	*/
 	/*
 Day 25 part 1:
- 
+
 	*/
 	/*
 W $$Part1^YUVGZ202125(FN)
@@ -40,7 +40,7 @@ Part1(FileName="",RecordsArr) PUBLIC
 }
 	/*
 Day 25 part 2:
- 
+
 	*/
 	/*
 W $$Part2^YUVGZ202125(FN)
@@ -98,7 +98,7 @@ LoadFile(FileName,RecordsArr)
 	use FileName
 	for Line=1:1 {
 		read Record quit:$zeof
-		if $length(Record) set RecordsArr(Line)=Record
+		set RecordsArr(Line)=Record
 	}
 	close FileName
 	if 'EndOfFileSW do $zutil(68,40,0) //$system.Process.SetZEOF(0)
