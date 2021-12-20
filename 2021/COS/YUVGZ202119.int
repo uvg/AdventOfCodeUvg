@@ -1451,10 +1451,10 @@ Part1(FileName="",RecordsArr) PUBLIC
 					for  {
 						set alignToPoint=$order(newOrientedScanner(alignToPoint)) quit:alignToPoint=""
 						//ZW alignToPoint,absPoint
+						kill OrientedAlignedScanner
 						set dx=$list(alignToPoint,1)-$list(absPoint,1)
 						set dy=$list(alignToPoint,2)-$list(absPoint,2)
 						set dz=$list(alignToPoint,3)-$list(absPoint,3)
-						kill OrientedAlignedScanner
 						set tempPoint=""
 						for  {
 							set tempPoint=$order(newOrientedScanner(tempPoint)) quit:tempPoint=""
@@ -1465,6 +1465,7 @@ Part1(FileName="",RecordsArr) PUBLIC
 						if intersections>=minIntersections {
 							merge scannersAbsPos=OrientedAlignedScanner
 							kill scannersToAlign(scannerToAlign)
+							//zw scannerToAlign,absPoint,alignToPoint,orientation
 							quit
 						}
 					}
@@ -1488,18 +1489,13 @@ GetIntersections(&Points1,&Points2)
 	set point=""
 	for  {
 		set point=$order(Points1(point)) quit:point=""
-		set tempPoints(point)=""
-	}
-	set point=""
-	for  {
-		set point=$order(Points2(point)) quit:point=""
-		set:$data(tempPoints(point)) total=total+1
+		set:$data(Points2(point)) total=total+1
 	}	
 	quit total
 }
 GetScannerOrientation(&fromScanner,&toScanner,orientation)
 {
-	kill toScanner
+	kill tempScanner
 	set point=""
 	for  {
 		set point=$order(fromScanner(point)) quit:point=""
@@ -1508,8 +1504,10 @@ GetScannerOrientation(&fromScanner,&toScanner,orientation)
 			set naxis=$list(orientation,axis)
 			set $list(newPoint,axis)=$select(naxis<0:-$list(point,-naxis),1:$list(point,naxis))
 		}
-		set toScanner(newPoint)=""
+		set tempScanner(newPoint)=""
 	}
+	kill toScanner
+	merge toScanner=tempScanner
 }
 GetScannersData(&RecordsArr,&Scanners)
 {
