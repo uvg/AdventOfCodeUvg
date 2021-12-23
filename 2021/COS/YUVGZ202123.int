@@ -4,21 +4,126 @@ YUVGZ202123	;https://adventofcode.com/2021/day/23;
 	quit
 	/*
 Input data:
-
+#############
+#...........#
+###D#C#B#C###
+  #D#A#A#B#
+  #########
 	*/
 	/*
 Day 23 part 1:
+--- Day 23: Amphipod ---
+A group of amphipods notice your fancy submarine and flag you down. "With such an impressive shell," one amphipod says, "surely you can help us with a question that has stumped our best scientists."
 
+They go on to explain that a group of timid, stubborn amphipods live in a nearby burrow. Four types of amphipods live there: Amber (A), Bronze (B), Copper (C), and Desert (D). They live in a burrow that consists of a hallway and four side rooms. The side rooms are initially full of amphipods, and the hallway is initially empty.
+
+They give you a diagram of the situation (your puzzle input), including locations of each amphipod (A, B, C, or D, each of which is occupying an otherwise open space), walls (#), and open space (.).
+
+For example:
+
+#############
+#...........#
+###B#C#B#D###
+  #A#D#C#A#
+  #########
+
+The amphipods would like a method to organize every amphipod into side rooms so that each side room contains one type of amphipod and the types are sorted A-D going left to right, like this:
+
+#############
+#...........#
+###A#B#C#D###
+  #A#B#C#D#
+  #########
+
+Amphipods can move up, down, left, or right so long as they are moving into an unoccupied open space. Each type of amphipod requires a different amount of energy to move one step: Amber amphipods require 1 energy per step, Bronze amphipods require 10 energy, Copper amphipods require 100, and Desert ones require 1000. The amphipods would like you to find a way to organize the amphipods that requires the least total energy.
+
+However, because they are timid and stubborn, the amphipods have some extra rules:
+
+Amphipods will never stop on the space immediately outside any room. They can move into that space so long as they immediately continue moving. (Specifically, this refers to the four open spaces in the hallway that are directly above an amphipod starting position.)
+Amphipods will never move from the hallway into a room unless that room is their destination room and that room contains no amphipods which do not also have that room as their own destination. If an amphipod's starting room is not its destination room, it can stay in that room until it leaves the room. (For example, an Amber amphipod will not move from the hallway into the right three rooms, and will only move into the leftmost room if that room is empty or if it only contains other Amber amphipods.)
+Once an amphipod stops moving in the hallway, it will stay in that spot until it can move into a room. (That is, once any amphipod starts moving, any other amphipods currently in the hallway are locked in place and will not move again until they can move fully into a room.)
+
+In the above example, the amphipods can be organized using a minimum of 12521 energy. One way to do this is shown below.
+
+Starting configuration:
+
+#############
+#...........#
+###B#C#B#D###
+  #A#D#C#A#
+  #########
+
+One Bronze amphipod moves into the hallway, taking 4 steps and using 40 energy:
+
+#############
+#...B.......#
+###B#C#.#D###
+  #A#D#C#A#
+  #########
+
+The only Copper amphipod not in its side room moves there, taking 4 steps and using 400 energy:
+
+#############
+#...B.......#
+###B#.#C#D###
+  #A#D#C#A#
+  #########
+
+A Desert amphipod moves out of the way, taking 3 steps and using 3000 energy, and then the Bronze amphipod takes its place, taking 3 steps and using 30 energy:
+
+#############
+#.....D.....#
+###B#.#C#D###
+  #A#B#C#A#
+  #########
+
+The leftmost Bronze amphipod moves to its room using 40 energy:
+
+#############
+#.....D.....#
+###.#B#C#D###
+  #A#B#C#A#
+  #########
+
+Both amphipods in the rightmost room move into the hallway, using 2003 energy in total:
+
+#############
+#.....D.D.A.#
+###.#B#C#.###
+  #A#B#C#.#
+  #########
+
+Both Desert amphipods move into the rightmost room using 7000 energy:
+
+#############
+#.........A.#
+###.#B#C#D###
+  #A#B#C#D#
+  #########
+
+Finally, the last Amber amphipod moves into its room, using 8 energy:
+
+#############
+#...........#
+###A#B#C#D###
+  #A#B#C#D#
+  #########
+
+What is the least energy required to organize the amphipods?
 	*/
 	/*
-W $$Part1^YUVGZ202123(FN)
+S ANS=$$Part1^YUVGZ202123("C:\devl\work\Cache\AOC\Files\2021\D23.txt") W ! ZW ANS //For a specific file
+S ANS=$$Part1^YUVGZ202123() W ! ZW ANS //For file C:\devl\work\Cache\AOC\Files\2021\D23.txt
 	*/
 Part1(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
+			set FileName="C:\devl\work\Cache\AOC\Files\2021\D23.txt"
+			/*
 			read !,"Enter filename: ",FileName
 			write !
+			*/
 		}
 		if '$length(FileName) {
 			write !,"Missing file to read from"
@@ -31,26 +136,640 @@ Part1(FileName="",RecordsArr) PUBLIC
 		}
 	}
 	quit:'$$CheckData(.RecordsArr) 0
-	set Answer="",Line=""
-	for {
-		set Line=$order(RecordsArr(Line)) quit:Line=""
-		set Record=RecordsArr(Line)
+	set Empty=$listbuild("E")
+	set startState=$listbuild(Empty,Empty)
+	for i=4:2:10 {
+		set col=""
+		for y=3,4 {
+			set Data=RecordsArr(y)
+			set ltr=$extract(Data,i)
+			set col=col_$listbuild(ltr)
+		}
+		set startState=startState_$listbuild(col)_$listbuild(Empty)
 	}
+	set startState=startState_$listbuild(Empty)
+	//zwrite RecordsArr,startState
+	set Answer=$$FindMinPath(startState)
 	quit Answer
 }
+FindMinPath(startState)
+{
+	set total=0,Q(total,$increment(Q))=startState,totalMoves=0
+	for  {
+		set total=$order(Q("")) quit:'$length(total)
+		set line=$order(Q(total,"")),state=Q(total,line) kill Q(total,line)
+		continue:$data(visited(state))
+		//zwrite total,state
+		quit:$$IsFinished(state)
+		set visited(state)=total
+		for room=1:1:$listlength(state) {
+			set x=1
+			if room>2,room<10,room#2 {
+				set roomData=$list(state,room)
+				set roomSize=$listlength(roomData)
+				while (x<roomSize)&&($list(roomData,x)="E") {
+					set x=x+1
+				}
+			}
+			do ComputeMoves(room,state,x,.moves)
+			set move=""
+			for  {
+				set move=$order(moves(move)) quit:move=""
+				set nextState=state,data=moves(move)
+				set room1=$list(nextState,room),room2=$list(nextState,$list(data,1))
+				set p1=$list(room2,$list(data,2)),p2=$list(room1,x)
+				set $list(room1,x)=p1,$list(room2,$list(data,2))=p2
+				set $list(nextState,room)=room1,$list(nextState,$list(data,1))=room2
+				set nextEnergy=total+$$GetEnergy($list($list(state,room),x),room,x,$list(data,1),$list(data,2))
+				set totalMoves=totalMoves+1
+				//zw nextEnergy,nextState
+				set Q(nextEnergy,$increment(Q))=nextState
+			}
+		}
+		/*i Q>29 {
+			zw Q
+			k A s A=A
+		}*/
+	}
+	//W !!,Q,!!
+	quit total
+}
+IsFinished(state)
+{
+	set Empty=$listbuild("E")
+	if state=$listbuild(Empty,Empty,$listbuild("A","A"),Empty,$listbuild("B","B"),Empty,$listbuild("C","C"),Empty,$listbuild("D","D"),Empty,Empty) quit 1
+	if state=$listbuild(Empty,Empty,$listbuild("A","A","A","A"),Empty,$listbuild("B","B","B","B"),Empty,$listbuild("C","C","C","C"),Empty,$listbuild("D","D","D","D"),Empty,Empty) quit 1
+	quit 0
+}
+ComputeMoves(room,state,position,&moves)
+{
+	kill moves
+	set Amphipod=$list($list(state,room),position)
+	quit:Amphipod="E"  //Empty space isn't moving
+	set roomTarget=($ascii(Amphipod)-$ascii("A")+1)*2+1  //where to put the amphipod
+	if roomTarget=room,position=$listlength($list(state,room)) quit  //Amphipod is allready in it's final position in the room it need to be in so stop moving
+	//
+	//Hallway places that we can go from current room to left/right (until a place in the hallway isn't empty)
+	set visit(room)=""
+	for nextRoom=room+1:1:$listlength(state) {
+		if ",3,5,7,9,"'[(","_nextRoom_","),$list($list(state,nextRoom),1)'="E" quit
+		set visit(nextRoom)=""
+	}
+	for nextRoom=room-1:-1:1 {
+		if ",3,5,7,9,"'[(","_nextRoom_","),$list($list(state,nextRoom),1)'="E" quit
+		set visit(nextRoom)=""
+	}
+	//
+	//w !!!!! zw visit
+	//
+	set maxDepth=0
+	if $data(visit(roomTarget)) {
+		//maybe we can get the amphipod into it's room
+		//so check how deep we can go into this room
+		set stateRoomData=$list(state,roomTarget)
+		for nextDepth=$listlength(stateRoomData):-1:1 {
+			set nextAmphipod=$list(stateRoomData,nextDepth)
+			if nextAmphipod="E" {
+				//empty space so we can go there
+				set:nextDepth>maxDepth maxDepth=nextDepth
+			}
+			else {
+				//not empty space in a room and the amphipod in this place is not the amphipod we're trying to move, so stop look in this room
+				quit:nextAmphipod'=Amphipod
+			}
+		}
+		if maxDepth {
+			set moves($increment(moves))=$listbuild(roomTarget,maxDepth)
+			quit
+		}
+	}
+	//zw room
+	//
+	//if we got to here then we couldn't move the amphipod into it's room
+	quit:",3,5,7,9,"'[(","_room_",")  //In the hallway and couldn't get to it's room, so no moves for this amphipod
+	//
+	//check what rooms we can get closer to
+	set nextRoom=""
+	for  {
+		set nextRoom=$order(visit(nextRoom)) quit:nextRoom=""
+		continue:",3,5,7,9,"[(","_nextRoom_",")
+		set moves($increment(moves))=$listbuild(nextRoom,1)
+	}
+	quit
+}
+GetEnergy(Amphipod,RoomStart,DepthStart,RoomEnd,DepthEnd)
+{
+	set Energy=$zabs(RoomEnd-RoomStart)
+	set:",3,5,7,9,"[(","_RoomStart_",") Energy=Energy+DepthStart
+	set:",3,5,7,9,"[(","_RoomEnd_",") Energy=Energy+DepthEnd
+	set multi=1
+	for i=1:1:$ascii(Amphipod)-$ascii("A") set multi=multi_0
+	quit Energy*multi
+}
 	/*
-Day 23 part 2:
-
+FreeHallway(&ltrs,&lines)
+{
+	quit $$FreeHallwayA(.ltrs,.lines)+$$FreeHallwayB(.ltrs,.lines)+$$FreeHallwayC(.ltrs,.lines)+$$FreeHallwayD(.ltrs,.lines)
+}
+FreeHallwayA(&ltrs,&lines)
+{
+	if lines(2)'["A" quit 0
+	if $extract(lines(4),4)="." {
+		//if i can move "A" to its lower spot then move it there
+		set from1=$order(ltrs("A",2,"")),from2=$order(ltrs("A",2,""),-1)
+		if from1=2 {
+			if $extract(lines(2),3)="." {
+				set $extract(lines(2),2)=".",$extract(lines(4),4)="A"
+				set ltrs("A",4,4)="" kill ltrs("A",2,2)
+				quit 4+$$FreeHallway(.ltrs,.lines)
+			}
+			elseif from2=3 {
+				set $extract(lines(2),2)=".",$extract(lines(2),3)=".",$extract(lines(4),4)="A",$extract(lines(3),4)="A"
+				set ltrs("A",4,4)="",ltrs("A",3,4)="" kill ltrs("A",2)
+				quit 6+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+		if from1=3 {
+			set $extract(lines(2),3)=".",$extract(lines(4),4)="A"
+			set ltrs("A",4,4)="" kill ltrs("A",2,3)
+			quit 3+$$FreeHallway(.ltrs,.lines)
+		}
+		for from=from1,from2 {
+			if from>4,'$length($translate($extract(lines(2),4,from-1),".")) {
+				set $extract(lines(2),from)=".",$extract(lines(4),4)="A"
+				set ltrs("A",4,4)="" kill ltrs("A",2,from)
+				return from-2+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+	}
+	if $extract(lines(4),4)="A",$extract(lines(3),4)="." {
+		//if i can move "A" to its higher spot then move it there
+		set from1=$order(ltrs("A",2,""))
+		if from1=2,$extract(lines(2),3)="." {
+			set $extract(lines(2),2)=".",$extract(lines(3),4)="A"
+			set ltrs("A",3,4)="" kill ltrs("A",2,2)
+			quit 3+$$FreeHallway(.ltrs,.lines)
+		}
+		elseif from1=3 {
+			set $extract(lines(2),3)=".",$extract(lines(3),4)="A"
+			set ltrs("A",3,4)="" kill ltrs("A",2,3)
+			quit 2+$$FreeHallway(.ltrs,.lines)
+		}
+		elseif from1>4,'$length($translate($extract(lines(2),4,from1-1),".")) {
+			set $extract(lines(2),from1)=".",$extract(lines(3),4)="A"
+			set ltrs("A",3,4)="" kill ltrs("A",2,from1)
+			quit from1-3+$$FreeHallway(.ltrs,.lines)
+		}
+	}
+	quit 0
+}
+FreeHallwayB(&ltrs,&lines)
+{
+	if lines(2)'["B" quit 0
+	set x=6
+	if $extract(lines(4),x)="." {
+		//if i can move "B" to its lower spot then move it there
+		set from1=$order(ltrs("B",2,"")),from2=$order(ltrs("B",2,""),-1)
+		if from1=2 {
+			if $extract(lines(2),3,x)="...." {
+				set $extract(lines(2),2)=".",$extract(lines(4),x)="B"
+				set ltrs("B",4,x)="" kill ltrs("B",2,2)
+				quit 60+$$FreeHallway(.ltrs,.lines)
+			}
+			elseif from2=3,$extract(lines(2),5)="." {
+				set $extract(lines(2),2)=".",$extract(lines(2),3)=".",$extract(lines(4),x)="B",$extract(lines(3),x)="B"
+				set ltrs("B",4,x)="",ltrs("B",3,x)="" kill ltrs("B",2)
+				quit 100+$$FreeHallway(.ltrs,.lines)
+			}
+			elseif $extract(lines(2),3)=".",from2=5 {
+				set $extract(lines(2),2)=".",$extract(lines(2),5)=".",$extract(lines(4),x)="B",$extract(lines(3),x)="B"
+				set ltrs("B",4,x)="",ltrs("B",3,x)="" kill ltrs("B",2)
+				quit 80+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+		if from1=3 {
+			if $extract(lines(2),5)="." {
+				set $extract(lines(2),3)=".",$extract(lines(4),x)="B"
+				set ltrs("B",4,x)="" kill ltrs("B",2,3)
+				quit 50+$$FreeHallway(.ltrs,.lines)
+			}
+			elseif from2=5 {
+				set $extract(lines(2),3)=".",$extract(lines(2),5)=".",$extract(lines(4),x)="B",$extract(lines(3),x)="B"
+				set ltrs("B",4,x)="",ltrs("B",3,x)="" kill ltrs("B",2)
+				quit 70+$$FreeHallway(.ltrs,.lines)				
+			}
+		}
+		if from1=5 {
+			set $extract(lines(2),5)=".",$extract(lines(4),x)="B"
+			set ltrs("B",4,x)="" kill ltrs("B",2,5)
+			quit 30+$$FreeHallway(.ltrs,.lines)
+		}
+		for from=from1,from2 {
+			if from>x,'$length($translate($extract(lines(2),x,from-1),".")) {
+				set $extract(lines(2),from)=".",$extract(lines(4),x)="B"
+				set ltrs("B",4,x)="" kill ltrs("B",2,from)
+				return (from-4)*10+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+	}
+	if $extract(lines(4),x)="B",$extract(lines(3),x)="." {
+		//if i can move "B" to its higher spot then move it there
+		for from=$order(ltrs("B",2,"")),$order(ltrs("B",2,""),-1)
+		{
+			if from=2,$extract(lines(2),3,x)="...." {
+				set $extract(lines(2),2)=".",$extract(lines(3),x)="B"
+				set ltrs("B",3,x)="" kill ltrs("B",2,2)
+				return 50+$$FreeHallway(.ltrs,.lines)
+			}
+			if from=3,$extract(lines(2),5)="." {
+				set $extract(lines(2),3)=".",$extract(lines(3),x)="B"
+				set ltrs("B",3,x)="" kill ltrs("B",2,3)
+				return 40+$$FreeHallway(.ltrs,.lines)
+			}
+			if from=5 {
+				set $extract(lines(2),5)=".",$extract(lines(3),x)="B"
+				set ltrs("B",3,x)="" kill ltrs("B",2,5)
+				return 20+$$FreeHallway(.ltrs,.lines)
+			}
+			if from>x,'$length($translate($extract(lines(2),x,from-1),"."))  {
+				set $extract(lines(2),from)=".",$extract(lines(3),x)="B"
+				set ltrs("B",3,x)="" kill ltrs("B",2,from)
+				return (from-5)*10+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+	}
+	quit 0
+}
+FreeHallwayC(&ltrs,&lines)
+{
+	if lines(2)'["C" quit 0
+	set x=8
+	if $extract(lines(4),x)="." {
+		//if i can move "C" to its lower spot then move it there
+		set from2=$order(ltrs("C",2,"")),from1=$order(ltrs("C",2,""),-1)
+		if from1=12 {
+			if $extract(lines(2),x,from1-1)="...." {
+				set $extract(lines(2),from1)=".",$extract(lines(4),x)="C"
+				set ltrs("C",4,x)="" kill ltrs("C",2,from1)
+				quit 600+$$FreeHallway(.ltrs,.lines)
+			}
+			elseif from2=11,$extract(lines(2),x+1)="." {
+				set $extract(lines(2),from1)=".",$extract(lines(2),from2)=".",$extract(lines(4),x)="C",$extract(lines(3),x)="C"
+				set ltrs("C",4,x)="",ltrs("C",3,x)="" kill ltrs("C",2)
+				quit 1000+$$FreeHallway(.ltrs,.lines)
+			}
+			elseif from2=x+1,$extract(lines(2),from1-1)="." {
+				set $extract(lines(2),from1)=".",$extract(lines(2),from2)=".",$extract(lines(4),x)="C",$extract(lines(3),x)="C"
+				set ltrs("C",4,x)="",ltrs("C",3,x)="" kill ltrs("C",2)
+				quit 800+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+		if from1=11 {
+			if $extract(lines(2),x+1)="." {
+				set $extract(lines(2),from1)=".",$extract(lines(4),x)="C"
+				set ltrs("C",4,x)="" kill ltrs("C",2,from1)
+				quit 500+$$FreeHallway(.ltrs,.lines)
+			}
+			elseif from2=9 {
+				set $extract(lines(2),from1)=".",$extract(lines(2),from2)=".",$extract(lines(4),x)="C",$extract(lines(3),x)="C"
+				set ltrs("C",4,x)="",ltrs("C",3,x)="" kill ltrs("C",2)
+				quit 700+$$FreeHallway(.ltrs,.lines)				
+			}
+		}
+		if from1=9 {
+			set $extract(lines(2),from1)=".",$extract(lines(4),x)="C"
+			set ltrs("C",4,x)="" kill ltrs("C",2,5)
+			quit 300+$$FreeHallway(.ltrs,.lines)
+		}
+		for from=from1,from2 {
+			if from<x,'$length($translate($extract(lines(2),from+1,x),".")) {
+				set $extract(lines(2),from)=".",$extract(lines(4),x)="C"
+				set ltrs("C",4,x)="" kill ltrs("C",2,from)
+				return (x-from+2)*100+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+	}
+	if $extract(lines(4),x)="C",$extract(lines(3),x)="." {
+		//if i can move "C" to its higher spot then move it there
+		for from=$order(ltrs("C",2,"")),$order(ltrs("C",2,""),-1)
+		{
+			if from=12,$extract(lines(2),x,11)="...." {
+				set $extract(lines(2),from)=".",$extract(lines(3),x)="C"
+				set ltrs("C",3,x)="" kill ltrs("C",2,from)
+				return 500+$$FreeHallway(.ltrs,.lines)
+			}
+			if from=11,$extract(lines(2),x+1)="." {
+				set $extract(lines(2),from)=".",$extract(lines(3),x)="C"
+				set ltrs("C",3,x)="" kill ltrs("C",2,from)
+				return 400+$$FreeHallway(.ltrs,.lines)
+			}
+			if from=9 {
+				set $extract(lines(2),from)=".",$extract(lines(3),x)="C"
+				set ltrs("C",3,x)="" kill ltrs("C",2,from)
+				return 200+$$FreeHallway(.ltrs,.lines)
+			}
+			if from<x,'$length($translate($extract(lines(2),from+1,x),"."))  {
+				set $extract(lines(2),from)=".",$extract(lines(3),x)="C"
+				set ltrs("C",3,x)="" kill ltrs("C",2,from)
+				return (x-from+1)*100+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+	}
+	quit 0
+}
+FreeHallwayD(&ltrs,&lines)
+{
+	if lines(2)'["D" quit 0
+	set x=10
+	if $extract(lines(4),x)="." {
+		//if i can move "D" to its lower spot then move it there
+		set from1=$order(ltrs("D",2,""),-1),from2=$order(ltrs("D",2,""))
+		if from1=12 {
+			if $extract(lines(2),11)="." {
+				set $extract(lines(2),from1)=".",$extract(lines(4),x)="D"
+				set ltrs("D",4,x)="" kill ltrs("D",2,from1)
+				quit 4000+$$FreeHallway(.ltrs,.lines)
+			}
+			elseif from2=11 {
+				set $extract(lines(2),from1)=".",$extract(lines(2),from2)=".",$extract(lines(4),x)="D",$extract(lines(3),x)="D"
+				set ltrs("D",4,x)="",ltrs("D",3,x)="" kill ltrs("D",2)
+				quit 6000+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+		if from1=11 {
+			set $extract(lines(2),from1)=".",$extract(lines(4),x)="D"
+			set ltrs("D",4,x)="" kill ltrs("D",2,from1)
+			quit 3000+$$FreeHallway(.ltrs,.lines)
+		}
+		for from=from1,from2 {
+			if from<x,'$length($translate($extract(lines(2),from+1,x),".")) {
+				set $extract(lines(2),from)=".",$extract(lines(4),x)="D"
+				set ltrs("D",4,x)="" kill ltrs("D",2,from)
+				return (x-from+2)*1000+$$FreeHallway(.ltrs,.lines)
+			}
+		}
+	}
+	if $extract(lines(4),x)="D",$extract(lines(3),x)="." {
+		//if i can move "D" to its higher spot then move it there
+		set from1=$order(ltrs("D",2,""))
+		if from1=12,$extract(lines(2),11)="." {
+			set $extract(lines(2),from1)=".",$extract(lines(3),x)="D"
+			set ltrs("D",3,x)="" kill ltrs("D",2,from1)
+			quit 3000+$$FreeHallway(.ltrs,.lines)
+		}
+		elseif from1=11 {
+			set $extract(lines(2),from1)=".",$extract(lines(3),x)="D"
+			set ltrs("D",3,x)="" kill ltrs("D",2,from1)
+			quit 2000+$$FreeHallway(.ltrs,.lines)
+		}
+		elseif from1<x,'$length($translate($extract(lines(2),from1+1,x),".")) {
+			set $extract(lines(2),from1)=".",$extract(lines(3),x)="D"
+			set ltrs("D",3,x)="" kill ltrs("D",2,from1)
+			quit (x-from+1)*1000+$$FreeHallway(.ltrs,.lines)
+		}
+	}
+	quit 0
+}
+MoveToPlace(&ltrs,&lines)
+{
+	quit 0
+}
 	*/
 	/*
-W $$Part2^YUVGZ202123(FN)
+Day 23 part 2:
+--- Part Two ---
+As you prepare to give the amphipods your solution, you notice that the diagram they handed you was actually folded up. As you unfold it, you discover an extra part of the diagram.
+
+Between the first and second lines of text that contain amphipod starting positions, insert the following lines:
+
+  #D#C#B#A#
+  #D#B#A#C#
+So, the above example now becomes:
+
+#############
+#...........#
+###B#C#B#D###
+  #D#C#B#A#
+  #D#B#A#C#
+  #A#D#C#A#
+  #########
+The amphipods still want to be organized into rooms similar to before:
+
+#############
+#...........#
+###A#B#C#D###
+  #A#B#C#D#
+  #A#B#C#D#
+  #A#B#C#D#
+  #########
+In this updated example, the least energy required to organize these amphipods is 44169:
+
+#############
+#...........#
+###B#C#B#D###
+  #D#C#B#A#
+  #D#B#A#C#
+  #A#D#C#A#
+  #########
+
+#############
+#..........D#
+###B#C#B#.###
+  #D#C#B#A#
+  #D#B#A#C#
+  #A#D#C#A#
+  #########
+
+#############
+#A.........D#
+###B#C#B#.###
+  #D#C#B#.#
+  #D#B#A#C#
+  #A#D#C#A#
+  #########
+
+#############
+#A........BD#
+###B#C#.#.###
+  #D#C#B#.#
+  #D#B#A#C#
+  #A#D#C#A#
+  #########
+
+#############
+#A......B.BD#
+###B#C#.#.###
+  #D#C#.#.#
+  #D#B#A#C#
+  #A#D#C#A#
+  #########
+
+#############
+#AA.....B.BD#
+###B#C#.#.###
+  #D#C#.#.#
+  #D#B#.#C#
+  #A#D#C#A#
+  #########
+
+#############
+#AA.....B.BD#
+###B#.#.#.###
+  #D#C#.#.#
+  #D#B#C#C#
+  #A#D#C#A#
+  #########
+
+#############
+#AA.....B.BD#
+###B#.#.#.###
+  #D#.#C#.#
+  #D#B#C#C#
+  #A#D#C#A#
+  #########
+
+#############
+#AA...B.B.BD#
+###B#.#.#.###
+  #D#.#C#.#
+  #D#.#C#C#
+  #A#D#C#A#
+  #########
+
+#############
+#AA.D.B.B.BD#
+###B#.#.#.###
+  #D#.#C#.#
+  #D#.#C#C#
+  #A#.#C#A#
+  #########
+
+#############
+#AA.D...B.BD#
+###B#.#.#.###
+  #D#.#C#.#
+  #D#.#C#C#
+  #A#B#C#A#
+  #########
+
+#############
+#AA.D.....BD#
+###B#.#.#.###
+  #D#.#C#.#
+  #D#B#C#C#
+  #A#B#C#A#
+  #########
+
+#############
+#AA.D......D#
+###B#.#.#.###
+  #D#B#C#.#
+  #D#B#C#C#
+  #A#B#C#A#
+  #########
+
+#############
+#AA.D......D#
+###B#.#C#.###
+  #D#B#C#.#
+  #D#B#C#.#
+  #A#B#C#A#
+  #########
+
+#############
+#AA.D.....AD#
+###B#.#C#.###
+  #D#B#C#.#
+  #D#B#C#.#
+  #A#B#C#.#
+  #########
+
+#############
+#AA.......AD#
+###B#.#C#.###
+  #D#B#C#.#
+  #D#B#C#.#
+  #A#B#C#D#
+  #########
+
+#############
+#AA.......AD#
+###.#B#C#.###
+  #D#B#C#.#
+  #D#B#C#.#
+  #A#B#C#D#
+  #########
+
+#############
+#AA.......AD#
+###.#B#C#.###
+  #.#B#C#.#
+  #D#B#C#D#
+  #A#B#C#D#
+  #########
+
+#############
+#AA.D.....AD#
+###.#B#C#.###
+  #.#B#C#.#
+  #.#B#C#D#
+  #A#B#C#D#
+  #########
+
+#############
+#A..D.....AD#
+###.#B#C#.###
+  #.#B#C#.#
+  #A#B#C#D#
+  #A#B#C#D#
+  #########
+
+#############
+#...D.....AD#
+###.#B#C#.###
+  #A#B#C#.#
+  #A#B#C#D#
+  #A#B#C#D#
+  #########
+
+#############
+#.........AD#
+###.#B#C#.###
+  #A#B#C#D#
+  #A#B#C#D#
+  #A#B#C#D#
+  #########
+
+#############
+#..........D#
+###A#B#C#.###
+  #A#B#C#D#
+  #A#B#C#D#
+  #A#B#C#D#
+  #########
+
+#############
+#...........#
+###A#B#C#D###
+  #A#B#C#D#
+  #A#B#C#D#
+  #A#B#C#D#
+  #########
+Using the initial configuration from the full diagram, what is the least energy required to organize the amphipods? 
+	*/
+	/*
+S ANS=$$Part2^YUVGZ202123("C:\devl\work\Cache\AOC\Files\2021\D23.txt") W ! ZW ANS //For a specific file
+S ANS=$$Part2^YUVGZ202123() W ! ZW ANS //For file C:\devl\work\Cache\AOC\Files\2021\D23.txt
 	*/
 Part2(FileName="",RecordsArr) PUBLIC
 {
 	if $data(RecordsArr)'=10 {
 		if '$length(FileName) {
+			set FileName="C:\devl\work\Cache\AOC\Files\2021\D23.txt"
+			/*
 			read !,"Enter filename: ",FileName
 			write !
+			*/
 		}
 		if '$length(FileName) {
 			write !,"Missing file to read from"
@@ -63,11 +782,25 @@ Part2(FileName="",RecordsArr) PUBLIC
 		}
 	}
 	quit:'$$CheckData(.RecordsArr) 0
-	set Answer="",Line=""
-	for {
-		set Line=$order(RecordsArr(Line)) quit:Line=""
-		set Record=RecordsArr(Line)
+	set Empty=$listbuild("E")
+	set startState=$listbuild(Empty,Empty)
+	set RecordsArr(6)=RecordsArr(4)
+	set RecordsArr(4)="  #D#C#B#A#"
+	set RecordsArr(5)="  #D#B#A#C#"
+	for i=4:2:10 {
+		set col=""
+		set y=2
+		for  {
+			set y=$order(RecordsArr(y)) quit:y=""
+			set Data=RecordsArr(y)
+			set ltr=$extract(Data,i)
+			set col=col_$listbuild(ltr)
+		}
+		set startState=startState_$listbuild(col)_$listbuild(Empty)
 	}
+	set startState=startState_$listbuild(Empty)
+	//zwrite RecordsArr,startState
+	set Answer=$$FindMinPath(startState)
 	quit Answer
 }
 CheckData(RecordsArr)
