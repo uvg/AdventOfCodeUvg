@@ -1,0 +1,946 @@
+(((((((($s((5th digit-7)==(6th digit):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4),1:((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)))*((number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx))*25+1))+((7th digit+15)*(number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx)))))*((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))*25+1))+((9th digit+6)*(number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))))*(((10th digit+5)!=(11th digit))*25+1))+((11th digit+8)*(((10th digit+5)!=(11th digit))))
+
+
+                                1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+                                   222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+                                                                                         3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
+                                                                                                                                                  444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444            5555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555
+                                                                                                                                                                                vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv   vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+$s((10th digit+5)==(11th digit):$s((number in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)):$s((number in format (xxx9921xxxxxxx or xxx9811xxxxxxx)):$s((5th digit-7)==(6th digit):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4),1:(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4),1:((((((((($s((5th digit-7)==(6th digit):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4),1:((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)))))),1:((((((((($s((5th digit-7)==(6th digit):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4),1:((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)))*((number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx))*25+1))+((7th digit+15)*(number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx))))))),1:((((((((($s((5th digit-7)==(6th digit):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4),1:((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)))*((number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx))*25+1))+((7th digit+15)*(number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx)))))*((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))*25+1))+((9th digit+6)*(number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))))))
+
+
+
+
+if (number in format(xxxxxxxxx16xxx or xxxxxxxxx27xxx or xxxxxxxxx38xxx or xxxxxxxxx49xxx)):
+	if (number in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		if (number in format (xxx9921xxxxxxx or xxx9811xxxxxxx):
+			if (number in format (xxxx81xxxxxxxx or xxxx92xxxxxxxx)):
+				(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)
+			else:
+				(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)
+
+
+
+
+
+
+
+//z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*(((5th digit-7)!=(6th digit))*25+1)
+
+(5th digit-7)!=(6th digit)  // number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx)
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*26
+else:
+	z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+
+
+
+
+
+//z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*(((5th digit-7)!=(6th digit))*25+1)+((6th digit+4)*(((5th digit-7)!=(6th digit))))
+
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*26+(6th digit+4)
+else:
+	z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+
+
+
+
+
+
+//z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*(((5th digit-7)!=(6th digit))*25+1)+((6th digit+4)*(((5th digit-7)!=(6th digit))))
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	x=6th digit+4
+else:
+	x=4th digit+5
+
+
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+else:
+	z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+
+
+//z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5,1:((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)
+
+
+
+
+
+
+
+add y 1   //z=$s((5th digit-7)==(6th digit):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4),1:((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)),w=7th digit,y=(number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx))*25+1,x=number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx) <<
+//z=$s((5th digit-7)==(6th digit):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4),1:((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)),w=7th digit,y=(number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx))*25+1,x=number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx) <<
+
+
+//z=$s((5th digit-7)==(6th digit):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4),1:((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5))
+                                                                                                      *((number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx))*25+1)
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*26
+else:
+	if number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx):
+		z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26
+	else:
+		z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+
+
+//z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*26,1:$s(number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26,1:(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)))
+
+
+
+//z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*26,1:$s(number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26,1:(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)))+    ( (7th digit+15)*(number not in format (xxx9921xxxxxxx or xxx9811xxxxxxx))   )
+
+
+
+//z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*(((5th digit-7)!=(6th digit))*25+1)+((6th digit+4)*(((5th digit-7)!=(6th digit))))
+
+
+
+
+
+//z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*(((5th digit-7)!=(6th digit))*25+1)+((6th digit+4)*(((5th digit-7)!=(6th digit))))
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*26+(6th digit+4)
+else:
+	z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+
+
+
+z=$s(
+     number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5)*26+(6th digit+4)
+                                                          ,1:(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+    )
+
+
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	x=6th digit+4
+else:
+	x=4th digit+5
+
+x=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(6th digit+4),1:(4th digit+5))
+
+
+
+
+
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+else:
+	z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+
+
+
+z=$s(
+     number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+                                                          ,1:((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+    )
+
+
+
+
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	x=6th digit-9
+else:
+	x=4th digit-8
+
+x=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(6th digit-9),1:(4th digit-8))
+
+
+
+w =7th digit
+
+
+
+x=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):0,1:number in format xxx9xx1xxxxxxx)
+
+
+
+line 122
+x=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):1,1:number not in format xxx9xx1xxxxxxx)
+y=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):1,1:number not in format xxx9xx1xxxxxxx)*25+1
+
+z=$s(
+     number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+                                                          ,1:((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+    )
+  *
+  $s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):1,1:number not in format xxx9xx1xxxxxxx)*25+1
+
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+   z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+else:
+   z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*(number not in format xxx9xx1xxxxxxx)*25+1)
+
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+else:
+	if number not in format xxx9xx1xxxxxxx:
+		z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26
+	else:
+		z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+
+
+
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+                                                          ,1:
+                                                              $s(number not in format xxx9xx1xxxxxxx:(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+                                                                )
+    )
+
+
+line 123-126
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	y=7th digit+15
+else:
+	if number not in format xxx9xx1xxxxxxx:
+		y=7th digit+15
+	else:
+		y=0
+
+
+if number in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx) and number in format xxx9xx1xxxxxxx:   //xxx9921xxxxxxx or xxx9811xxxxxxx
+	y=0
+else:
+	y=7th digit+15
+
+
+if number in format (xxx9921xxxxxxx or xxx9811xxxxxxx):
+	y=0
+else:
+	y=7th digit+15
+
+
+y=$s(number in format (xxx9921xxxxxxx or xxx9811xxxxxxx):0,1:(7th digit+15))
+
+
+127:
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+                                                          ,1:
+                                                              $s(number not in format xxx9xx1xxxxxxx:(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+                                                                )
+    )
+    +
+    $s(number in format (xxx9921xxxxxxx or xxx9811xxxxxxx):0,1:(7th digit+15))
+
+
+
+
+
+
+z=$s(number in format (xxx9921xxxxxxx or xxx9811xxxxxxx):0,1:(7th digit+15))+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+4th digit+5
+else:
+	if number not in format xxx9xx1xxxxxxx:
+		(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26
+	else:
+		((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+
+
+
+
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20)
+else:
+	if number not in format xxx9xx1xxxxxxx:
+		z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+	else:
+		z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+
+
+
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )
+
+
+
+
+
+
+131
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	x=4th digit+7th digit+20
+else:
+	if number not in format xxx9xx1xxxxxxx:
+		x=7th digit+15
+	else:
+		x=3rd digit+4
+
+
+x=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):4th digit+7th digit+20,
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):7th digit+15
+                                                                                                  ,1:3rd digit+4
+                                                               )
+    )
+
+
+
+140
+
+
+if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+	z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26
+else:
+	if number not in format xxx9xx1xxxxxxx:
+		z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26
+	else:
+		z=(((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4))*26
+
+
+
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )*26
+
+
+
+
+
+
+
+
+
+145
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )*26+(8th digit+14)
+x=8th digit+14
+
+
+
+150
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )
+
+
+
+
+
+y=(number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))*25+1
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )*((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))*25+1)
+
+
+
+
+158
+if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26
+		else:
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26
+else:
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20)
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+		else:
+			z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+
+
+
+
+
+162
+y=(9th digit+6)*(number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))
+
+163
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )*((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))*25+1)+((9th digit+6)*(number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)))
+
+
+
+if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6)
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6)
+		else:
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6)
+else:
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20)
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+		else:
+			z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+
+
+
+176
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )
+   *((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))*25+1)+((9th digit+6)*(number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)))
+   *26
+
+
+
+if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6))*26
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6))*26
+		else:
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6))*26
+else:
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26
+		else:
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26
+
+
+
+
+181
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )
+   *((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))*25+1)+((9th digit+6)*(number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)))
+   *26+(10th digit+14)
+
+
+
+if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6))*26+(10th digit+14)
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6))*26+(10th digit+14)
+		else:
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6))*26+(10th digit+14)
+else:
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(10th digit+14)
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(10th digit+14)
+		else:
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(10th digit+14)
+
+
+
+
+185
+x=(10th digit+14)
+
+
+
+186
+if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6))
+
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6))
+		else:
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6))
+else:
+	if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+		z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))
+	else:
+		if number not in format xxx9xx1xxxxxxx:
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))
+		else:
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)
+
+
+
+
+
+z=$s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )*((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))*25+1)+((9th digit+6)*(number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)))
+
+
+
+
+
+
+
+
+
+187
+x=(10th digit+5) //
+
+188
+x= number in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx):
+
+189
+x= number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx)
+
+193
+y= (number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx))*25+1
+
+
+
+194
+if number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx):
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6))*26
+
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6))*26
+			else:
+				z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6))*26
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26
+			else:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26
+else:
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6))
+
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6))
+			else:
+				z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6))
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))
+			else:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)
+
+
+z=($s(number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20),
+                                                           1:$s(number not in format xxx9xx1xxxxxxx):(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+                                                                                                  ,1:((1st digit+12)*26+2nd digit+6)*26+(3rd digit+4)
+                                                               )
+    )*((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))*25+1)+((9th digit+6)*(number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx))))
+  *((number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx))*25+1)
+
+
+198
+y=(11th digit+8)*(number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx))
+
+
+
+199
+if number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx):
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=((((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6))*26)+(11th digit+8)
+
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=((((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6))*26)+(11th digit+8)
+			else:
+				z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6))*26)+(11th digit+8)
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26)+(11th digit+8)
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26)+(11th digit+8)
+			else:
+				z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26)+(11th digit+8)
+else:
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6))
+
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=(((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6))
+			else:
+				z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6))
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))
+			else:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)
+
+
+
+
+203
+if number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx):
+	x=11th digit+8
+else:
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		x=9th digit+6
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			x=4th digit+7th digit+20
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				x=7th digit+15
+			else:
+				x=3rd digit+4
+
+
+x=$s((number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx)):(11th digit+8)
+    ,1:$s((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)):(9th digit+6)
+         ,1:$s((number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx)):(4th digit+7th digit+20)
+              ,1:$s(number not in format xxx9xx1xxxxxxx:(7th digit+15),1:(3rd digit+4))
+              )
+         )
+    )
+
+
+
+
+204
+if number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx):
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6)
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6)
+			else:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6)
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20)
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+			else:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)
+else:
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20)
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+			else:
+				z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+			else:
+				z=(1st digit+12)*26+2nd digit+6
+
+
+
+
+
+205-206
+w=12th digit
+y=(11th digit+8)*(number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx))
+x=($s((number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx)):(11th digit+6)
+    ,1:$s((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)):(9th digit+4)
+         ,1:$s((number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx)):(4th digit+7th digit+18)
+              ,1:$s(number not in format xxx9xx1xxxxxxx:(7th digit+13),1:(3rd digit+2))
+              )
+         )
+    ))==(12th digit)
+
+
+206
+if number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx):
+	x=(number in format xxxxxxxxxx19xx)
+else:
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		x=(number in format (xxxxxxxx1xx7xx or xxxxxxxx2xx8xx or xxxxxxxx3xx9xx))
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			x=0
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				x=0
+			else:
+				x=(number in format (xx1xxxxxxxx5xx or xx2xxxxxxxx6xx or xx3xxxxxxxx7xx or xx4xxxxxxxx8xx or xx5xxxxxxxx9xx))
+
+
+206
+if number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx):
+	x=(number in format xxxxxxxxxx19xx)
+else:
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		x=(number in format (xxxxxxxx1xx7xx or xxxxxxxx2xx8xx or xxxxxxxx3xx9xx))
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx or xxx9xx1xxxxxxx):
+			x=0
+		else:
+			x=(number in format (xx1xxxxxxxx5xx or xx2xxxxxxxx6xx or xx3xxxxxxxx7xx or xx4xxxxxxxx8xx or xx5xxxxxxxx9xx))
+
+
+
+206
+x=$s((number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx)):(number in format xxxxxxxxxx19xx)
+    ,1:$s((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)):(number in format (xxxxxxxx1xx7xx or xxxxxxxx2xx8xx or xxxxxxxx3xx9xx))
+         ,1:$s((number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx or xxx9xx1xxxxxxx)):0
+              ,1:(number in format (xx1xxxxxxxx5xx or xx2xxxxxxxx6xx or xx3xxxxxxxx7xx or xx4xxxxxxxx8xx or xx5xxxxxxxx9xx))
+              )
+         )
+     )
+
+
+
+207
+x='$s((number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx)):(number in format xxxxxxxxxx19xx)
+    ,1:$s((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)):(number in format (xxxxxxxx1xx7xx or xxxxxxxx2xx8xx or xxxxxxxx3xx9xx))
+         ,1:$s((number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx or xxx9xx1xxxxxxx)):0
+              ,1:(number in format (xx1xxxxxxxx5xx or xx2xxxxxxxx6xx or xx3xxxxxxxx7xx or xx4xxxxxxxx8xx or xx5xxxxxxxx9xx))
+              )
+         )
+     )
+
+211
+y='$s((number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx)):(number in format xxxxxxxxxx19xx)
+    ,1:$s((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)):(number in format (xxxxxxxx1xx7xx or xxxxxxxx2xx8xx or xxxxxxxx3xx9xx))
+         ,1:$s((number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx or xxx9xx1xxxxxxx)):0
+              ,1:(number in format (xx1xxxxxxxx5xx or xx2xxxxxxxx6xx or xx3xxxxxxxx7xx or xx4xxxxxxxx8xx or xx5xxxxxxxx9xx))
+              )
+         )
+     )
+   *25+1
+
+
+
+
+y=$s((number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx)):(number not in format xxxxxxxxxx19xx)
+    ,1:$s((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)):(number not in format (xxxxxxxx1xx7xx or xxxxxxxx2xx8xx or xxxxxxxx3xx9xx))
+         ,1:$s((number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx or xxx9xx1xxxxxxx)):1
+              ,1:(number not in format (xx1xxxxxxxx5xx or xx2xxxxxxxx6xx or xx3xxxxxxxx7xx or xx4xxxxxxxx8xx or xx5xxxxxxxx9xx))
+              )
+         )
+     )
+   *25+1
+
+
+
+212
+=(z from 204)*(y from 211)
+
+215
+y=(12th digit+5)*(x from 206)
+
+216
+z=((z from 204)*(y from 211))+((12th digit+5)*(x from 206))
+
+
+217-223
+w=13th digit
+y=(12th digit+5)*(x from 206)
+x=z from 216#26-9
+z=z from 216\26
+
+
+
+
+224
+w=13th digit
+y=(12th digit+5)*(x from 206)
+x=((z from 216#26-9)==13th digit)
+z=z from 216\26
+
+
+225
+w=13th digit
+y=(12th digit+5)*(x from 206)
+x='((z from 216#26-9)==13th digit)
+z=z from 216\26
+
+
+229
+w=13th digit
+y='((z from 216#26-9)==13th digit)*25+1
+x='((z from 216#26-9)==13th digit)
+z=z from 216\26
+
+230
+w=13th digit
+y='((z from 216#26-9)==13th digit)*25+1
+x='((z from 216#26-9)==13th digit)
+z=(z from 216\26)*('((z from 216#26-9)==13th digit)*25+1)
+
+
+234
+w=13th digit
+y=(13th digit+14)*'((z from 216#26-9)==13th digit)
+x='((z from 216#26-9)==13th digit)
+z=(z from 216\26)*('((z from 216#26-9)==13th digit)*25+1)
+
+
+235
+w=13th digit
+y=(13th digit+14)*'((z from 216#26-9)==13th digit)
+x='((z from 216#26-9)==13th digit)
+z=((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit))
+
+
+
+240
+w=14th digit
+y=(13th digit+14)*'((z from 216#26-9)==13th digit)
+x=(((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26
+z=(((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))\26
+
+
+
+
+
+
+247
+w=14th digit
+y='(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26-14)==(14th digit))*25+1
+x='(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26-14)==(14th digit))
+z=(((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))\26
+
+
+
+
+252
+w=14th digit
+y=(14th digit+4)*'(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26-14)==(14th digit))
+x='(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26-14)==(14th digit))
+z=((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))\26)*('(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26-14)==(14th digit))*25+1)
+
+
+
+
+
+--------------------------------------------------------------
+253
+w=14th digit
+y=(14th digit+4)*'(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26-14)==(14th digit))
+x='(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26-14)==(14th digit))
+z=(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))\26)*('(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26-14)==(14th digit))*25+1))+(14th digit+4)*'(((((z from 216\26)*('((z from 216#26-9)==13th digit)*25+1))+((13th digit+14)*'((z from 216#26-9)==13th digit)))#26-14)==(14th digit))
+
+
+
+
+
+
+
+
+z from 216=((z from 204)*(y from 211))+((12th digit+5)*(x from 206))
+
+
+
+z from 204=
+if number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx):
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20))*26+(9th digit+6)
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=((((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15))*26+(9th digit+6)
+			else:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(9th digit+6)
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20)
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+			else:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)
+else:
+	if number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx):
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(4th digit+7th digit+20)
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=(((1st digit+12)*26+2nd digit+6)*26+3rd digit+4)*26+(7th digit+15)
+			else:
+				z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+	else:
+		if number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx):
+			z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+		else:
+			if number not in format xxx9xx1xxxxxxx:
+				z=((1st digit+12)*26+2nd digit+6)*26+3rd digit+4
+			else:
+				z=(1st digit+12)*26+2nd digit+6
+
+
+y from 211=
+$s((number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx)):(number not in format xxxxxxxxxx19xx)
+    ,1:$s((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)):(number not in format (xxxxxxxx1xx7xx or xxxxxxxx2xx8xx or xxxxxxxx3xx9xx))
+         ,1:$s((number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx or xxx9xx1xxxxxxx)):1
+              ,1:(number not in format (xx1xxxxxxxx5xx or xx2xxxxxxxx6xx or xx3xxxxxxxx7xx or xx4xxxxxxxx8xx or xx5xxxxxxxx9xx))
+              )
+         )
+     )
+   *25+1
+
+
+
+x from 206=
+$s((number not in format (xxxxxxxxx49xxx or xxxxxxxxx38xxx or xxxxxxxxx27xxx or xxxxxxxxx16xxx)):(number in format xxxxxxxxxx19xx)
+    ,1:$s((number not in format (xxxxxxx18xxxxx or xxxxxxx29xxxxx)):(number in format (xxxxxxxx1xx7xx or xxxxxxxx2xx8xx or xxxxxxxx3xx9xx))
+         ,1:$s((number not in format (xxxx92xxxxxxxx or xxxx81xxxxxxxx or xxx9xx1xxxxxxx)):0
+              ,1:(number in format (xx1xxxxxxxx5xx or xx2xxxxxxxx6xx or xx3xxxxxxxx7xx or xx4xxxxxxxx8xx or xx5xxxxxxxx9xx))
+              )
+         )
+     )

@@ -1,0 +1,255 @@
+       12345678901234
+number=abcdefghijklmn
+
+inp w          a
+mul x 0        
+add x z        
+mod x 26       x=z#26 = last digit in z (in base 26)
+div z 1        ////block 1
+add x 14       <<<<<let this be dx
+eql x w
+eql x 0        1=if last digit in z (in base 26)+dx is differnt from current digit, otherwise 0
+mul y 0        
+add y 25       
+mul y x        
+add y 1        y=26 if x
+mul z y        z=z*26 if last digit in z (in base 26)+dx is differnt from current digit
+mul y 0
+add y w
+add y 12      <<<<< y=digit+dy
+mul y x
+add z y        z=a+12   z=z+digit+dy if last digit in z (in base 26)+dx is differnt from current digit
+inp w         b --------------------------- next block(1-14) for next decimal digit(1-9) here
+mul x 0
+add x z
+mod x 26
+div z 1       ////block2 
+add x 13
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y       z=(a+12)*26
+mul y 0
+add y w
+add y 6
+mul y x
+add z y       z=(a+12)*26+b+6
+inp w         c
+mul x 0
+add x z
+mod x 26      b+6
+div z 1         ///block 3
+add x 12      b+18
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y      z=((a+12)*26+b+6)*26
+mul y 0
+add y w
+add y 4
+mul y x
+add z y      z=((a+12)*26+b+6)*26+c+4
+inp w        d
+mul x 0
+add x z
+mod x 26     x=c+4
+div z 1           ///block 4
+add x 14     x=c+18
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y      z=(((a+12)*26+b+6)*26+c+4)*26
+mul y 0
+add y w
+add y 5
+mul y x
+add z y      z=(((a+12)*26+b+6)*26+c+4)*26+d+5
+inp w        e
+mul x 0
+add x z
+mod x 26     x=d+5
+div z 1         ///block 5
+add x 13     x=d+18
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y      z=((((a+12)*26+b+6)*26+c+4)*26+d+5)*26
+mul y 0
+add y w
+add y 0
+mul y x
+add z y      z=((((a+12)*26+b+6)*26+c+4)*26+d+5)*26+e+0
+inp w        f
+mul x 0
+add x z      
+mod x 26     x=e
+div z 26     z=((((a+12)*26+b+6)*26+c+4)*26+d+5)     ////block 6 >>>>>>>>>>>>> divide z by 26
+add x -7     x=e-7
+eql x w      ....92........     ....81........
+eql x 0      abcdefghijklmn     abcdefghijklmn  
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 4
+mul y x
+add z y
+inp w        g
+mul x 0
+add x z
+mod x 26     x=d+5
+div z 26     z=((((a+12)*26+b+6)*26+c+4)    ////block 7 >>>>>>>>>>>>> divide z by 26
+add x -13    x=d-8
+eql x w      ...9921.......      ...9811.......
+eql x 0      abcdefghijklmn      abcdefghijklmn
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 15
+mul y x
+add z y
+inp w        h
+mul x 0
+add x z
+mod x 26     x=c+4
+div z 1    ///block 8
+add x 10     x=c+14
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y      z=((((a+12)*26+b+6)*26+c+4)*26
+mul y 0
+add y w
+add y 14
+mul y x
+add z y      z=((((a+12)*26+b+6)*26+c+4)*26+h+14
+inp w        i
+mul x 0
+add x z
+mod x 26     x=h+14
+div z 26     z=((((a+12)*26+b+6)*26+c+4)    ////block 9 >>>>>>>>>>>>> divide z by 26
+add x -7     x=h+7
+eql x w      ...992129.....      ...981118.....
+eql x 0      abcdefghijklmn      abcdefghijklmn
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 6
+mul y x
+add z y
+inp w        j
+mul x 0      
+add x z
+mod x 26     x=c+4
+div z 1    ///block 10
+add x 11     x=c+15
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y     z=((((a+12)*26+b+6)*26+c+4)*26
+mul y 0
+add y w
+add y 14    
+mul y x
+add z y     z=((((a+12)*26+b+6)*26+c+4)*26+j+14
+inp w       k
+mul x 0
+add x z
+mod x 26    x=j+14
+div z 26    z=((((a+12)*26+b+6)*26+c+4)   ////block 11 >>>>>>>>>>>>> divide z by 26
+add x -9    x=j+5
+eql x w     ...99212949...        ...98111816...
+eql x 0     abcdefghijklmn        abcdefghijklmn
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y     
+mul y 0
+add y w
+add y 8
+mul y x
+add z y
+inp w      l
+mul x 0
+add x z
+mod x 26   x=c+4
+div z 26   z=((((a+12)*26+b+6) ////block 12 >>>>>>>>>>>>> divide z by 26
+add x -2   x=c+2
+eql x w    ..7992129499..           ..1981118163..
+eql x 0    abcdefghijklmn           abcdefghijklmn
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 5
+mul y x
+add z y
+inp w      m
+mul x 0
+add x z
+mod x 26   x=b+6
+div z 26   z=a+12 ////block 13 >>>>>>>>>>>>> divide z by 26
+add x -9   x=b-3
+eql x w    .979921294996.           .419811181631.
+eql x 0    abcdefghijklmn           abcdefghijklmn
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 14
+mul y x
+add z y
+inp w      n
+mul x 0
+add x z
+mod x 26   a+12
+div z 26   z=0 ////block 14 >>>>>>>>>>>>> divide z by 26 
+add x -14  a-2
+eql x w    99799212949967           34198111816311
+eql x 0    abcdefghijklmn           abcdefghijklmn
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 4
+mul y x
+add z y
