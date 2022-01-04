@@ -67,7 +67,7 @@ ClassMethod ComputeNextGrid(Output Grid) [ Private ]
 	kill Grid merge Grid=NewGrid
 }
 
-ClassMethod CompareGrids(ByRef Grid1, ByRef Grid2) [ Private ]
+ClassMethod CompareGrids(ByRef Grid1, ByRef Grid2) As %Boolean [ Private ]
 {
 	set y=""
 	for  {
@@ -96,6 +96,7 @@ ClassMethod Part2(verbose = 0) As %String [ Private ]
 		set record=stream.ReadLine()
 		set recordsArr(line)=record
 	}
+	if verbose write !,"You made it to the last day"
 	set Answer="Finito la comedy"
 	quit Answer
 }

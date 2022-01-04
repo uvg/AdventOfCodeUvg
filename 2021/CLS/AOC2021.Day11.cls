@@ -32,7 +32,7 @@ ClassMethod PrintGrid(ByRef Grid) [ Private ]
 	}
 }
 
-ClassMethod ChangeGrid(Output Grid) [ Private ]
+ClassMethod ChangeGrid(Output Grid) As %Integer [ Private ]
 {
 	set Y="" for  {
 		set Y=$order(Grid(Y)) quit:Y=""

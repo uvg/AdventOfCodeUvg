@@ -38,7 +38,7 @@ ClassMethod Part1(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod Count(ByRef grid) [ Private ]
+ClassMethod Count(ByRef grid) As %Integer [ Private ]
 {
 	set y="",total=0
 	for  {
@@ -69,7 +69,6 @@ ClassMethod foldY(Output grid, pos) [ Private ]
 
 ClassMethod foldX(Output grid, pos) [ Private ]
 {
-	set lastY=$order(grid(""),-1)
 	set y=""
 	for  {
 		set y=$order(grid(y)) quit:y=""

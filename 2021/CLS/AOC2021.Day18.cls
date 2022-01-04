@@ -29,12 +29,12 @@ ClassMethod Part1(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod Add(num1, num2) [ Private ]
+ClassMethod Add(num1, num2) As %String [ Private ]
 {
 	quit "["_num1_","_num2_"]"
 }
 
-ClassMethod Reduce(string) [ Private ]
+ClassMethod Reduce(string) As %String [ Private ]
 {
 	for  {
 		set nextString=string
@@ -53,7 +53,7 @@ ClassMethod Reduce(string) [ Private ]
 	quit string
 }
 
-ClassMethod Explode(string) [ Private ]
+ClassMethod Explode(string) As %String [ Private ]
 {
 	set (counter,start,end)=0
 	for i=1:1:$length(string) {
@@ -119,7 +119,7 @@ ClassMethod Explode(string) [ Private ]
 	quit string
 }
 
-ClassMethod Split(string) [ Private ]
+ClassMethod Split(string) As %String [ Private ]
 {
 	//zw string
 	for i=1:1:$length(string) {
@@ -136,7 +136,7 @@ ClassMethod Split(string) [ Private ]
 	quit string
 }
 
-ClassMethod Magnitude(string) [ Private ]
+ClassMethod Magnitude(string) As %String [ Private ]
 {
 	for  {
 		set nextString=string

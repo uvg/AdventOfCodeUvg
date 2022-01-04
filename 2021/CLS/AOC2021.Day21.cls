@@ -51,7 +51,7 @@ ClassMethod Part2(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod Play(playerPos1, playerPos2, score1, score2) [ Private, PublicList = states ]
+ClassMethod Play(playerPos1, playerPos2, score1, score2) As %String [ Private, PublicList = states ]
 {
 	quit:score1>=21 $listbuild(1,0)
 	quit:score2>=21 $listbuild(0,1)

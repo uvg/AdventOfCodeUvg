@@ -67,7 +67,7 @@ ClassMethod Part2(verbose = 0) As %String [ Private ]
 		set record=stream.ReadLine()
 		set recordsArr(line)=record
 	}
-	set Answer="",Line="",Total=0,counter=0
+	set Answer="",Line="",counter=0
 	for {
 		set Line=$order(recordsArr(Line)) quit:Line=""
 		set Record=recordsArr(Line)

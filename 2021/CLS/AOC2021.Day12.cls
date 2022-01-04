@@ -53,9 +53,9 @@ ClassMethod GetTotalPaths(ByRef FromTo, From, To, Output visited, Path, Output T
 	for  {
 		set tmpFrom=$order(FromTo(From,tmpFrom)) quit:tmpFrom=""
 		kill tempVisited merge tempVisited=visited
-		set Total=Total+..GetTotalPaths(.FromTo,tmpFrom,To,.tempVisited,Path,.TotalPaths,EnableTwice)
+		do ..GetTotalPaths(.FromTo,tmpFrom,To,.tempVisited,Path,.TotalPaths,EnableTwice)
 	}
-	quit Total
+	quit
 }
 
 ClassMethod Part2(verbose = 0) As %String [ Private ]

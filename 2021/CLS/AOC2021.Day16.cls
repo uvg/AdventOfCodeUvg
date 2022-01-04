@@ -21,7 +21,7 @@ ClassMethod Part1(verbose = 0) As %String [ Private, PublicList = verbose ]
 	quit Answer
 }
 
-ClassMethod GetPacketsTotalVersion(ByRef Data) [ PublicList = verbose ]
+ClassMethod GetPacketsTotalVersion(ByRef Data) As %Integer [ PublicList = verbose ]
 {
 	quit:'$length(Data) 0
 	set Version=..BinToDec($extract(Data,1,3)),ID=..BinToDec($extract(Data,4,6))
@@ -63,7 +63,7 @@ ClassMethod GetPacketsTotalVersion(ByRef Data) [ PublicList = verbose ]
 	}
 }
 
-ClassMethod BinToDec(Val = "")
+ClassMethod BinToDec(Val = "") As %Integer
 {
 	quit:'$length(Val) 0
 	set ans=""
@@ -77,7 +77,7 @@ ClassMethod BinToDec(Val = "")
 	quit $zhex(""_ans)
 }
 
-ClassMethod HexToBin(Val) [ Private ]
+ClassMethod HexToBin(Val) As %String [ Private ]
 {
 	quit:'$length(Val) "0000"
 	set ans=""
@@ -105,7 +105,7 @@ ClassMethod Part2(verbose = 0) As %String [ Private, PublicList = verbose ]
 	quit Answer
 }
 
-ClassMethod GetPacketsTotalValue(ByRef Data) [ PublicList = verbose ]
+ClassMethod GetPacketsTotalValue(ByRef Data) As %Integer [ PublicList = verbose ]
 {
 	quit:'$length(Data) 0
 	set Version=..BinToDec($extract(Data,1,3)),ID=..BinToDec($extract(Data,4,6))
@@ -180,7 +180,7 @@ ClassMethod GetPacketsTotalValue(ByRef Data) [ PublicList = verbose ]
 	}
 }
 
-ClassMethod GetValue(ID, val1, val2) [ Private, PublicList = verbose ]
+ClassMethod GetValue(ID, val1, val2) As %Integer [ Private, PublicList = verbose ]
 {
 	if verbose write !,ID,";",val1,";",val2
 	set val1=+val1,val2=+val2
@@ -193,13 +193,13 @@ ClassMethod GetValue(ID, val1, val2) [ Private, PublicList = verbose ]
 	quit val1=val2
 }
 
-ClassMethod Min(Val1, Val2) [ Private ]
+ClassMethod Min(Val1, Val2) As %Integer [ Private ]
 {
 	if Val1<Val2 quit Val1
 	quit Val2
 }
 
-ClassMethod Max(Val1, Val2) [ Private ]
+ClassMethod Max(Val1, Val2) As %Integer [ Private ]
 {
 	if Val1>Val2 quit Val1
 	quit Val2

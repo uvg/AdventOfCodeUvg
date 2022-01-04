@@ -67,7 +67,7 @@ ClassMethod Part2(verbose = 0) As %String [ Private ]
 		set record=stream.ReadLine()
 		set recordsArr(line)=record
 	}
-	set Answer="",(minX,minY,minZ)=99999999999999999,(maxX,maxY,maxZ)=-minX,Line=""
+	set Answer="",Line=""
 	for {
 		set Line=$order(recordsArr(Line)) quit:Line=""
 		set Record=recordsArr(Line)
@@ -87,7 +87,7 @@ ClassMethod Part2(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod GetTotal(data, i, ByRef inst) [ Private ]
+ClassMethod GetTotal(data, i, ByRef inst) As %Integer [ Private ]
 {
 	set fromX=$list(data,1),toX=$list(data,2),fromY=$list(data,3),toY=$list(data,4),fromZ=$list(data,5),toZ=$list(data,6)
 	set total=(toX-fromX+1)*(toY-fromY+1)*(toZ-fromZ+1)

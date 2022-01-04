@@ -32,7 +32,7 @@ ClassMethod Part1(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod FindMinPath(startState) [ Private ]
+ClassMethod FindMinPath(startState) As %Integer [ Private ]
 {
 	set total=0,Q(total,$increment(Q))=startState,totalMoves=0
 	for  {
@@ -70,7 +70,7 @@ ClassMethod FindMinPath(startState) [ Private ]
 	quit total
 }
 
-ClassMethod IsFinished(state) [ Private ]
+ClassMethod IsFinished(state) As %Boolean [ Private ]
 {
 	set Empty=$listbuild("E")
 	if state=$listbuild(Empty,Empty,$listbuild("A","A"),Empty,$listbuild("B","B"),Empty,$listbuild("C","C"),Empty,$listbuild("D","D"),Empty,Empty) quit 1
@@ -132,7 +132,7 @@ ClassMethod ComputeMoves(room, state, position, Output moves) [ Private ]
 	quit
 }
 
-ClassMethod GetEnergy(Amphipod, RoomStart, DepthStart, RoomEnd, DepthEnd) [ Private ]
+ClassMethod GetEnergy(Amphipod, RoomStart, DepthStart, RoomEnd, DepthEnd) As %Integer [ Private ]
 {
 	set Energy=$zabs(RoomEnd-RoomStart)
 	set:",3,5,7,9,"[(","_RoomStart_",") Energy=Energy+DepthStart

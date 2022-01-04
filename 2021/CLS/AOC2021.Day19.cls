@@ -74,7 +74,7 @@ ClassMethod Part1(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod GetIntersections(ByRef Points1, ByRef Points2) [ Private ]
+ClassMethod GetIntersections(ByRef Points1, ByRef Points2) As %Integer [ Private ]
 {
 	set total=0
 	set point=""

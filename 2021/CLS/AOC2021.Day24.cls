@@ -20,7 +20,7 @@ ClassMethod Part1(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod AnalayzeData(ByRef Instructions) [ Private ]
+ClassMethod AnalayzeData(ByRef Instructions) As %String [ Private ]
 {
 	//zw Instructions
 	//w !!!

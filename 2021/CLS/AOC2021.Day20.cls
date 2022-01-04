@@ -50,7 +50,7 @@ ClassMethod SetGrid(ByRef Grid, state) [ Private ]
 	//do GridDisplay(.Grid)
 }
 
-ClassMethod CountLit(ByRef Grid) [ Private ]
+ClassMethod CountLit(ByRef Grid) As %Integer [ Private ]
 {
 	set y="",total=0
 	for  {
@@ -84,7 +84,7 @@ ClassMethod OutputImage(Output Grid, algo, state) [ Private ]
 	kill Grid merge Grid=NewGrid
 }
 
-ClassMethod BinToDec(Val) [ Private ]
+ClassMethod BinToDec(Val) As %Integer [ Private ]
 {
 	quit:'Val 0
 	set Mul=1,Ans=0
@@ -95,7 +95,7 @@ ClassMethod BinToDec(Val) [ Private ]
 	quit Ans
 }
 
-ClassMethod GetBin(ByRef Grid, px, py) [ Private ]
+ClassMethod GetBin(ByRef Grid, px, py) As %String [ Private ]
 {
 	set num=""
 	for y=py-1:1:py+1 {

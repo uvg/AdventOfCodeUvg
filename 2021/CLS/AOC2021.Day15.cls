@@ -16,11 +16,12 @@ ClassMethod Part1(verbose = 0) As %String [ Private, PublicList = verbose ]
 	}
 	set LastY=$order(recordsArr(""),-1)
 	set LastX=$length(recordsArr(1))
+	if verbose write !,LastX,"x",LastY,! zwrite recordsArr
 	set Answer=..GetPath(.recordsArr,1,1,LastX,LastY)
 	quit Answer
 }
 
-ClassMethod GetPath(ByRef Grid, FromX, FromY, ToX, ToY) [ Private, PublicList = (MinPath, verbose) ]
+ClassMethod GetPath(ByRef Grid, FromX, FromY, ToX, ToY) As %Integer [ Private, PublicList = (MinPath, verbose) ]
 {
 	set PQ(0,$listbuild(FromX, FromY))=""
 	while $data(PQ)>1 {
@@ -97,7 +98,7 @@ ClassMethod DisplayGrid(ByRef Grid) [ Private ]
 
 ClassMethod MergeGrid(Output Grid, Output NewGrid, MaxSize) [ Private ]
 {
-	set LastY=$order(Grid(""),-1),LastX=$length(Grid(1))
+	set LastY=$order(Grid(""),-1)
 	set LastNewY=$order(NewGrid(""),-1),LastNewX=$length(NewGrid(1))
 	for y=1:1:LastY {
 		set NewY=y#LastNewY set:'NewY NewY=LastNewY
