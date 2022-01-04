@@ -49,7 +49,7 @@ ClassMethod GetTotalPaths(ByRef FromTo, From, To, Output visited, Path, Output T
 	}
 	set:chr>=97 visited(From)=$get(visited(From))+1
 	set Path=Path_$listbuild(From)
-	set tmpFrom="",Total=1
+	set tmpFrom=""
 	for  {
 		set tmpFrom=$order(FromTo(From,tmpFrom)) quit:tmpFrom=""
 		kill tempVisited merge tempVisited=visited
