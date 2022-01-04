@@ -73,7 +73,7 @@ ClassMethod Part2(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod GetSize(ByRef RecordsArr, Y, X) [ Private ]
+ClassMethod GetSize(ByRef RecordsArr, Y, X) As %Integer [ Private ]
 {
 	set Digit=$extract($get(RecordsArr(Y)),X)
 	quit:Digit'?1N 0

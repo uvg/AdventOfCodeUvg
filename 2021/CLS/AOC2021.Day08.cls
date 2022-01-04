@@ -51,7 +51,7 @@ ClassMethod Part2(verbose = 0) As %String [ Private ]
 		set Char=""
 		for {
 			set Char=$order(Chars(Char)) quit:Char=""
-			if Chars(Char)=9 set bottomRight=Char
+			//if Chars(Char)=9 set bottomRight=Char
 			if Chars(Char)=4 set bottomLeft=Char
 			if Chars(Char)=6 set topLeft=Char
 		}

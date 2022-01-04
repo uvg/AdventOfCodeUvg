@@ -29,7 +29,7 @@ ClassMethod Part1(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod BinToDec(Val = 0) [ Private ]
+ClassMethod BinToDec(Val = 0) As %Integer [ Private ]
 {
 	quit:'Val 0
 	set ans=""

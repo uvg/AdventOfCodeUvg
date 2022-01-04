@@ -37,7 +37,7 @@ ClassMethod Part1(verbose = 0) As %String [ Private ]
 	quit Answer
 }
 
-ClassMethod GetData(ByRef RecordsArr, Output Boards) [ Private ]
+ClassMethod GetData(ByRef RecordsArr, Output Boards) As %String [ Private ]
 {
 	set Line="",Board=0,DrawnNumbers=""
 	for {
@@ -65,7 +65,7 @@ ClassMethod GetData(ByRef RecordsArr, Output Boards) [ Private ]
 	quit DrawnNumbers
 }
 
-ClassMethod MarkBoards(ByRef Boards, DrawnNumber) [ Private ]
+ClassMethod MarkBoards(ByRef Boards, DrawnNumber) As %Boolean [ Private ]
 {
 	set Board="",SW=0
 	for  {
@@ -87,7 +87,7 @@ ClassMethod MarkBoards(ByRef Boards, DrawnNumber) [ Private ]
 	quit SW
 }
 
-ClassMethod IsWinningBoard(ByRef Boards, Board) [ Private ]
+ClassMethod IsWinningBoard(ByRef Boards, Board) As %Boolean [ Private ]
 {
 	set SW=0
 	for Row=1:1:5 {
@@ -118,7 +118,7 @@ ClassMethod IsWinningBoard(ByRef Boards, Board) [ Private ]
 	quit SW
 }
 
-ClassMethod BoardSum(ByRef Boards, Board) [ Private ]
+ClassMethod BoardSum(ByRef Boards, Board) As %Integer [ Private ]
 {
 	set Sum=0
 	for Row=1:1:5 {
