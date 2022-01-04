@@ -65,7 +65,7 @@ ClassMethod OutputImage(Output Grid, algo, state) [ Private ]
 	set fromY=$order(Grid("")),toY=$order(Grid(""),-1)
 	set fromX=1,toX=$length(Grid(1)),char=$select('state:".",1:"#")
 	//set:$extract(algo)="." char="."
-
+	kill NewGrid
 	for y=fromY:1:toY {
 		for x=fromX:1:toX {
 			//i y=fromY,x=fromX w !,binNum
