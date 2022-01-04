@@ -1,4 +1,4 @@
-Class AOC2021.Day08 Extends Base
+Class AOC2021.Day08 Extends AOC2021.Base
 {
 
 Parameter InputFile = "d08.txt";
