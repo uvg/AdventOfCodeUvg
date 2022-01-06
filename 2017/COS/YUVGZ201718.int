@@ -249,8 +249,11 @@ Part2(FileName="",RecordsArr) PUBLIC
 	//
 	quit ANS
 }
-RunCode(ID) PUBLIC
-	new (ID)
+RunCode(ID) [a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z] PUBLIC
+{
+	//RunCode(ID)
+	//new (ID)
+	new a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z
 	merge RecordsArr=^Instruction
 	set IP=1,ANS="",^Send(ID)=0,^Finish(ID)=0
 	for I=$ascii("a"):1:$ascii("z") set @$char(I)=0
@@ -313,6 +316,7 @@ RunCode(ID) PUBLIC
 	}
 	set ^Finish(ID)=1
 	quit ANS
+}
 CheckData(RecordsArr)
 {
 	set Line="",Error=""
